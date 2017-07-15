@@ -6,18 +6,10 @@ import {
   Text,
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-
-class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Welcome',
-  };
-  render() {
-    return <Text>Hello, Navigation!</Text>;
-  }
-}
+import SRStudyList from './StudyList/SRStudyList';
 
 const SpaceReminder = StackNavigator({
-  Home: { screen: HomeScreen },
+  TaskList: { screen: SRStudyList },
 });
 
 AppRegistry.registerComponent('SpaceReminder', () => SpaceReminder);
