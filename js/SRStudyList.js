@@ -9,8 +9,9 @@ import {
   View
 } from 'react-native'
 import { StackNavigator } from 'react-navigation'
-import { actionCreators } from '../dataModel/SRSimpleDataModel'
-import SRActionBar from '../SRActionBar'
+import { actionCreators } from './dataModel/SRSimpleDataModel'
+import SRActionBar from './SRActionBar'
+import SRStudyTaskEditor from './SRStudyTaskEditor'
 
 export default class SRStudyList extends React.Component {
 
@@ -58,7 +59,8 @@ export default class SRStudyList extends React.Component {
 
   render() {
     const {todos} = this.state
-
+    const { navigate } = this.props.navigation;
+    
     return (
         <View style={styles.container}>
         <SectionList
@@ -70,11 +72,15 @@ export default class SRStudyList extends React.Component {
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
           />
-        <SRActionBar />
+        <SRActionBar onPressAddTaskButton={() => navigate('StudyTaskEditor')} />
         </View>
     );
   }
 }
+
+const SimpleApp = StackNavigator({
+  StudyTaskEditor: { screen: SRStudyTaskEditor },
+});
 
 const styles = StyleSheet.create({
   container: {
