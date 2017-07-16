@@ -67,6 +67,7 @@ export default class SRStudyList extends React.Component {
           ]}
           renderItem={({item}) => <Text style={sectionListStyles.item}>{item}</Text>}
           renderSectionHeader={({section}) => <Text style={sectionListStyles.sectionHeader}>{section.title}</Text>}
+          keyExtractor={(item, index) => index}
           />
         </View>
     );
