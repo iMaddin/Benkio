@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import { actionCreators } from '../dataModel/SRSimpleDataModel'
+import SRActionBar from '../SRActionBar'
 
 export default class SRStudyList extends React.Component {
 
@@ -59,22 +60,23 @@ export default class SRStudyList extends React.Component {
     const {todos} = this.state
 
     return (
-        <View style={sectionListStyles.container}>
+        <View style={styles.container}>
         <SectionList
           sections={[
             {title: 'D', data: todos},
             {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
           ]}
-          renderItem={({item}) => <Text style={sectionListStyles.item}>{item}</Text>}
-          renderSectionHeader={({section}) => <Text style={sectionListStyles.sectionHeader}>{section.title}</Text>}
+          renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
           />
+        <SRActionBar />
         </View>
     );
   }
 }
 
-const sectionListStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
    flex: 1,
    paddingTop: 22
