@@ -1,34 +1,59 @@
 // @flow
-import { createStore } from 'redux';
-import expect, { createSpy, spyOn, isSpy } from 'expect';
+// import expect, { createSpy, spyOn, isSpy } from 'expect';
 
+// Define action types
+const types = {
+  ADD: 'ADD',
+  REMOVE: 'REMOVE'
+}
+
+// Helper functions to dispatch actions, optionally with payloads
+export const actionCreators = {
+  add: (item) => {
+    return {type: types.ADD, payload: item}
+  },
+  remove: (index) => {
+    return {type: types.REMOVE, payload: index}
+  }
+}
+
+// Initial state of the store
+const initialState = {
+  todos: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
+}
+
+// initial state
 const mockJSON = {
   studyTaskName: 'Te-form',
   notes: '',
-  dates: {
+  dates: [
     'October 13, 2014 11:13:00',
-  },
+  ],
   intensity: 'Normal'
 };
 
-export const modelReducer = (state = [], action) => {
-  switch(action.type) {
-    case 'ADD_TASK':
-      return [
-        ...state,
-        {
-          id: action.id,
-          studyTaskName: action.studyTaskName,
-          completed: false
-        }
-      ]
-    case 'REMOVE_TASK':
-      return state
-    default:
-      return state
-  }
-};
+export const reducer = (state = initialState, action) => {
+  const {todos} = state
+  const {type, payload} = action
 
+  switch (type) {
+    case types.ADD: {
+      return {
+        ...state,
+        todos: [payload, ...todos],
+      }
+    }
+    case types.REMOVE: {
+      return {
+        ...state,
+        todos: todos.filter((todo, i) => i !== payload),
+      }
+    }
+  }
+
+  return state
+}
+/*
 const testAddTask = () => {
   const stateBefore = [];
   const action = {
@@ -45,9 +70,10 @@ const testAddTask = () => {
   ];
 
   expect(
-    modelReducer(stateBefore, action)
+    reducer(stateBefore, action)
   ).toEqual(stateAfter);
 };
 
 testAddTask();
 console.log("All tests passed");
+*/

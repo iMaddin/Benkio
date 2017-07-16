@@ -1,16 +1,18 @@
 // @flow
 
-import React from 'react';
+import React from 'react'
 import {
   Button,
   SectionList,
   StyleSheet,
   Text,
   View
-} from 'react-native';
-import { StackNavigator } from 'react-navigation';
+} from 'react-native'
+import { StackNavigator } from 'react-navigation'
+import { actionCreators } from '../dataModel/SRSimpleDataModel'
 
 export default class SRStudyList extends React.Component {
+
   static navigationOptions = ({navigation}) => {
     return {
       title: 'Study List',
@@ -23,12 +25,44 @@ export default class SRStudyList extends React.Component {
     };
   };
 
+  state = {}
+
+  componentWillMount() {
+    const {store} = this.props
+
+    const {todos} = store.getState()
+    this.setState({todos})
+
+    this.unsubscribe = store.subscribe(() => {
+      const {todos} = store.getState()
+      this.setState({todos})
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  onAddTodo = (text) => {
+    const {store} = this.props
+
+    store.dispatch(actionCreators.add(text))
+  }
+
+  onRemoveTodo = (index) => {
+    const {store} = this.props
+
+    store.dispatch(actionCreators.remove(index))
+  }
+
   render() {
+    const {todos} = this.state
+
     return (
         <View style={sectionListStyles.container}>
         <SectionList
           sections={[
-            {title: 'D', data: ['Devin']},
+            {title: 'D', data: todos},
             {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
           ]}
           renderItem={({item}) => <Text style={sectionListStyles.item}>{item}</Text>}
