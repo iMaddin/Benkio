@@ -4,7 +4,7 @@ import React from 'react'
 import { AppRegistry } from 'react-native'
 
 import { StackNavigator } from 'react-navigation'
-import SRStudyList from './StudyList/SRStudyList'
+import SRStudyList from './studyList/SRStudyList'
 
 import { reducer } from './dataModel/SRSimpleDataModel'
 import { createStore } from 'redux'
