@@ -9,7 +9,7 @@ import { StackNavigator } from 'react-navigation';
 import SRStudyList from './StudyList/SRStudyList';
 
 const SpaceReminder = StackNavigator({
-  TaskList: { screen: SRStudyList },
+  StudyList: { screen: SRStudyList },
 });
 
 AppRegistry.registerComponent('SpaceReminder', () => SpaceReminder);
