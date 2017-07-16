@@ -6,6 +6,7 @@ import { AppRegistry } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 import SRStudyList from './SRStudyList'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
+import SRSettings from './SRSettings'
 
 import { reducer } from './dataModel/SRSimpleDataModel'
 import { createStore } from 'redux'
@@ -19,6 +20,7 @@ const SRStudyListWithStore = () => <SRStudyList store={store} />
 const SpaceReminder = TabNavigator({
   StudyList: { screen: SRStudyListWithStore },
   AddStudyTaskScreen: { screen: SRStudyTaskEditor },
+  Settings: { screen: SRSettings },
 },
 {
   tabBarOptions: {
