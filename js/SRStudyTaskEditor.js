@@ -14,36 +14,56 @@ const intensityOptions = {
 }
 
 export default class SRStudyTaskEditor extends React.Component {
-  // props: {
-  //   taskName: '',
-  //   notes: '',
-  //   dates: '',
-  //   intensity: intensityOptions.NORMAL,
-  // };
+  props: {
+    taskName: ?string,
+    notes: ?string,
+    dates: ?string,
+    intensity: ?intensityOptions,
+  };
+
+  saveButtonAction = () => {
+    const {saveAction} = this.props
+    // use reducer
+  }
 
   render() {
     const { taskName, notes, dates, intensity } = this.props
 
     return (
-      <ScrollView>
-        <TextInput
-          // style={}
-          placeholder="Study Task"
-        />
-        <TextInput
-          // style={}
-          placeholder="Notes"
-        />
-        <Text>Date</Text>
-        <Text>Intensity</Text>
-        <Button
-          title='Save'
-          onPress={()=>({
-
-          })}
-        />
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.edgePadding}>
+          <TextInput
+            style={styles.dataInputItemPadding}
+            placeholder="Study Task"
+          />
+          <TextInput
+            style={styles.dataInputItemPadding}
+            placeholder="Notes"
+          />
+          <Text style={styles.dataInputItemPadding}>Date</Text>
+          <Text style={styles.dataInputItemPadding}>Intensity</Text>
+          <Button
+            style={styles.dataInputItemPadding}
+            title='Save'
+            onPress={this.saveButtonAction}
+          />
+        </View>
       </ScrollView>
     );
   }
 
 }
+
+const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+    paddingTop: 44,
+  },
+  edgePadding: {
+    padding: 15,
+    flex:1,
+  },
+  dataInputItemPadding: {
+    padding: 5,
+  }
+});
