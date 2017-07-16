@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Button,
+  Keyboard,
   StyleSheet,
   Text,
   TextInput,
@@ -35,10 +36,12 @@ export default class SRStudyTaskEditor extends React.Component {
           <TextInput
             style={styles.dataInputItemPadding}
             placeholder="Study Task"
+            onSubmitEditing={Keyboard.dismiss}
           />
           <TextInput
             style={styles.dataInputItemPadding}
             placeholder="Notes"
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.dataInputItemPadding}>Date</Text>
           <Text style={styles.dataInputItemPadding}>Intensity</Text>
