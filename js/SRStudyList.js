@@ -66,7 +66,7 @@ export default class SRStudyList extends React.Component {
         <View style={styles.container}>
         <SectionList
           sections={[
-            {title: 'D', data: ['todos']},
+            {title: 'D', data: todos},
             {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
           ]}
           renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
