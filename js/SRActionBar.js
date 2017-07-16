@@ -3,24 +3,23 @@ import React from 'react'
 import { AppRegistry, Button, StyleSheet, View } from 'react-native'
 
 export default class SRActionBar extends React.Component {
-  // props: {
-  // };
 
   render() {
     return (
       <View style={styles.actionBar}>
         <View style={[styles.actionBarItem, {backgroundColor: 'powderblue'}]}>
-          <Button color={buttonTintColor} title='<' onPress={() => ({})} />
+          <Button color={buttonTintColor} title='🔜' onPress={() => ({})} />
         </View>
         <View style={[styles.actionBarItem, {backgroundColor: 'skyblue'}]}>
-          <Button color={buttonTintColor} title='+' onPress={() => ({})} />
+          <Button color={buttonTintColor} title='🆕' onPress={() => ({})} />
         </View>
         <View style={[styles.actionBarItem, {backgroundColor: 'steelblue'}]}>
-          <Button color={buttonTintColor} title='Settings' onPress={() => ({})} />
+          <Button color={buttonTintColor} title='⚙️' onPress={() => ({})} />
         </View>
       </View>
     );
   }
+
 }
 
 const buttonTintColor = 'white'
