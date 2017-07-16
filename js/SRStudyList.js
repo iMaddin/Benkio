@@ -10,22 +10,20 @@ import {
 } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import { actionCreators } from './dataModel/SRSimpleDataModel'
-import SRActionBar from './SRActionBar'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 
 export default class SRStudyList extends React.Component {
 
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: 'Study List',
-      headerRight: (
-        <Button
-          title='+'
-          onPress={() => ({})}
-        />
-      ),
-    };
-  };
+  // static navigationOptions = {
+  //   tabBarLabel: 'Study List',
+  //   // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+  //   tabBarIcon: ({ tintColor }) => (
+  //     <Text>🔜</Text>
+  //   ),
+  //   tabBarIcon: () => (
+  //     <Text>🔜</Text>
+  //   ),
+  // };
 
   state = {}
 
@@ -45,6 +43,10 @@ export default class SRStudyList extends React.Component {
     this.unsubscribe()
   }
 
+  componentDidMount() {
+
+  }
+
   onAddTodo = (text) => {
     const {store} = this.props
 
@@ -59,28 +61,22 @@ export default class SRStudyList extends React.Component {
 
   render() {
     const {todos} = this.state
-    const { navigate } = this.props.navigation;
-    
+
     return (
         <View style={styles.container}>
         <SectionList
           sections={[
-            {title: 'D', data: todos},
+            {title: 'D', data: ['todos']},
             {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
           ]}
           renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
           />
-        <SRActionBar onPressAddTaskButton={() => navigate('StudyTaskEditor')} />
         </View>
     );
   }
 }
-
-const SimpleApp = StackNavigator({
-  StudyTaskEditor: { screen: SRStudyTaskEditor },
-});
 
 const styles = StyleSheet.create({
   container: {
