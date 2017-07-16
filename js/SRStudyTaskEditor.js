@@ -3,6 +3,8 @@ import {
   Button,
   StyleSheet,
   Text,
+  TextInput,
+  ScrollView,
   View
 } from 'react-native'
 
@@ -20,8 +22,27 @@ export default class SRStudyTaskEditor extends React.Component {
   // };
 
   render() {
+    const { taskName, notes, dates, intensity } = this.props
+
     return (
-      <View />
+      <ScrollView>
+        <TextInput
+          // style={}
+          placeholder="Study Task"
+        />
+        <TextInput
+          // style={}
+          placeholder="Notes"
+        />
+        <Text>Date</Text>
+        <Text>Intensity</Text>
+        <Button
+          title='Save'
+          onPress={()=>({
+
+          })}
+        />
+      </ScrollView>
     );
   }
 
