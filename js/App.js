@@ -14,12 +14,17 @@ import { createStore } from 'redux'
 // create Redux store with reducer
 const store = createStore(reducer)
 
+saveAction = (studyTask) => {
+  console.log(`${studyTask}`);
+}
+
 // pass store to SRStudyList
 const SRStudyListWithStore = () => <SRStudyList store={store} />
+const SRStudyTaskEditorWithProps = () => <SRStudyTaskEditor saveAction={saveAction} />
 
 const SpaceReminder = TabNavigator({
   StudyList: { screen: SRStudyListWithStore },
-  AddStudyTaskScreen: { screen: SRStudyTaskEditor },
+  AddStudyTaskScreen: { screen: SRStudyTaskEditorWithProps },
   Settings: { screen: SRSettings },
 },
 {

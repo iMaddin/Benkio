@@ -15,16 +15,18 @@ const intensityOptions = {
 }
 
 export default class SRStudyTaskEditor extends React.Component {
+
   props: {
     taskName: ?string,
     notes: ?string,
     dates: ?string,
     intensity: ?intensityOptions,
+    saveAction: (studyTask) => any,
   };
 
   saveButtonAction = () => {
-    const {saveAction} = this.props
-    // use reducer
+    const { studyTaskName } = this.state
+    this.props.saveAction(studyTaskName);
   }
 
   render() {
@@ -37,6 +39,7 @@ export default class SRStudyTaskEditor extends React.Component {
             style={styles.dataInputItemPadding}
             placeholder="Study Task"
             onSubmitEditing={Keyboard.dismiss}
+            onChangeText={(studyTaskName) => this.setState({studyTaskName})}
           />
           <TextInput
             style={styles.dataInputItemPadding}
