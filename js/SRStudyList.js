@@ -16,11 +16,7 @@ export default class SRStudyList extends React.Component {
 
   static navigationOptions = {
     tabBarLabel: 'Study List',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     tabBarIcon: ({ tintColor }) => (
-      <Text>🔜</Text>
-    ),
-    tabBarIcon: () => (
       <Text>🔜</Text>
     ),
   };
@@ -33,11 +29,11 @@ export default class SRStudyList extends React.Component {
 
     const {todos} = store.getState()
     this.setState({todos})
-    //
-    // this.unsubscribe = store.subscribe(() => {
-    //   const {todos} = store.getState()
-    //   this.setState({todos})
-    // })
+
+    this.unsubscribe = store.subscribe(() => {
+      const {todos} = store.getState()
+      this.setState({todos})
+    })
   }
 
   componentWillUnmount() {
@@ -49,13 +45,13 @@ export default class SRStudyList extends React.Component {
   }
 
   onAddTodo = (text) => {
-    const {store} = this.props
+    const {store} = this.props.screenProps
 
     store.dispatch(actionCreators.add(text))
   }
 
   onRemoveTodo = (index) => {
-    const {store} = this.props
+    const {store} = this.props.screenProps
 
     store.dispatch(actionCreators.remove(index))
   }

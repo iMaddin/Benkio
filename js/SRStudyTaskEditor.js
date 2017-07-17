@@ -26,9 +26,18 @@ export default class SRStudyTaskEditor extends React.Component {
     saveAction: (studyTask) => any,
   };
 
+  static navigationOptions = {
+    tabBarLabel: 'Add',
+    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+    tabBarIcon: ({ tintColor }) => (
+      <Text>➕</Text>
+    ),
+  };
+
   saveButtonAction = () => {
     const { studyTaskName } = this.state
-    this.props.store.dispatch(actionCreators.add(studyTaskName))
+    const { store } = this.props.screenProps
+    store.dispatch(actionCreators.add(studyTaskName))
   }
 
   render() {
