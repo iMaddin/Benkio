@@ -1,5 +1,4 @@
 // @flow
-// import expect, { createSpy, spyOn, isSpy } from 'expect';
 
 // Define action types
 const types = {
@@ -43,27 +42,3 @@ export const reducer = (state = initialState, action) => {
 
   return state
 }
-/*
-const testAddTask = () => {
-  const stateBefore = [];
-  const action = {
-    type: 'ADD_TASK',
-    id: 0,
-    studyTaskName: 'Te-form'
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      studyTaskName: 'Te-form',
-      complete: false
-    }
-  ];
-
-  expect(
-    reducer(stateBefore, action)
-  ).toEqual(stateAfter);
-};
-
-testAddTask();
-console.log("All tests passed");
-*/
