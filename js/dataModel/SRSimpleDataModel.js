@@ -22,16 +22,6 @@ const initialState = {
   todos: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
 }
 
-// initial state
-const mockJSON = {
-  studyTaskName: 'Te-form',
-  notes: '',
-  dates: [
-    'October 13, 2014 11:13:00',
-  ],
-  intensity: 'Normal'
-};
-
 export const reducer = (state = initialState, action) => {
   const {todos} = state
   const {type, payload} = action

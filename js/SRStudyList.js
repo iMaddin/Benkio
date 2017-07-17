@@ -25,7 +25,6 @@ export default class SRStudyList extends React.Component {
 
   componentWillMount() {
     const {store} = this.props.screenProps
-    console.log(`Hello ${this.props.screenProps.store}`)
 
     const {todos} = store.getState()
     this.setState({todos})

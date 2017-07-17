@@ -28,7 +28,6 @@ export default class SRStudyTaskEditor extends React.Component {
 
   static navigationOptions = {
     tabBarLabel: 'Add',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     tabBarIcon: ({ tintColor }) => (
       <Text>➕</Text>
     ),
