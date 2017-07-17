@@ -10,33 +10,59 @@ import SRSettings from './SRSettings'
 
 import { reducer } from './dataModel/SRSimpleDataModel'
 import { createStore } from 'redux'
-
-// create Redux store with reducer
-const store = createStore(reducer)
-
-// pass store to SRStudyList
-const SRStudyListWithStore = () => <SRStudyList store={store} />
-const SRStudyTaskEditorWithProps = () => <SRStudyTaskEditor store={store}/>
+import PropTypes from 'prop-types';
 
 const SpaceReminder = TabNavigator({
-  StudyList: {
-    screen: SRStudyListWithStore,
-    tabBarLabel: 'Study List', 
-  },
-  AddStudyTaskScreen: { screen: SRStudyTaskEditorWithProps },
+  StudyList: { screen: SRStudyList },
+  AddStudyTaskScreen: { screen: SRStudyTaskEditor },
   Settings: { screen: SRSettings },
-},
-{
-  tabBarOptions: {
-    activeTintColor: '#e91e63',
   },
-}
+  {
+    tabBarOptions: {
+      activeTintColor: '#e91e63',
+    },
+  }
 );
+
+class Provider extends React.Component {
+  getChildContext() {
+    return {
+      store: this.props.store
+    };
+  }
+  render() {
+    return this.props.children;
+  }
+}
+
+Provider.childContextTypes = {
+  store: PropTypes.object
+};
+
+class TaylorSwift extends React.Component {
+  render() {
+    const { store } = this.context
+
+    const screenProps = {
+      store: store,
+    }
+
+    return (
+      <SpaceReminder screenProps={screenProps}/>
+    );
+  }
+}
+
+TaylorSwift.contextTypes = {
+  store: PropTypes.object
+};
 
 export default class App extends React.Component {
   render() {
     return (
-      <SpaceReminder />
+      <Provider store={createStore(reducer)}>
+        <TaylorSwift />
+      </Provider>
     );
   }
 }

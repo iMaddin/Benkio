@@ -14,29 +14,30 @@ import SRStudyTaskEditor from './SRStudyTaskEditor'
 
 export default class SRStudyList extends React.Component {
 
-  // static navigationOptions = {
-  //   tabBarLabel: 'Study List',
-  //   // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-  //   tabBarIcon: ({ tintColor }) => (
-  //     <Text>🔜</Text>
-  //   ),
-  //   tabBarIcon: () => (
-  //     <Text>🔜</Text>
-  //   ),
-  // };
+  static navigationOptions = {
+    tabBarLabel: 'Study List',
+    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+    tabBarIcon: ({ tintColor }) => (
+      <Text>🔜</Text>
+    ),
+    tabBarIcon: () => (
+      <Text>🔜</Text>
+    ),
+  };
 
   state = {}
 
   componentWillMount() {
-    const {store} = this.props
+    const {store} = this.props.screenProps
+    console.log(`Hello ${this.props.screenProps.store}`)
 
     const {todos} = store.getState()
     this.setState({todos})
-
-    this.unsubscribe = store.subscribe(() => {
-      const {todos} = store.getState()
-      this.setState({todos})
-    })
+    //
+    // this.unsubscribe = store.subscribe(() => {
+    //   const {todos} = store.getState()
+    //   this.setState({todos})
+    // })
   }
 
   componentWillUnmount() {
