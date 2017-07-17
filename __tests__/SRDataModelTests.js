@@ -1,10 +1,10 @@
 // @flow
 import { reducer } from '../js/dataModel/SRSimpleDataModel'
+import { actionCreators } from '../js/dataModel/SRSimpleDataModel'
 
-function sum(a, b) {
-  return a + b;
-}
-
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+test('Adding a task', () => {
+  const stateBefore = {todos:[]};
+  const action = actionCreators.add('Yahari');
+  const stateAfter = {todos: ['Yahari']};
+  expect(reducer(stateBefore, action)).toEqual(stateAfter);
 });
