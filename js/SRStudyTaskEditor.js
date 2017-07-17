@@ -8,6 +8,8 @@ import {
   ScrollView,
   View
 } from 'react-native'
+import { actionCreators } from './dataModel/SRSimpleDataModel'
+
 
 const intensityOptions = {
   NORMAL: 'NORMAL',
@@ -26,7 +28,7 @@ export default class SRStudyTaskEditor extends React.Component {
 
   saveButtonAction = () => {
     const { studyTaskName } = this.state
-    this.props.saveAction(studyTaskName);
+    this.props.store.dispatch(actionCreators.add(studyTaskName))
   }
 
   render() {

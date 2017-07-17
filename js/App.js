@@ -14,13 +14,9 @@ import { createStore } from 'redux'
 // create Redux store with reducer
 const store = createStore(reducer)
 
-saveAction = (studyTask) => {
-  console.log(`${studyTask}`);
-}
-
 // pass store to SRStudyList
 const SRStudyListWithStore = () => <SRStudyList store={store} />
-const SRStudyTaskEditorWithProps = () => <SRStudyTaskEditor saveAction={saveAction} />
+const SRStudyTaskEditorWithProps = () => <SRStudyTaskEditor store={store}/>
 
 const SpaceReminder = TabNavigator({
   StudyList: { screen: SRStudyListWithStore },
@@ -34,4 +30,18 @@ const SpaceReminder = TabNavigator({
 }
 );
 
-AppRegistry.registerComponent('SpaceReminder', () => SpaceReminder);
+export default class App extends React.Component {
+
+  saveAction = (studyTask) => {
+    this.setState({studyTask});
+  }
+
+  render() {
+
+    return (
+      <SpaceReminder />
+    );
+  }
+}
+
+AppRegistry.registerComponent('SpaceReminder', () => App);
