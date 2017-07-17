@@ -19,7 +19,10 @@ const SRStudyListWithStore = () => <SRStudyList store={store} />
 const SRStudyTaskEditorWithProps = () => <SRStudyTaskEditor store={store}/>
 
 const SpaceReminder = TabNavigator({
-  StudyList: { screen: SRStudyListWithStore },
+  StudyList: {
+    screen: SRStudyListWithStore,
+    tabBarLabel: 'Study List', 
+  },
   AddStudyTaskScreen: { screen: SRStudyTaskEditorWithProps },
   Settings: { screen: SRSettings },
 },
@@ -31,13 +34,7 @@ const SpaceReminder = TabNavigator({
 );
 
 export default class App extends React.Component {
-
-  saveAction = (studyTask) => {
-    this.setState({studyTask});
-  }
-
   render() {
-
     return (
       <SpaceReminder />
     );
