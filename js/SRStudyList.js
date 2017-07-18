@@ -27,12 +27,12 @@ export default class SRStudyList extends React.Component {
   componentWillMount() {
     const {store} = this.props.screenProps
 
-    const {todos} = store.getState()
-    this.setState({todos})
+    const {studyTasks} = store.getState()
+    this.setState({studyTasks})
 
     this.unsubscribe = store.subscribe(() => {
-      const {todos} = store.getState()
-      this.setState({todos})
+      const {studyTasks} = store.getState()
+      this.setState({studyTasks})
     })
   }
 
@@ -57,12 +57,12 @@ export default class SRStudyList extends React.Component {
   }
 
   render() {
-    const {todos} = this.state
+    const {studyTasks} = this.state
 
     return (
         <View style={styles.container}>
         <SectionList
-          sections={this.processData(todos)}
+          sections={processDataForList(studyTasks)}
           renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}

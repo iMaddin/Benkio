@@ -1,5 +1,13 @@
 // @flow
 
+import mockData from './mockData.json'
+
+// Initial state of the store
+const initialState = mockData/*() => {
+  // studyTasks: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
+  return mockData
+}*/
+
 // Define action types
 const types = {
   ADD: 'ADD',
@@ -16,26 +24,21 @@ export const actionCreators = {
   }
 }
 
-// Initial state of the store
-const initialState = {
-  todos: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
-}
-
-export const reducer = (state: { todos: Array<string> } = initialState, action: { type: string, payload: any}) => {
-  const {todos} = state
+export const reducer = (state = initialState, action: { type: string, payload: any}) => {
+  const {studyTasks} = state
   const {type, payload} = action
 
   switch (type) {
     case types.ADD: {
       return {
         ...state,
-        todos: [payload, ...todos],
+        studyTasks: [payload, ...studyTasks],
       }
     }
     case types.REMOVE: {
       return {
         ...state,
-        todos: todos.filter((todo, i) => i !== payload),
+        studyTasks: studyTasks.filter((todo, i) => i !== payload),
       }
     }
   }

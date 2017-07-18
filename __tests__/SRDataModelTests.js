@@ -29,5 +29,5 @@ test('Process data for display in SectionList', () => {
     { title: "1 June", data: ["Passive Sentences"] }
   ];
 
-  expect(processDataForList(mockData)).toEqual(expectedResult);
+  expect(processDataForList(mockData.studyTasks)).toEqual(expectedResult);
 });
