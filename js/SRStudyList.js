@@ -43,16 +43,24 @@ export default class SRStudyList extends React.Component {
 
   }
 
-  onAddTodo = (text) => {
+  onAddTodo = (text: string) => {
     const {store} = this.props.screenProps
 
     store.dispatch(actionCreators.add(text))
   }
 
-  onRemoveTodo = (index) => {
+  onRemoveTodo = (index: number) => {
     const {store} = this.props.screenProps
 
     store.dispatch(actionCreators.remove(index))
+  }
+
+  processData = (data) => {
+    // TODO: turn data into something that can be put into SectionList
+    return [
+      {title: 'D', data: data},
+      {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
+    ]
   }
 
   render() {
@@ -61,10 +69,7 @@ export default class SRStudyList extends React.Component {
     return (
         <View style={styles.container}>
         <SectionList
-          sections={[
-            {title: 'D', data: todos},
-            {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
-          ]}
+          sections={this.processData(todos)}
           renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}

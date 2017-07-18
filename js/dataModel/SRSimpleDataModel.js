@@ -8,10 +8,10 @@ const types = {
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  add: (item) => {
+  add: (item: string) => {
     return {type: types.ADD, payload: item}
   },
-  remove: (index) => {
+  remove: (index: number) => {
     return {type: types.REMOVE, payload: index}
   }
 }
@@ -21,7 +21,7 @@ const initialState = {
   todos: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
 }
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state: { todos: Array<string> } = initialState, action: { type: string, payload: any}) => {
   const {todos} = state
   const {type, payload} = action
 
