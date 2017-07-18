@@ -13,7 +13,9 @@ export const processDataForList = (data: object) => {
   // sort by date
   const sortedByDateArray = sortByDate(tasksGroupedByDate);
   // console.log(sortedByDateArray);
-  return sortedByDateArray
+  const listReadyArray = prepareArrayForSectionList(sortedByDateArray)
+
+  return listReadyArray
 }
 
 const taskNameAndDate = (singleTask) => {
@@ -91,11 +93,110 @@ testSortDateGroup = () => {
 }
 testSortDateGroup()
 
-const sortTasksByDate = (array) => {
-  for(var = i; i < array.length; i++) {
-    
+const sortTasksByDate = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
+  var arrayCopy = [...array];
+
+  for(var i = 0; i < arrayCopy.length; i++) {
+    const { tasksWithTimes } = arrayCopy[i]
+    arrayCopy['tasksWithTimes'] = tasksWithTimes.sort((a,b) => {
+      return new Date(a.taskDate) - new Date(b.taskDate); // earlier time first
+    })
   }
+  return arrayCopy
 }
+
+testSortTasksByDate = () => {
+  const beforeState = [
+    {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [
+      {taskName: 'san', taskDate: 'July 19, 2017 11:14:00'},
+      {taskName: 'ni', taskDate: 'July 19, 2017 22:23:00'},
+      {taskName: 'ichi', taskDate: 'July 19, 2017 08:34:00'},
+      {taskName: 'yon', taskDate: 'July 19, 2017 17:35:00'}
+    ]},
+    {dateWithoutTime: 'Thu Jul 20 2017', tasksWithTimes: [
+      {taskName: 'go', taskDate: 'July 20, 2017 17:13:00'},
+      {taskName: 'roku', taskDate: 'July 20, 2017 11:13:00'}
+    ]}
+  ]
+  const expectedState = [
+    {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [
+      {taskName: 'ichi', taskDate: 'July 19, 2017 08:34:00'},
+      {taskName: 'san', taskDate: 'July 19, 2017 11:14:00'},
+      {taskName: 'yon', taskDate: 'July 19, 2017 17:35:00'},
+      {taskName: 'ni', taskDate: 'July 19, 2017 22:23:00'}
+    ]},
+    {dateWithoutTime: 'Thu Jul 20 2017', tasksWithTimes: [
+      {taskName: 'roku', taskDate: 'July 20, 2017 11:13:00'},
+      {taskName: 'go', taskDate: 'July 20, 2017 17:13:00'}
+    ]}
+  ]
+  expect(sortTasksByDate(beforeState)).toEqual(expectedState)
+}
+testSortTasksByDate()
+
+//Array<{title: string, data: string}>
+const prepareArrayForSectionList = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
+
+  var resultArray = []
+
+  array.forEach((item) => {
+    const { dateWithoutTime, tasksWithTimes } = item
+    const formattedTitle = formatDateForTitle(dateWithoutTime)
+
+    var dataArray = []
+    tasksWithTimes.forEach((taskItem) => {
+      const { taskName } = taskItem
+      dataArray = [...dataArray, taskName]
+    })
+
+    resultArray = [...resultArray, {title: formattedTitle, data: dataArray}]
+  })
+
+  return resultArray
+}
+
+const formatDateForTitle = (date: string) => {
+  const dateObject = new Date(date),
+    locale = "en-us",
+    //day = dateObject.toLocaleString(locale, { day: "narrow" }),
+    month = dateObject.toLocaleString(locale, { month: "long" });
+  return dateObject.getDate() + " " + month
+}
+
+testFormatDateForTitle = () => {
+  expect(formatDateForTitle('July 19, 2017 08:34:00')).toEqual('19 July')
+  expect(formatDateForTitle('July 4, 2017')).toEqual('4 July')
+}
+testFormatDateForTitle()
+
+testPrepareArrayForSectionList = () => {
+  const beforeState = [
+    {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [
+      {taskName: 'ichi', taskDate: 'July 19, 2017 08:34:00'},
+      {taskName: 'san', taskDate: 'July 19, 2017 11:14:00'},
+      {taskName: 'yon', taskDate: 'July 19, 2017 17:35:00'},
+      {taskName: 'ni', taskDate: 'July 19, 2017 22:23:00'}
+    ]},
+    {dateWithoutTime: 'Thu Jul 20 2017', tasksWithTimes: [
+      {taskName: 'roku', taskDate: 'July 20, 2017 11:13:00'},
+      {taskName: 'go', taskDate: 'July 20, 2017 17:13:00'}
+    ]}
+  ]
+  const expectedState = [
+    {title: '19 July', data: [
+      'ichi',
+      'san',
+      'yon',
+      'ni',
+    ]},
+    {title: '20 July', data: [
+      'roku',
+      'go',
+    ]}
+  ]
+  expect(prepareArrayForSectionList(beforeState)).toEqual(expectedState)
+}
+testPrepareArrayForSectionList()
 
 testAddTaskNameToArrayMatchingDateWithEmptyArray = () => {
   const beforeState = []
