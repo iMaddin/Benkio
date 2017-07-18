@@ -1,17 +1,18 @@
 // @flow
+import expect, { createSpy, spyOn, isSpy } from 'expect'
 
 export const processDataForList = (data: object) => {
   const { studyTasks } = data;
 
   // get task name, (possibly notes under task name) and date
   const taskNameAndDateArray = studyTasks.map(taskNameAndDate);
-
+  // console.log(taskNameAndDateArray);
   // group tasks with same date
   const tasksGroupedByDate = groupTasksByDate(taskNameAndDateArray);
-
+  // console.log(tasksGroupedByDate);
   // sort by date
-  const sortedByDateArray = tasksGroupedByDate;
-  console.log(sortedByDateArray);
+  const sortedByDateArray = sortByDate(tasksGroupedByDate);
+  // console.log(sortedByDateArray);
   return sortedByDateArray
 }
 
