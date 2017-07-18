@@ -23,7 +23,7 @@ test('Process data for display in SectionList', () => {
     { title: "July 30", data: ["ておく","Volitional Form"] },
     { title: "July 23", data: ["˜し","たらどうですか"] },
     { title: "July 19", data: ["すぎる","でしょう"] },
-    { title: "July 18", data: ["どこかに・どこにも","んです"] },
+    { title: "July 18", data: ["んです","どこかに・どこにも"] },
     { title: "July 17", data: ["ませんか","ましょう・ましょうか"] },
     { title: "July 16", data: ["てはいけません","何も"] },
     { title: "June 1", data: ["Passive Sentences"] }
