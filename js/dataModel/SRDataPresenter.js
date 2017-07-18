@@ -1,5 +1,5 @@
 // @flow
-// expect causing error: Couldn't find preset "es2015"
+// expect causing error when running on device: Couldn't find preset "es2015"
 // import expect, { createSpy, spyOn, isSpy } from 'expect'
 
 export const processDataForList = (studyTasks) => {
