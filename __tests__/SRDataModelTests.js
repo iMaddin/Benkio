@@ -19,14 +19,14 @@ test('Reading mockData.json', () => {
 test('Process data for display in SectionList', () => {
 
   const expectedResult = [
-    { title: "November 10", data: ["といい"] },
-    { title: "July 30", data: ["ておく","Volitional Form"] },
-    { title: "July 23", data: ["˜し","たらどうですか"] },
-    { title: "July 19", data: ["すぎる","でしょう"] },
-    { title: "July 18", data: ["んです","どこかに・どこにも"] },
-    { title: "July 17", data: ["ませんか","ましょう・ましょうか"] },
-    { title: "July 16", data: ["てはいけません","何も"] },
-    { title: "June 1", data: ["Passive Sentences"] }
+    { title: "10 November", data: ["といい"] },
+    { title: "30 July", data: ["ておく","Volitional Form"] },
+    { title: "23 July", data: ["˜し","たらどうですか"] },
+    { title: "19 July", data: ["すぎる","でしょう"] },
+    { title: "18 July", data: ["んです","どこかに・どこにも"] },
+    { title: "17 July", data: ["ませんか","ましょう・ましょうか"] },
+    { title: "16 July", data: ["てはいけません","何も"] },
+    { title: "1 June", data: ["Passive Sentences"] }
   ];
 
   expect(processDataForList(mockData)).toEqual(expectedResult);
