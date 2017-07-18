@@ -11,6 +11,7 @@ import {
 import { StackNavigator } from 'react-navigation'
 import { actionCreators } from './dataModel/SRSimpleDataModel'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
+import { processDataForList } from './dataModel/SRDataPresenter'
 
 export default class SRStudyList extends React.Component {
 
@@ -53,14 +54,6 @@ export default class SRStudyList extends React.Component {
     const {store} = this.props.screenProps
 
     store.dispatch(actionCreators.remove(index))
-  }
-
-  processData = (data) => {
-    // TODO: turn data into something that can be put into SectionList
-    return [
-      {title: 'D', data: data},
-      {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
-    ]
   }
 
   render() {

@@ -25,7 +25,7 @@
     { "id": "",
       "taskName": "てはいけません",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 16, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -36,7 +36,7 @@
     { "id": "",
       "taskName": "何も",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 16, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -47,7 +47,7 @@
     { "id": "",
       "taskName": "どこかに・どこにも",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 18, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -58,7 +58,7 @@
     { "id": "",
       "taskName": "んです",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 18, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -69,7 +69,7 @@
     { "id": "",
       "taskName": "すぎる",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 19, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -80,7 +80,7 @@
     { "id": "",
       "taskName": "でしょう",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 19, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -91,7 +91,7 @@
     { "id": "",
       "taskName": "˜し",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 23, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -102,7 +102,7 @@
     { "id": "",
       "taskName": "たらどうですか",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 23, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -113,7 +113,7 @@
     { "id": "",
       "taskName": "ておく",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 30, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -124,7 +124,7 @@
     { "id": "",
       "taskName": "Volitional Form",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["July 30, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -135,7 +135,7 @@
     { "id": "",
       "taskName": "といい",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["November 10, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
@@ -146,14 +146,13 @@
     { "id": "",
       "taskName": "Passive Sentences",
       "notes": "",
-      "dates": ["July 17, 2017 11:13:00"],
+      "dates": ["June 1, 2017 11:13:00"],
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
         "interval": 0,
         "repetition": 0
       },
-      "intensity": ""},
-
+      "intensity": ""}
   ]
 }
