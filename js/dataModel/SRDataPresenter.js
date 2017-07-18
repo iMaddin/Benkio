@@ -1,8 +1,9 @@
 // @flow
-import expect, { createSpy, spyOn, isSpy } from 'expect'
+// expect causing error: Couldn't find preset "es2015"
+// import expect, { createSpy, spyOn, isSpy } from 'expect'
 
-export const processDataForList = (data: object) => {
-  const { studyTasks } = data;
+export const processDataForList = (studyTasks) => {
+  // const { studyTasks } = data;
 
   // get task name, (possibly notes under task name) and date
   const taskNameAndDateArray = studyTasks.map(taskNameAndDate);
@@ -76,6 +77,47 @@ const sortDateGroup = (array: Array<{dateWithoutTime: string, tasksWithTimes: Ar
   })
 }
 
+const sortTasksByDate = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
+  var arrayCopy = [...array];
+
+  for(var i = 0; i < arrayCopy.length; i++) {
+    const { tasksWithTimes } = arrayCopy[i]
+    arrayCopy['tasksWithTimes'] = tasksWithTimes.sort((a,b) => {
+      return new Date(a.taskDate) - new Date(b.taskDate); // earlier time first
+    })
+  }
+  return arrayCopy
+}
+
+//Array<{title: string, data: string}>
+const prepareArrayForSectionList = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
+
+  var resultArray = []
+
+  array.forEach((item) => {
+    const { dateWithoutTime, tasksWithTimes } = item
+    const formattedTitle = formatDateForTitle(dateWithoutTime)
+
+    var dataArray = []
+    tasksWithTimes.forEach((taskItem) => {
+      const { taskName } = taskItem
+      dataArray = [...dataArray, taskName]
+    })
+
+    resultArray = [...resultArray, {title: formattedTitle, data: dataArray}]
+  })
+
+  return resultArray
+}
+
+const formatDateForTitle = (date: string) => {
+  const dateObject = new Date(date),
+    locale = "en-us",
+    month = dateObject.toLocaleString(locale, { month: "long" });
+  return dateObject.getDate() + " " + month
+}
+
+/*
 testSortDateGroup = () => {
   const beforeState = [
     {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: []},
@@ -92,18 +134,6 @@ testSortDateGroup = () => {
   expect(sortDateGroup(beforeState)).toEqual(expectedState)
 }
 testSortDateGroup()
-
-const sortTasksByDate = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
-  var arrayCopy = [...array];
-
-  for(var i = 0; i < arrayCopy.length; i++) {
-    const { tasksWithTimes } = arrayCopy[i]
-    arrayCopy['tasksWithTimes'] = tasksWithTimes.sort((a,b) => {
-      return new Date(a.taskDate) - new Date(b.taskDate); // earlier time first
-    })
-  }
-  return arrayCopy
-}
 
 testSortTasksByDate = () => {
   const beforeState = [
@@ -133,35 +163,6 @@ testSortTasksByDate = () => {
   expect(sortTasksByDate(beforeState)).toEqual(expectedState)
 }
 testSortTasksByDate()
-
-//Array<{title: string, data: string}>
-const prepareArrayForSectionList = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
-
-  var resultArray = []
-
-  array.forEach((item) => {
-    const { dateWithoutTime, tasksWithTimes } = item
-    const formattedTitle = formatDateForTitle(dateWithoutTime)
-
-    var dataArray = []
-    tasksWithTimes.forEach((taskItem) => {
-      const { taskName } = taskItem
-      dataArray = [...dataArray, taskName]
-    })
-
-    resultArray = [...resultArray, {title: formattedTitle, data: dataArray}]
-  })
-
-  return resultArray
-}
-
-const formatDateForTitle = (date: string) => {
-  const dateObject = new Date(date),
-    locale = "en-us",
-    //day = dateObject.toLocaleString(locale, { day: "narrow" }),
-    month = dateObject.toLocaleString(locale, { month: "long" });
-  return dateObject.getDate() + " " + month
-}
 
 testFormatDateForTitle = () => {
   expect(formatDateForTitle('July 19, 2017 08:34:00')).toEqual('19 July')
@@ -251,3 +252,4 @@ testAddTaskNameToArrayMatchingDateWithEmptyArray()
 testAddTaskNameToArrayMatchingDateWithDifferentDate()
 testAddTaskNameToArrayMatchingDateWithSameDate()
 testAddTaskNameToArrayMatchingDateWithSameDateAtEndOfArray()
+*/
