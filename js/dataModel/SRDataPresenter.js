@@ -22,32 +22,36 @@ const taskNameAndDate = (singleTask) => {
     }
 }
 
+// TODO: rename to addTaskToArrayMatchingDate
+// TODO: change parameter to task: {date: string, taskName: string}
 const addTaskNameToArrayMatchingDate = (array: Array<object>, date: string, taskNameToAdd: string) => {
-  const copyArray = [...array];
-  var returnArray = []
+  var returnArray = [...array];
+  const dateObject = new Date(date);
+  var foundExistingDateGroup = false
 
   // search if resultArray already has object with that date
   for (var i = 0; i < array.length; i++) {
-    const singleTask = copyArray[i];
-    const { nextDate, taskNames } = singleTask;
+    const singleTask = returnArray[i];
+    const { dateWithoutTime, tasksWithTimes } = singleTask;
+    const dateWithoutTimeObject = new Date(dateWithoutTime);
 
-    if(nextDate == date) {
-      singleTask['taskNames'] = [...taskNames, taskNameToAdd];
-      returnArray = copyArray;
-    } else {
-      returnArray = [...array, {nextDate: date, taskNames: [taskNameToAdd]}];
+    // compare dates, if dates match the day, then group
+    if(dateWithoutTimeObject.toDateString() == dateObject.toDateString()) { // adds new tasks to existing date group
+      singleTask['tasksWithTimes'] = [...tasksWithTimes, {taskName: taskNameToAdd, taskDate: date}];
+      foundExistingDateGroup = true
+      break
     }
   }
 
-  if (array.length == 0) {
-    returnArray = [...array, {nextDate: date, taskNames: [taskNameToAdd]}];
+  if (returnArray.length == 0 || !foundExistingDateGroup) {
+    returnArray = [...returnArray, {dateWithoutTime: dateObject.toDateString(), tasksWithTimes: [{taskName: taskNameToAdd, taskDate: date}]}];
   }
 
   return returnArray;
 }
 
 const groupTasksByDate = (taskWithDatesArray: {taskName: string, nextDate: string}) => {
-  var resultArray = []; //{nextDate: string, taskNames: Array<string>}
+  var resultArray = [];
 
   for (var i=0; i < taskWithDatesArray.length; i++) {
     const { taskName, nextDate } = taskWithDatesArray[i]
