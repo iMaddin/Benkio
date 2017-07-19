@@ -10,21 +10,13 @@ import {
 } from 'react-native'
 import { actionCreators } from './dataModel/SRSimpleDataModel'
 
-
 const intensityOptions = {
   NORMAL: 'NORMAL',
   CUSTOM: 'CUSTOM', // allow user to choose by when something should be learned
 }
 
+// TODO: make tab bar open this modally like in Instagram app 
 export default class SRStudyTaskEditor extends React.Component {
-
-  props: {
-    taskName: ?string,
-    notes: ?string,
-    dates: ?string,
-    intensity: ?intensityOptions,
-    saveAction: (studyTask) => any,
-  }
 
   static navigationOptions = {
     tabBarLabel: 'Add',
@@ -33,10 +25,13 @@ export default class SRStudyTaskEditor extends React.Component {
     ),
   }
 
-  saveButtonAction = () => {
-    const { studyTaskName } = this.state
-    const { store } = this.props.screenProps
-    store.dispatch(actionCreators.add(studyTaskName))
+  // TODO: for opening editor with UI pre-filled with data
+  props: {
+    taskName: ?string,
+    notes: ?string,
+    dates: ?string,
+    intensity: ?intensityOptions,
+    saveAction: (studyTask) => any,
   }
 
   render() {
@@ -66,6 +61,12 @@ export default class SRStudyTaskEditor extends React.Component {
         </View>
       </ScrollView>
     )
+  }
+
+  saveButtonAction = () => {
+    const { studyTaskName } = this.state
+    const { store } = this.props.screenProps
+    store.dispatch(actionCreators.add(studyTaskName))
   }
 
 }
