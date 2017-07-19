@@ -31,8 +31,8 @@ const addTaskNameToArrayMatchingDate = (array: Array<object>, date: string, task
   var foundExistingDateGroup = false
 
   // search if resultArray already has object with that date
-  for (var i = 0; i < array.length; i++) {
-    const singleTask = returnArray[i];
+  array.forEach((item) => {
+    const singleTask = item
     const { dateWithoutTime, tasksWithTimes } = singleTask;
     const dateWithoutTimeObject = new Date(dateWithoutTime);
 
@@ -40,9 +40,9 @@ const addTaskNameToArrayMatchingDate = (array: Array<object>, date: string, task
     if(dateWithoutTimeObject.toDateString() == dateObject.toDateString()) { // adds new tasks to existing date group
       singleTask['tasksWithTimes'] = [...tasksWithTimes, {taskName: taskNameToAdd, taskDate: date}];
       foundExistingDateGroup = true
-      break
+      return
     }
-  }
+  })
 
   if (returnArray.length == 0 || !foundExistingDateGroup) {
     returnArray = [...returnArray, {dateWithoutTime: dateObject.toDateString(), tasksWithTimes: [{taskName: taskNameToAdd, taskDate: date}]}];
@@ -51,13 +51,13 @@ const addTaskNameToArrayMatchingDate = (array: Array<object>, date: string, task
   return returnArray;
 }
 
-const groupTasksByDate = (taskWithDatesArray: {taskName: string, nextDate: string}) => {
+const groupTasksByDate = (taskWithDatesArray) => {
   var resultArray = [];
 
-  for (var i=0; i < taskWithDatesArray.length; i++) {
-    const { taskName, nextDate } = taskWithDatesArray[i]
+  taskWithDatesArray.forEach((item) => {
+    const { taskName, nextDate } = item
     resultArray = addTaskNameToArrayMatchingDate(resultArray, nextDate, taskName);
-  }
+  })
 
   return resultArray;
 }
@@ -77,12 +77,13 @@ const sortDateGroup = (array: Array<{dateWithoutTime: string, tasksWithTimes: Ar
 const sortTasksByDate = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
   var arrayCopy = [...array];
 
-  for(var i = 0; i < arrayCopy.length; i++) {
-    const { tasksWithTimes } = arrayCopy[i]
+  arrayCopy.forEach((item) => {
+    const { tasksWithTimes } = item
     arrayCopy['tasksWithTimes'] = tasksWithTimes.sort((a,b) => {
       return new Date(a.taskDate) - new Date(b.taskDate); // earlier time first
     })
-  }
+  })
+
   return arrayCopy
 }
 
