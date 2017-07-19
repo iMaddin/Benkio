@@ -13,7 +13,7 @@ const types = {
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  add: (item: string) => {
+  add: (item: object) => {
     return {type: types.ADD, payload: item}
   },
   remove: (index: number) => {
@@ -21,21 +21,19 @@ export const actionCreators = {
   }
 }
 
-export const reducer = (state = initialState, action: { type: string, payload: any}) => {
+export const reducer = (state: object = initialState, action: { type: string, payload: any}) => {
   const {studyTasks} = state
   const {type, payload} = action
 
   switch (type) {
     case types.ADD: {
       return {
-        ...state,
         studyTasks: [payload, ...studyTasks],
       }
     }
     case types.REMOVE: {
       return {
-        ...state,
-        studyTasks: studyTasks.filter((todo, i) => i !== payload),
+        studyTasks: studyTasks.filter((task, i) => i !== payload),
       }
     }
   }
