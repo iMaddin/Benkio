@@ -3,10 +3,7 @@
 import mockData from './mockData.json'
 
 // Initial state of the store
-const initialState = mockData/*() => {
-  // studyTasks: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
-  return mockData
-}*/
+const initialState = mockData
 
 // Define action types
 const types = {
