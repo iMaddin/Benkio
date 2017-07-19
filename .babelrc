@@ -1,5 +1,6 @@
 {
   "presets": [
+    "babel-preset-es2015-node",
     "react-native",
     "flow"
   ]
