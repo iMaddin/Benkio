@@ -2,8 +2,38 @@
 
 import mockData from './mockData.json'
 
-// Initial state of the store
-const initialState = mockData
+const SRSpacedRepetition = (
+  easinessFactor: number = 2.5,
+  interval: number = 0,
+  repetition: number = 0
+) => {
+  this.easinessFactor = easinessFactor
+  this.interval = interval
+  this.repetition = repetition
+}
+
+const intensity = {
+  NORMAL: 'NORMAL'
+}
+
+const SRStudyTask = (
+  id: string,
+  taskName: string,
+  notes: ?string,
+  dates: Array<string> = [new Date().toDateString()],
+  ratingHistory: Array<string> = [],
+  srs: SRSpacedRepetition,
+  intensity: intensity
+) => {
+
+  this.id = id,
+  this.taskName = taskName,
+  this.notes = notes,
+  this.dates = dates,
+  this.ratingHistory = ratingHistory
+  this.srs = srs,
+  this.intensity = intensity
+}
 
 // Define action types
 const types = {
@@ -13,7 +43,7 @@ const types = {
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  add: (item: object) => {
+  add: (item: SRStudyTask) => {
     return {type: types.ADD, payload: item}
   },
   remove: (index: number) => {
@@ -21,8 +51,11 @@ export const actionCreators = {
   }
 }
 
+// Initial state of the store
+const initialState = mockData
+
 export const reducer = (state: object = initialState, action: { type: string, payload: any}) => {
-  const {studyTasks} = state
+  const {studyTasks: SRStudyTask} = state
   const {type, payload} = action
 
   switch (type) {
