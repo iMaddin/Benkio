@@ -14,12 +14,12 @@ export default class SRSettings extends React.Component {
     tabBarIcon: ({ tintColor }) => (
       <Text>⚙️</Text>
     ),
-  };
+  }
 
   render() {
     return (
       <View />
-    );
+    )
   }
 
 }

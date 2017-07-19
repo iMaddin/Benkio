@@ -24,14 +24,14 @@ export default class SRStudyTaskEditor extends React.Component {
     dates: ?string,
     intensity: ?intensityOptions,
     saveAction: (studyTask) => any,
-  };
+  }
 
   static navigationOptions = {
     tabBarLabel: 'Add',
     tabBarIcon: ({ tintColor }) => (
       <Text>➕</Text>
     ),
-  };
+  }
 
   saveButtonAction = () => {
     const { studyTaskName } = this.state
@@ -65,7 +65,7 @@ export default class SRStudyTaskEditor extends React.Component {
           />
         </View>
       </ScrollView>
-    );
+    )
   }
 
 }
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
   dataInputItemPadding: {
     padding: 5,
   }
-});
+})

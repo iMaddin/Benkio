@@ -5,16 +5,16 @@ import mockData from '../js/dataModel/mockData.json'
 import { processDataForList } from '../js/dataModel/SRDataPresenter'
 
 test('Adding a task', () => {
-  const stateBefore = {todos:[]};
-  const action = actionCreators.add('Yahari');
-  const stateAfter = {todos: ['Yahari']};
-  expect(reducer(stateBefore, action)).toEqual(stateAfter);
-});
+  const stateBefore = {todos:[]}
+  const action = actionCreators.add('Yahari')
+  const stateAfter = {todos: ['Yahari']}
+  expect(reducer(stateBefore, action)).toEqual(stateAfter)
+})
 
 test('Reading mockData.json', () => {
-  const { studyTasks } = mockData;
-  expect(Array.isArray(studyTasks)).toEqual(true);
-});
+  const { studyTasks } = mockData
+  expect(Array.isArray(studyTasks)).toEqual(true)
+})
 
 test('Process data for display in SectionList', () => {
 
@@ -27,7 +27,7 @@ test('Process data for display in SectionList', () => {
     { title: "17 July", data: ["ませんか","ましょう・ましょうか"] },
     { title: "16 July", data: ["てはいけません","何も"] },
     { title: "1 June", data: ["Passive Sentences"] }
-  ];
+  ]
 
-  expect(processDataForList(mockData.studyTasks)).toEqual(expectedResult);
-});
+  expect(processDataForList(mockData.studyTasks)).toEqual(expectedResult)
+})

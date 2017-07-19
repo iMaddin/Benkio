@@ -20,7 +20,7 @@ export default class SRStudyList extends React.Component {
     tabBarIcon: ({ tintColor }) => (
       <Text>🔜</Text>
     ),
-  };
+  }
 
   state = {}
 
@@ -68,7 +68,7 @@ export default class SRStudyList extends React.Component {
           keyExtractor={(item, index) => index}
           />
         </View>
-    );
+    )
   }
 }
 

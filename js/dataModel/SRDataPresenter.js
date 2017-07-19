@@ -9,10 +9,10 @@ export const processDataForList = (studyTasks) => {
    * 3. sort day groups
    * 4. sort tasks inside day groups
    */
-  const taskNameAndDateArray = studyTasks.map(taskNameAndDate);
-  const tasksGroupedByDate = groupTasksByDate(taskNameAndDateArray);
-  const sortedByDateArray = sortByDate(tasksGroupedByDate);
-  const listReadyArray = prepareArrayForSectionList(sortedByDateArray);
+  const taskNameAndDateArray = studyTasks.map(taskNameAndDate)
+  const tasksGroupedByDate = groupTasksByDate(taskNameAndDateArray)
+  const sortedByDateArray = sortByDate(tasksGroupedByDate)
+  const listReadyArray = prepareArrayForSectionList(sortedByDateArray)
   return listReadyArray
 }
 
@@ -26,40 +26,40 @@ const taskNameAndDate = (singleTask) => {
 // TODO: rename to addTaskToArrayMatchingDate
 // TODO: change parameter to task: {date: string, taskName: string}
 const addTaskNameToArrayMatchingDate = (array: Array<object>, date: string, taskNameToAdd: string) => {
-  var returnArray = [...array];
-  const dateObject = new Date(date);
+  var returnArray = [...array]
+  const dateObject = new Date(date)
   var foundExistingDateGroup = false
 
   // search if resultArray already has object with that date
   array.forEach((item) => {
     const singleTask = item
-    const { dateWithoutTime, tasksWithTimes } = singleTask;
-    const dateWithoutTimeObject = new Date(dateWithoutTime);
+    const { dateWithoutTime, tasksWithTimes } = singleTask
+    const dateWithoutTimeObject = new Date(dateWithoutTime)
 
     // compare dates, if dates match the day, then group
     if(dateWithoutTimeObject.toDateString() == dateObject.toDateString()) { // adds new tasks to existing date group
-      singleTask['tasksWithTimes'] = [...tasksWithTimes, {taskName: taskNameToAdd, taskDate: date}];
+      singleTask['tasksWithTimes'] = [...tasksWithTimes, {taskName: taskNameToAdd, taskDate: date}]
       foundExistingDateGroup = true
       return
     }
   })
 
   if (returnArray.length == 0 || !foundExistingDateGroup) {
-    returnArray = [...returnArray, {dateWithoutTime: dateObject.toDateString(), tasksWithTimes: [{taskName: taskNameToAdd, taskDate: date}]}];
+    returnArray = [...returnArray, {dateWithoutTime: dateObject.toDateString(), tasksWithTimes: [{taskName: taskNameToAdd, taskDate: date}]}]
   }
 
-  return returnArray;
+  return returnArray
 }
 
 const groupTasksByDate = (taskWithDatesArray) => {
-  var resultArray = [];
+  var resultArray = []
 
   taskWithDatesArray.forEach((item) => {
     const { taskName, nextDate } = item
-    resultArray = addTaskNameToArrayMatchingDate(resultArray, nextDate, taskName);
+    resultArray = addTaskNameToArrayMatchingDate(resultArray, nextDate, taskName)
   })
 
-  return resultArray;
+  return resultArray
 }
 
 const sortByDate = (tasksGroupedByDateArray) => {
@@ -70,17 +70,17 @@ const sortByDate = (tasksGroupedByDateArray) => {
 
 const sortDateGroup = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
   return array.sort((a,b) => {
-    return new Date(b.dateWithoutTime) - new Date(a.dateWithoutTime);
+    return new Date(b.dateWithoutTime) - new Date(a.dateWithoutTime)
   })
 }
 
 const sortTasksByDate = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
-  var arrayCopy = [...array];
+  var arrayCopy = [...array]
 
   arrayCopy.forEach((item) => {
     const { tasksWithTimes } = item
     arrayCopy['tasksWithTimes'] = tasksWithTimes.sort((a,b) => {
-      return new Date(a.taskDate) - new Date(b.taskDate); // earlier time first
+      return new Date(a.taskDate) - new Date(b.taskDate) // earlier time first
     })
   })
 
@@ -111,7 +111,7 @@ const prepareArrayForSectionList = (array: Array<{dateWithoutTime: string, tasks
 const formatDateForTitle = (date: string) => {
   const dateObject = new Date(date),
     locale = "en-us",
-    month = dateObject.toLocaleString(locale, { month: "long" });
+    month = dateObject.toLocaleString(locale, { month: "long" })
   return dateObject.getDate() + " " + month
 }
 
