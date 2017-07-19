@@ -3,19 +3,16 @@
 // import expect, { createSpy, spyOn, isSpy } from 'expect'
 
 export const processDataForList = (studyTasks) => {
-  // const { studyTasks } = data;
-
-  // get task name, (possibly notes under task name) and date
+  /**
+   * 1. get only information needed for section list, in this case task name and the date
+   * 2. Group tasks that belong to the same day
+   * 3. sort day groups
+   * 4. sort tasks inside day groups
+   */
   const taskNameAndDateArray = studyTasks.map(taskNameAndDate);
-  // console.log(taskNameAndDateArray);
-  // group tasks with same date
   const tasksGroupedByDate = groupTasksByDate(taskNameAndDateArray);
-  // console.log(tasksGroupedByDate);
-  // sort by date
   const sortedByDateArray = sortByDate(tasksGroupedByDate);
-  // console.log(sortedByDateArray);
-  const listReadyArray = prepareArrayForSectionList(sortedByDateArray)
-
+  const listReadyArray = prepareArrayForSectionList(sortedByDateArray);
   return listReadyArray
 }
 
