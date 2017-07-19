@@ -1,6 +1,6 @@
 // @flow
-// expect causing error when running on device: Couldn't find preset "es2015"
-// import expect, { createSpy, spyOn, isSpy } from 'expect'
+import moment from 'moment'
+import expect, { createSpy, spyOn, isSpy } from 'expect'
 
 export const processDataForList = (studyTasks) => {
   /**
@@ -110,13 +110,11 @@ const prepareArrayForSectionList = (array: Array<{dateWithoutTime: string, tasks
 
 const formatDateForTitle = (date: string) => {
   const dateObject = new Date(date),
-    locale = "en-us",
-    month = dateObject.toLocaleString(locale, { month: "long" })
+    month = moment(dateObject).format('MMMM')
   return dateObject.getDate() + " " + month
 }
 
-/*
-testSortDateGroup = () => {
+const testSortDateGroup = () => {
   const beforeState = [
     {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: []},
     {dateWithoutTime: 'Sat Jul 29 2017', tasksWithTimes: []},
@@ -133,7 +131,7 @@ testSortDateGroup = () => {
 }
 testSortDateGroup()
 
-testSortTasksByDate = () => {
+const testSortTasksByDate = () => {
   const beforeState = [
     {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [
       {taskName: 'san', taskDate: 'July 19, 2017 11:14:00'},
@@ -162,13 +160,13 @@ testSortTasksByDate = () => {
 }
 testSortTasksByDate()
 
-testFormatDateForTitle = () => {
+const testFormatDateForTitle = () => {
   expect(formatDateForTitle('July 19, 2017 08:34:00')).toEqual('19 July')
   expect(formatDateForTitle('July 4, 2017')).toEqual('4 July')
 }
 testFormatDateForTitle()
 
-testPrepareArrayForSectionList = () => {
+const testPrepareArrayForSectionList = () => {
   const beforeState = [
     {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [
       {taskName: 'ichi', taskDate: 'July 19, 2017 08:34:00'},
@@ -197,13 +195,13 @@ testPrepareArrayForSectionList = () => {
 }
 testPrepareArrayForSectionList()
 
-testAddTaskNameToArrayMatchingDateWithEmptyArray = () => {
+const testAddTaskNameToArrayMatchingDateWithEmptyArray = () => {
   const beforeState = []
   const afterState = addTaskNameToArrayMatchingDate(beforeState, 'July 19, 2017 11:13:00', 'hello')
   const expectedState = [{dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [{taskName: 'hello', taskDate: 'July 19, 2017 11:13:00'}]}]
   expect(afterState).toEqual(expectedState)
 }
-testAddTaskNameToArrayMatchingDateWithDifferentDate = () => {
+const testAddTaskNameToArrayMatchingDateWithDifferentDate = () => {
   const beforeState = [{dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [{taskName: 'hello', taskDate: 'July 19, 2017 11:13:00'}]}]
   const afterState = addTaskNameToArrayMatchingDate(beforeState, 'July 20, 2017 11:13:00', 'bye')
   const expectedState = [
@@ -212,7 +210,7 @@ testAddTaskNameToArrayMatchingDateWithDifferentDate = () => {
   ]
   expect(afterState).toEqual(expectedState)
 }
-testAddTaskNameToArrayMatchingDateWithSameDate = () => {
+const testAddTaskNameToArrayMatchingDateWithSameDate = () => {
   const beforeState = [{dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [{taskName: 'hello', taskDate: 'July 19, 2017 11:13:00'}]}]
   const afterState = addTaskNameToArrayMatchingDate(beforeState, 'July 19, 2017 13:13:00', 'hola')
   const expectedState = [
@@ -224,7 +222,7 @@ testAddTaskNameToArrayMatchingDateWithSameDate = () => {
   expect(afterState).toEqual(expectedState)
 }
 
-testAddTaskNameToArrayMatchingDateWithSameDateAtEndOfArray = () => {
+const testAddTaskNameToArrayMatchingDateWithSameDateAtEndOfArray = () => {
   const beforeState = [
     {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: [
       {taskName: 'hello', taskDate: 'July 19, 2017 11:13:00'}
@@ -250,4 +248,3 @@ testAddTaskNameToArrayMatchingDateWithEmptyArray()
 testAddTaskNameToArrayMatchingDateWithDifferentDate()
 testAddTaskNameToArrayMatchingDateWithSameDate()
 testAddTaskNameToArrayMatchingDateWithSameDateAtEndOfArray()
-*/
