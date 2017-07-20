@@ -8,14 +8,11 @@ import {
   ScrollView,
   View
 } from 'react-native'
-import { actionCreators } from './dataModel/SRSimpleDataModel'
+import { actionCreators, SRStudyTask, SRSpacedRepetition, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
+import expect, { createSpy, spyOn, isSpy } from 'expect'
+import { uuid } from './utilities/UUID'
 
-const intensityOptions = {
-  NORMAL: 'NORMAL',
-  CUSTOM: 'CUSTOM', // allow user to choose by when something should be learned
-}
-
-// TODO: make tab bar open this modally like in Instagram app 
+// TODO: make tab bar open this modally like in Instagram app
 export default class SRStudyTaskEditor extends React.Component {
 
   static navigationOptions = {
@@ -25,17 +22,26 @@ export default class SRStudyTaskEditor extends React.Component {
     ),
   }
 
-  // TODO: for opening editor with UI pre-filled with data
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      id:             props.id == null            ? props.id            : uuid(),
+      taskName:       props.taskName == null      ? props.taskName      : null,
+      notes:          props.notes == null         ? props.notes         : null,
+      dates:          props.dates == null         ? props.dates         : [new Date()],
+      ratingHistory:  props.ratingHistory == null ? props.ratingHistory : [],
+      srs:            props.srs == null           ? props.srs           : new SRSpacedRepetition(),
+      intensity:      props.intensity == null     ? props.intensity     : SRStudyTaskIntensity.NORMAL
+    }
+  }
+
   props: {
-    taskName: ?string,
-    notes: ?string,
-    dates: ?string,
-    intensity: ?intensityOptions,
     saveAction: (studyTask) => any,
   }
 
   render() {
-    const { taskName, notes, dates, intensity } = this.props
+    // const {  } = this.state
 
     return (
       <ScrollView style={styles.scrollView}>
@@ -44,7 +50,7 @@ export default class SRStudyTaskEditor extends React.Component {
             style={styles.dataInputItemPadding}
             placeholder="Study Task"
             onSubmitEditing={Keyboard.dismiss}
-            onChangeText={(studyTaskName) => this.setState({studyTaskName})}
+            onChangeText={(taskName) => this.setState({taskName})}
           />
           <TextInput
             style={styles.dataInputItemPadding}
@@ -64,9 +70,19 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   saveButtonAction = () => {
-    const { studyTaskName } = this.state
     const { store } = this.props.screenProps
-    store.dispatch(actionCreators.add(studyTaskName))
+
+    const studyTask = new SRStudyTask(
+      this.state.id,
+      this.state.taskName,
+      this.state.notes,
+      this.state.dates,
+      this.state.ratingHistory,
+      this.state.srs,
+      this.state.intensity
+    )
+
+    store.dispatch(actionCreators.add(studyTask))
   }
 
 }
