@@ -26,13 +26,13 @@ export default class SRStudyTaskEditor extends React.Component {
     super(props)
 
     this.state = {
-      id:             props.id == null            ? props.id            : uuid(),
-      taskName:       props.taskName == null      ? props.taskName      : null,
-      notes:          props.notes == null         ? props.notes         : null,
-      dates:          props.dates == null         ? props.dates         : [new Date()],
-      ratingHistory:  props.ratingHistory == null ? props.ratingHistory : [],
-      srs:            props.srs == null           ? props.srs           : new SRSpacedRepetition(),
-      intensity:      props.intensity == null     ? props.intensity     : SRStudyTaskIntensity.NORMAL
+      id:             props.id != null            ? props.id            : uuid(),
+      taskName:       props.taskName != null      ? props.taskName      : null,
+      notes:          props.notes != null         ? props.notes         : null,
+      dates:          props.dates != null         ? props.dates         : [new Date()],
+      ratingHistory:  props.ratingHistory != null ? props.ratingHistory : [],
+      srs:            props.srs != null           ? props.srs           : new SRSpacedRepetition(),
+      intensity:      props.intensity != null     ? props.intensity     : SRStudyTaskIntensity.NORMAL
     }
   }
 
