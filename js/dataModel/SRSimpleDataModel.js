@@ -2,29 +2,29 @@
 
 import mockData from './mockData.json'
 
-const SRSpacedRepetition = (
+export function SRSpacedRepetition(
   easinessFactor: number = 2.5,
   interval: number = 0,
   repetition: number = 0
-) => {
+) {
   this.easinessFactor = easinessFactor
   this.interval = interval
   this.repetition = repetition
 }
 
-const intensity = {
+export const SRStudyTaskIntensity = {
   NORMAL: 'NORMAL'
 }
 
-const SRStudyTask = (
+export function SRStudyTask(
   id: string,
   taskName: string,
   notes: ?string,
   dates: Array<string> = [new Date().toDateString()],
   ratingHistory: Array<string> = [],
   srs: SRSpacedRepetition,
-  intensity: intensity
-) => {
+  intensity: typeof(SRStudyTaskIntensity)
+) {
 
   this.id = id,
   this.taskName = taskName,
