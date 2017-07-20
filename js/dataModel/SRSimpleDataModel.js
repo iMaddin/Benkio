@@ -25,7 +25,6 @@ export function SRStudyTask(
   srs: SRSpacedRepetition,
   intensity: typeof(SRStudyTaskIntensity)
 ) {
-
   this.id = id,
   this.taskName = taskName,
   this.notes = notes,
@@ -55,7 +54,7 @@ export const actionCreators = {
 const initialState = mockData
 
 export const reducer = (state: object = initialState, action: { type: string, payload: any}) => {
-  const {studyTasks: SRStudyTask} = state
+  const {studyTasks} = state
   const {type, payload} = action
 
   switch (type) {
