@@ -27,9 +27,6 @@ const cancelButtonTint = '#bababa'
 
 const dateSegmentedControlCornerRadius = 4
 
-// TODO: make tab bar open this modally like in Instagram app
-// TODO: text fields don't deal with white space only input
-// TODO: make sure the cancel button is noticable on screens with low height
 export default class SRStudyTaskEditor extends React.Component {
 
   static navigationOptions = {
