@@ -13,6 +13,12 @@ import { createStore } from 'redux'
 import PropTypes from 'prop-types'
 import { tintColor } from './SRSettings'
 
+const SettingsStackNavigator = StackNavigator({
+  Settings: { screen: SRSettings },
+  },{
+  mode: 'modal',
+  }
+)
 
 const DetailStackNavigator = StackNavigator({
   StudyList: { screen: SRStudyList },
