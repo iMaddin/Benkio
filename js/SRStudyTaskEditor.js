@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
   View
 } from 'react-native'
@@ -88,32 +88,35 @@ export default class SRStudyTaskEditor extends React.Component {
           <View style={styles.sections}>
             <Text style={styles.inputTitle}>Date</Text>
             <SegmentedControlTab
+              tabsContainerStyle={styles.tabsContainerStyle}
+              tabStyle={styles.tabStyle}
+              tabTextStyle={styles.tabTextStyle}
+              activeTabStyle={styles.activeTabStyle}
+              activeTabTextStyle={styles.activeTabTextStyle}
               values={['Today', 'Yesterday', formattedPickedDate]}
               selectedIndex={this.state.selectedDateIndex}
               onTabPress={this.handleDateSelection}
             />
-            <View name='separator' style={styles.sectionSeparator}/>
           </View>
-          <View style={styles.sections}>
+          {/* <View style={styles.sections}>
             <Text style={styles.inputTitle}>Intensity</Text>
             <SegmentedControlTab
               values={[capitalizedIntensity, 'Custom']}
               selectedIndex={this.state.selectedIntensityIndex}
               onTabPress={this.handleIntensitySelection}
             />
-            <View name='separator' style={styles.sectionSeparator}/>
-          </View>
+          </View> */}
           <View style={[styles.sections, styles.bottomButtonsView]}>
-            <TouchableHighlight
+            <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.cancelButton]}
               onPress={this.cancelButtonAction}>
               <Text style={[styles.bottomButtonsText, styles.cancelButtonText]}>❌</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
+            </TouchableOpacity>
+            <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]}
               onPress={this.actionButtonAction}>
               <Text style={[styles.bottomButtonsText, styles.actionButtonText]}>{actionButtonTitle}</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -158,6 +161,8 @@ export default class SRStudyTaskEditor extends React.Component {
 
 }
 
+const tintColor = '#48BEE0'
+const inactiveColor = '#B6D8E2'
 const buttonHeight = 46
 const buttonCornerRadius = buttonHeight/2
 
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
   },
   inputTitle: {
     fontSize: 14,
-    color: '#48BEE0',
+    color: tintColor,
   },
   sectionSeparator: {
     backgroundColor: '#cdcdcd',
@@ -186,6 +191,7 @@ const styles = StyleSheet.create({
   },
   bottomButtonsView: {
     flexDirection: 'row',
+    paddingTop: 30,
   },
   bottomButtons: {
     alignItems: 'center',
@@ -193,7 +199,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   actionButton: {
-    backgroundColor: '#48BEE0',
+    backgroundColor: tintColor,
     borderTopRightRadius: buttonCornerRadius,
     borderBottomRightRadius: buttonCornerRadius,
     flex: 5,
@@ -212,5 +218,28 @@ const styles = StyleSheet.create({
     paddingTop: 1,
   },
   cancelButtonText: {
-  }
+  },
+  tabsContainerStyle: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    justifyContent: 'space-around',
+    height: buttonHeight,
+  },
+  tabStyle: {
+    backgroundColor: inactiveColor,
+    borderColor: inactiveColor,
+    borderRadius: 4,
+    marginLeft: 4,
+    marginRight: 4,
+  },
+  tabTextStyle: {
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  activeTabStyle: {
+    backgroundColor: tintColor,
+    borderColor: tintColor,
+  },
+  activeTabTextStyle: {
+  },
 })
