@@ -1,16 +1,18 @@
+// @flow
 import React from 'react'
 import {
-  Button,
   Keyboard,
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   ScrollView,
   View
 } from 'react-native'
-import { actionCreators, SRStudyTask, SRSpacedRepetition, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
+import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 import moment from 'moment'
+import { actionCreators, SRStudyTask, SRSpacedRepetition, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import { uuid } from './utilities/UUID'
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
 
@@ -81,33 +83,33 @@ export default class SRStudyTaskEditor extends React.Component {
           </View>
           <View style={styles.sections}>
             <Text style={styles.inputTitle}>Date</Text>
-            <Button
+            {/* <TouchableHighlight
               style={styles.dataInputItemPadding}
               title={formattedDate}
               onPress={this.openDatePicker}
-            />
+            /> */}
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
           <View style={styles.sections}>
             <Text style={styles.inputTitle}>Intensity</Text>
-            <Button
+            {/* <TouchableHighlight
               style={styles.dataInputItemPadding}
               title={capitalizedIntensity}
               onPress={this.changeIntensity}
-            />
+            /> */}
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
-          <View style={[styles.sections, styles.bottomButtons]}>
-            <Button
-              style={[styles.dataInputItemPadding, styles.cancelButton]}
-              title='❌'
-              onPress={this.cancelButtonAction}
-            />
-            <Button
-              style={[styles.dataInputItemPadding, styles.actionButton]}
-              title={actionButtonTitle}
-              onPress={this.actionButtonAction}
-            />
+          <View style={[styles.sections, styles.bottomButtonsView]}>
+            <TouchableHighlight
+              style={[styles.dataInputItemPadding, styles.bottomButtons, styles.cancelButton]}
+              onPress={this.cancelButtonAction}>
+              <Text style={[styles.bottomButtonsText, styles.cancelButtonText]}>❌</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]}
+              onPress={this.actionButtonAction}>
+              <Text style={[styles.bottomButtonsText, styles.actionButtonText]}>{actionButtonTitle}</Text>
+            </TouchableHighlight>
           </View>
         </View>
       </ScrollView>
@@ -144,6 +146,9 @@ export default class SRStudyTaskEditor extends React.Component {
 
 }
 
+const buttonHeight = 46
+const buttonCornerRadius = buttonHeight/2
+
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
@@ -167,13 +172,33 @@ const styles = StyleSheet.create({
   sections: {
     padding: 10,
   },
-  bottomButtons: {
+  bottomButtonsView: {
     flexDirection: 'row',
   },
+  bottomButtons: {
+    alignItems: 'center',
+    height: buttonHeight,
+    justifyContent: 'center'
+  },
   actionButton: {
-    flex: 1,
+    backgroundColor: '#48BEE0',
+    borderTopRightRadius: buttonCornerRadius,
+    borderBottomRightRadius: buttonCornerRadius,
+    flex: 5,
   },
   cancelButton: {
-    flex: 4,
+    backgroundColor: '#fe4c00',
+    borderTopLeftRadius: buttonCornerRadius,
+    borderBottomLeftRadius: buttonCornerRadius,
+    flex: 1,
+  },
+  bottomButtonsText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  actionButtonText: {
+    paddingTop: 1,
+  },
+  cancelButtonText: {
   }
 })
