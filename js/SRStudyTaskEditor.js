@@ -19,8 +19,17 @@ import { capitalizeFirstLetter } from './utilities/String+Capitalize'
 const studyTaskString = 'Study Task'
 const notesString = 'Notes'
 
+const tintColor = '#48BEE0'
+const inactiveColor = '#B6D8E2'
+const buttonHeight = 46
+const buttonCornerRadius = buttonHeight/2
+const cancelButtonTint = '#bababa'
+
+const dateSegmentedControlCornerRadius = 4
+
 // TODO: make tab bar open this modally like in Instagram app
 // TODO: text fields don't deal with white space only input
+// TODO: make sure the cancel button is noticable on screens with low height
 export default class SRStudyTaskEditor extends React.Component {
 
   static navigationOptions = {
@@ -76,7 +85,7 @@ export default class SRStudyTaskEditor extends React.Component {
       <ScrollView style={styles.scrollView}>
         <View style={styles.edgePadding}>
           <View style={styles.sections}>
-            <Text style={styles.inputTitle}>{studyTaskLabelString}</Text>
+            <Text style={styles.sectionLabel}>{studyTaskLabelString}</Text>
             <TextInput
               style={styles.dataInputItemPadding}
               placeholder={studyTaskString}
@@ -86,7 +95,7 @@ export default class SRStudyTaskEditor extends React.Component {
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
           <View style={styles.sections}>
-            <Text style={styles.inputTitle}>{notesLabelString}</Text>
+            <Text style={styles.sectionLabel}>{notesLabelString}</Text>
             <TextInput
               style={styles.dataInputItemPadding}
               placeholder={notesInputTitle}
@@ -96,8 +105,9 @@ export default class SRStudyTaskEditor extends React.Component {
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
           <View style={styles.sections}>
-            <Text style={styles.inputTitle}>Date</Text>
+            <Text style={styles.sectionLabel}>Date</Text>
             <SegmentedControlTab
+              borderRadius={dateSegmentedControlCornerRadius}
               tabsContainerStyle={styles.tabsContainerStyle}
               tabStyle={styles.tabStyle}
               tabTextStyle={styles.tabTextStyle}
@@ -109,23 +119,24 @@ export default class SRStudyTaskEditor extends React.Component {
             />
           </View>
           {/* <View style={styles.sections}>
-            <Text style={styles.inputTitle}>Intensity</Text>
+            <Text style={styles.sectionLabel}>Intensity</Text>
             <SegmentedControlTab
               values={[capitalizedIntensity, 'Custom']}
               selectedIndex={this.state.selectedIntensityIndex}
               onTabPress={this.handleIntensitySelection}
             />
           </View> */}
+          <View name='separator' style={[styles.sectionSeparator, styles.lastSectionSeparator]}/>
           <View style={[styles.sections, styles.bottomButtonsView]}>
-            <TouchableOpacity
-              style={[styles.dataInputItemPadding, styles.bottomButtons, styles.cancelButton]}
-              onPress={this.cancelButtonAction}>
-              <Text style={[styles.bottomButtonsText, styles.cancelButtonText]}>✖️</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]}
               onPress={this.actionButtonAction}>
               <Text style={[styles.bottomButtonsText, styles.actionButtonText]}>{actionButtonTitle}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.dataInputItemPadding, styles.bottomButtons, styles.cancelButton]}
+              onPress={this.cancelButtonAction}>
+              <Text style={[styles.bottomButtonsText, styles.cancelButtonText]}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -189,77 +200,75 @@ export default class SRStudyTaskEditor extends React.Component {
 
 }
 
-const tintColor = '#48BEE0'
-const inactiveColor = '#B6D8E2'
-const buttonHeight = 46
-const buttonCornerRadius = buttonHeight/2
-
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    paddingTop: 44,
+    paddingTop: 44, // TODO: replace with navigation bar
   },
   edgePadding: {
     padding: 15,
     flex:1,
   },
   dataInputItemPadding: {
-    padding: 5,
+    padding: 4,
   },
-  inputTitle: {
+  sectionLabel: {
     fontSize: 14,
     color: tintColor,
   },
   sectionSeparator: {
-    backgroundColor: '#cdcdcd',
+    backgroundColor: cancelButtonTint,
     height: 1,
   },
+  lastSectionSeparator: {
+    marginTop: 8,
+  },
   sections: {
-    padding: 10,
+    padding: 8,
   },
   bottomButtonsView: {
-    flexDirection: 'row',
-    paddingTop: 30,
+    flexDirection: 'column',
+    paddingTop: 20,
   },
   bottomButtons: {
     alignItems: 'center',
     height: buttonHeight,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   actionButton: {
     backgroundColor: tintColor,
-    borderTopRightRadius: buttonCornerRadius,
-    borderBottomRightRadius: buttonCornerRadius,
-    flex: 5,
+    borderRadius: buttonCornerRadius,
+    flex: 1,
   },
   cancelButton: {
-    backgroundColor: '#E04D48',
-    borderTopLeftRadius: buttonCornerRadius,
-    borderBottomLeftRadius: buttonCornerRadius,
+    borderColor: cancelButtonTint,
+    borderWidth: 2,
+    borderRadius: buttonCornerRadius,
     flex: 1,
+    marginTop: 10,
   },
   bottomButtonsText: {
     color: 'white',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   actionButtonText: {
     paddingTop: 1,
-    fontWeight: 'bold',
   },
   cancelButtonText: {
+    color: cancelButtonTint,
   },
   tabsContainerStyle: {
     paddingTop: 5,
     paddingBottom: 5,
-    justifyContent: 'space-around',
     height: buttonHeight,
   },
   tabStyle: {
     backgroundColor: inactiveColor,
     borderColor: inactiveColor,
-    borderRadius: 4,
-    marginLeft: 4,
-    marginRight: 4,
+    borderRadius: dateSegmentedControlCornerRadius,
+    marginLeft: 2,
+    marginRight: 2,
   },
   tabTextStyle: {
     fontWeight: 'bold',
