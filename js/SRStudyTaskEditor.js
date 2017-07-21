@@ -16,7 +16,11 @@ import { actionCreators, SRStudyTask, SRSpacedRepetition, SRStudyTaskIntensity }
 import { uuid } from './utilities/UUID'
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
 
+const studyTaskString = 'Study Task'
+const notesString = 'Notes'
+
 // TODO: make tab bar open this modally like in Instagram app
+// TODO: text fields don't deal with white space only input
 export default class SRStudyTaskEditor extends React.Component {
 
   static navigationOptions = {
@@ -39,6 +43,9 @@ export default class SRStudyTaskEditor extends React.Component {
       intensity:      props.intensity != null     ? props.intensity     : SRStudyTaskIntensity.NORMAL,
 
       readonly: false,
+
+      studyTaskLabelString: ' ',
+      notesLabelString: ' ',
       pickedDate: 'Other',
       selectedDateIndex: 0,
       selectedIntensityIndex: 0,
@@ -50,16 +57,18 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   render() {
-    const { dates, intensity, pickedDate, readonly } = this.state
+    const { dates, intensity, notesLabelString, pickedDate, readonly, studyTaskLabelString, taskName } = this.state
     const newestDate = dates[dates.length-1]
     const formattedDate = moment().calendar(newestDate, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
       sameElse: 'Do MMMM'
     });
+
+    this.hideStudyTaskLabel(taskName == null || taskName == '')
+
     const capitalizedIntensity = capitalizeFirstLetter(intensity)
-    const studyTaskInputTitle = 'Study Task'
-    const notesInputTitle = 'Notes'
+    const notesInputTitle = notesString
     const actionButtonTitle = readonly == true ? 'Edit' : 'Save'
     const formattedPickedDate = pickedDate // TODO:
 
@@ -67,21 +76,22 @@ export default class SRStudyTaskEditor extends React.Component {
       <ScrollView style={styles.scrollView}>
         <View style={styles.edgePadding}>
           <View style={styles.sections}>
-            <Text style={styles.inputTitle}>{studyTaskInputTitle}</Text>
+            <Text style={styles.inputTitle}>{studyTaskLabelString}</Text>
             <TextInput
               style={styles.dataInputItemPadding}
-              placeholder={studyTaskInputTitle}
+              placeholder={studyTaskString}
               onSubmitEditing={Keyboard.dismiss}
-              onChangeText={(taskName) => this.setState({taskName})}
+              onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
             />
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
           <View style={styles.sections}>
-            <Text style={styles.inputTitle}>{notesInputTitle}</Text>
+            <Text style={styles.inputTitle}>{notesLabelString}</Text>
             <TextInput
               style={styles.dataInputItemPadding}
               placeholder={notesInputTitle}
               onSubmitEditing={Keyboard.dismiss}
+              onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
             />
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
@@ -110,7 +120,7 @@ export default class SRStudyTaskEditor extends React.Component {
             <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.cancelButton]}
               onPress={this.cancelButtonAction}>
-              <Text style={[styles.bottomButtonsText, styles.cancelButtonText]}>❌</Text>
+              <Text style={[styles.bottomButtonsText, styles.cancelButtonText]}>✖️</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]}
@@ -121,6 +131,24 @@ export default class SRStudyTaskEditor extends React.Component {
         </View>
       </ScrollView>
     )
+  }
+
+  studyTextFieldOnChangeText = (taskName) => {
+    this.hideStudyTaskLabel(taskName == null || taskName == '')
+    this.setState({taskName})
+  }
+
+  notesTextFieldOnChangeText = (notes) => {
+    this.hideNotesLabel(notes == null || notes == '')
+    this.setState({notes})
+  }
+
+  hideStudyTaskLabel = (flag = true) => {
+    this.state.studyTaskLabelString = flag ? ' ' : studyTaskString
+  }
+
+  hideNotesLabel = (flag = true) => {
+    this.state.notesLabelString = flag ? ' ' : notesString
   }
 
   handleDateSelection = (index) => {
@@ -205,7 +233,7 @@ const styles = StyleSheet.create({
     flex: 5,
   },
   cancelButton: {
-    backgroundColor: '#fe4c00',
+    backgroundColor: '#E04D48',
     borderTopLeftRadius: buttonCornerRadius,
     borderBottomLeftRadius: buttonCornerRadius,
     flex: 1,
@@ -216,6 +244,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     paddingTop: 1,
+    fontWeight: 'bold',
   },
   cancelButtonText: {
   },
