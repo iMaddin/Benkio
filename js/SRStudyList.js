@@ -13,16 +13,19 @@ import { actionCreators } from './dataModel/SRSimpleDataModel'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import { processDataForList } from './dataModel/SRDataPresenter'
 
+const studyListTitle = 'Study List'
+
 export default class SRStudyList extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     const { params = {} } = navigation.state
     return {
       headerLeft: <Button title='⚙️' onPress={() => params.openSettings()} />,
-      tabBarLabel: 'Study List',
+      tabBarLabel: studyListTitle,
       tabBarIcon: ({ tintColor }) => (
         <Text>🔜</Text>
       ),
+      title: studyListTitle,
     }
   }
 
