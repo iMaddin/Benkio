@@ -6,6 +6,7 @@ import {
   View
 } from 'react-native'
 
+export const tintColor = '#48BEE0'
 
 export default class SRSettings extends React.Component {
 

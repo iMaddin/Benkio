@@ -11,6 +11,7 @@ import SRSettings from './SRSettings'
 import { reducer } from './dataModel/SRSimpleDataModel'
 import { createStore } from 'redux'
 import PropTypes from 'prop-types'
+import { tintColor } from './SRSettings'
 
 const SpaceReminder = TabNavigator({
   StudyList: { screen: SRStudyList },
@@ -19,9 +20,8 @@ const SpaceReminder = TabNavigator({
   },
   {
     tabBarOptions: {
-      activeTintColor: '#e91e63',
       showLabel: false,
-      activeBackgroundColor: 'skyblue',
+      activeBackgroundColor: tintColor,
     },
   }
 )

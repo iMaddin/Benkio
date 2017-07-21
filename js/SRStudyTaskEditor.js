@@ -15,11 +15,11 @@ import moment from 'moment'
 import { actionCreators, SRStudyTask, SRSpacedRepetition, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import { uuid } from './utilities/UUID'
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
+import { tintColor } from './SRSettings'
 
 const studyTaskString = 'Study Task'
 const notesString = 'Notes'
 
-const tintColor = '#48BEE0'
 const inactiveColor = '#B6D8E2'
 const buttonHeight = 46
 const buttonCornerRadius = buttonHeight/2
