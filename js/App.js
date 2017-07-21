@@ -3,7 +3,7 @@
 import React from 'react'
 import { AppRegistry } from 'react-native'
 
-import { TabNavigator } from 'react-navigation'
+import { StackNavigator, TabNavigator } from 'react-navigation'
 import SRStudyList from './SRStudyList'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRSettings from './SRSettings'
@@ -13,8 +13,19 @@ import { createStore } from 'redux'
 import PropTypes from 'prop-types'
 import { tintColor } from './SRSettings'
 
-const SpaceReminder = TabNavigator({
+
+const DetailStackNavigator = StackNavigator({
   StudyList: { screen: SRStudyList },
+  },
+  {
+    tabBarOptions: {
+
+    }
+  }
+)
+
+const SpaceReminder = TabNavigator({
+  DetailStackNavigator: { screen: DetailStackNavigator },
   AddStudyTaskScreen: { screen: SRStudyTaskEditor },
   Settings: { screen: SRSettings },
   },
