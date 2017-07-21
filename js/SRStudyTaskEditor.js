@@ -39,6 +39,9 @@ export default class SRStudyTaskEditor extends React.Component {
       intensity:      props.intensity != null     ? props.intensity     : SRStudyTaskIntensity.NORMAL,
 
       readonly: false,
+      pickedDate: 'Other',
+      selectedDateIndex: 0,
+      selectedIntensityIndex: 0,
     }
   }
 
@@ -47,7 +50,7 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   render() {
-    const { dates, intensity, readonly } = this.state
+    const { dates, intensity, pickedDate, readonly } = this.state
     const newestDate = dates[dates.length-1]
     const formattedDate = moment().calendar(newestDate, {
       sameDay: '[Today]',
@@ -58,6 +61,7 @@ export default class SRStudyTaskEditor extends React.Component {
     const studyTaskInputTitle = 'Study Task'
     const notesInputTitle = 'Notes'
     const actionButtonTitle = readonly == true ? 'Edit' : 'Save'
+    const formattedPickedDate = pickedDate // TODO:
 
     return (
       <ScrollView style={styles.scrollView}>
@@ -83,20 +87,20 @@ export default class SRStudyTaskEditor extends React.Component {
           </View>
           <View style={styles.sections}>
             <Text style={styles.inputTitle}>Date</Text>
-            {/* <TouchableHighlight
-              style={styles.dataInputItemPadding}
-              title={formattedDate}
-              onPress={this.openDatePicker}
-            /> */}
+            <SegmentedControlTab
+              values={['Today', 'Yesterday', formattedPickedDate]}
+              selectedIndex={this.state.selectedDateIndex}
+              onTabPress={this.handleDateSelection}
+            />
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
           <View style={styles.sections}>
             <Text style={styles.inputTitle}>Intensity</Text>
-            {/* <TouchableHighlight
-              style={styles.dataInputItemPadding}
-              title={capitalizedIntensity}
-              onPress={this.changeIntensity}
-            /> */}
+            <SegmentedControlTab
+              values={[capitalizedIntensity, 'Custom']}
+              selectedIndex={this.state.selectedIntensityIndex}
+              onTabPress={this.handleIntensitySelection}
+            />
             <View name='separator' style={styles.sectionSeparator}/>
           </View>
           <View style={[styles.sections, styles.bottomButtonsView]}>
@@ -114,6 +118,14 @@ export default class SRStudyTaskEditor extends React.Component {
         </View>
       </ScrollView>
     )
+  }
+
+  handleDateSelection = (index) => {
+    this.setState({...this.state, selectedDateIndex: index})
+  }
+
+  handleIntensitySelection = (index) => {
+    this.setState({...this.state, selectedIntensityIndex: index})
   }
 
   openDatePicker = () => {
