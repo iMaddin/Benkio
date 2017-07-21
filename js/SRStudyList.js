@@ -15,11 +15,15 @@ import { processDataForList } from './dataModel/SRDataPresenter'
 
 export default class SRStudyList extends React.Component {
 
-  static navigationOptions = {
-    tabBarLabel: 'Study List',
-    tabBarIcon: ({ tintColor }) => (
-      <Text>🔜</Text>
-    ),
+  static navigationOptions = ({navigation}) => {
+    const { params = {} } = navigation.state
+    return {
+      headerLeft: <Button title='⚙️' onPress={() => params.openSettings()} />,
+      tabBarLabel: 'Study List',
+      tabBarIcon: ({ tintColor }) => (
+        <Text>🔜</Text>
+      ),
+    }
   }
 
   state = {}
@@ -41,7 +45,7 @@ export default class SRStudyList extends React.Component {
   }
 
   componentDidMount() {
-
+    this.props.navigation.setParams({openSettings: this.openSettings})
   }
 
   onAddTodo = (text: string) => {
@@ -54,6 +58,10 @@ export default class SRStudyList extends React.Component {
     const {store} = this.props.screenProps
 
     store.dispatch(actionCreators.remove(index))
+  }
+
+  openSettings = () => {
+
   }
 
   render() {
@@ -75,7 +83,6 @@ export default class SRStudyList extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
   },
   sectionHeader: {
     paddingTop: 2,
