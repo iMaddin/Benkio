@@ -2,16 +2,6 @@
 
 import mockData from './mockData.json'
 
-export function SRSpacedRepetition(
-  easinessFactor: number = 2.5,
-  interval: number = 0,
-  repetition: number = 0
-) {
-  this.easinessFactor = easinessFactor
-  this.interval = interval
-  this.repetition = repetition
-}
-
 export const SRStudyTaskIntensity = {
   NORMAL: 'NORMAL'
 }
