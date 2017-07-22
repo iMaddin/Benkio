@@ -1,4 +1,6 @@
 // @flow
+import { SRSpacedRepetition } from '../SRSpacedRepetition'
+
 import moment from 'moment'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 
@@ -17,9 +19,12 @@ export const processDataForList = (studyTasks) => {
 }
 
 const taskNameAndDate = (singleTask) => {
-    const { taskName, dates } = singleTask
+    const { taskName, dates, srs } = singleTask
+    const { easinessFactor, interval, repetition } = srs
+    const srsData = new SRSpacedRepetition(easinessFactor, interval, repetition)
+    const nextDueDate = srsData.nextDate(dates[0])
     return {
-      "taskName": taskName, "nextDate": dates[0]
+      "taskName": taskName, "nextDate": nextDueDate
     }
 }
 
