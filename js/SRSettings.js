@@ -1,10 +1,7 @@
+// @flow
 import React from 'react'
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
+import { Modal, Text, TouchableHighlight, View } from 'react-native';
+import SRRatingView from './SRRatingView'
 
 export const tintColor = '#48BEE0'
 
@@ -17,9 +14,41 @@ export default class SRSettings extends React.Component {
     ),
   }
 
+  state = {
+    modalVisible: false,
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
+  componentDidMount() {
+    this.setModalVisible(!this.state.modalVisible)
+  }
+
   render() {
+
     return (
-      <View />
+      <View style={{marginTop: 22}}>
+        <Modal
+          animationType={"slide"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <SRRatingView
+            dismissAction={() => this.setModalVisible(!this.state.modalVisible)}
+         />
+
+        </Modal>
+
+        <TouchableHighlight onPress={() => {
+          this.setModalVisible(true)
+        }}>
+          <Text>Show Modal</Text>
+        </TouchableHighlight>
+
+      </View>
     )
   }
 
