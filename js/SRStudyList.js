@@ -3,6 +3,7 @@
 import React from 'react'
 import {
   Button,
+  Modal,
   SectionList,
   StyleSheet,
   Text,
@@ -12,6 +13,8 @@ import { StackNavigator } from 'react-navigation'
 import { actionCreators } from './dataModel/SRSimpleDataModel'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRStudyListCell from './SRStudyListCell'
+import SRRatingView from './SRRatingView'
+import { SRSGrade } from './SRSpacedRepetition'
 import { processDataForList } from './dataModel/SRDataPresenter'
 
 const studyListTitle = 'Study List'
@@ -30,7 +33,9 @@ export default class SRStudyList extends React.Component {
     }
   }
 
-  state = {}
+  state = {
+    modalVisible: false,
+  }
 
   componentWillMount() {
     const {store} = this.props.screenProps
@@ -73,12 +78,29 @@ export default class SRStudyList extends React.Component {
             return <SRStudyListCell
               canBeRated={true}
               onPressDetailsButton={this.navigateToDetails}
-              onPressRateButton={this.rateTask}
+              onPressRateButton={() => {
+                this.state.selectedItem = {item}
+                this.state.selectedIndex = {index}
+                this.openRatingUI()
+                }
+              }
               >{{title: item, notes: 'notes'}}</SRStudyListCell>
           }}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
-          />
+        />
+        <Modal
+          animationType={"fade"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <SRRatingView
+           dismissAction={() => this.setModalVisible(!this.state.modalVisible)}
+           ratedCallback={(index) => this.rateTask(index)}
+         />
+
+        </Modal>
         </View>
     )
   }
@@ -99,8 +121,35 @@ export default class SRStudyList extends React.Component {
 
   }
 
-  rateTask = () => {
+  openRatingUI = () => {
+    this.setModalVisible(true)
+  }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
+  rateTask = (index) => {
+    var grade = ''
+    switch(index) {
+      case 0:
+        grade = SRSGrade.OK
+        break;
+      case 1:
+        grade = SRSGrade.GOOD
+        break
+      case 2:
+        grade = SRSGrade.PERFECT
+        break
+      default:
+        break
+    }
+    // const { selectedItem, selectedIndex } = this.state
+    // const { task } = // TODO: get data from model
+    // const { easinessFactor, interval, repetition } = task.srs
+    // const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).ok()
+    // TODO: update model
+    this.setModalVisible(false)
   }
 
   navigateToDetails = () => {
