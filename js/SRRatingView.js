@@ -21,6 +21,39 @@ export default class SRRatingView extends React.Component {
          <View style={styles.contentView}>
            <Text>Hello World!</Text>
 
+           <View style={styles.ratingBoxContainer}>
+             <View style={[styles.ratingBox, styles.ratingOk]}>
+               <TouchableHighlight
+                 onPress={() => {
+                   this.rated(0)
+                 }}>
+
+                  <Text>Ok</Text>
+
+               </TouchableHighlight>
+             </View>
+             <View style={[styles.ratingBox, styles.ratingGood]}>
+               <TouchableHighlight
+                 onPress={() => {
+                   this.rated(1)
+                 }}>
+
+                  <Text>Good</Text>
+
+               </TouchableHighlight>
+             </View>
+             <View style={[styles.ratingBox, styles.ratingPerfect]}>
+               <TouchableHighlight
+                 onPress={() => {
+                   this.rated(2)
+                 }}>
+
+                  <Text>Perfect</Text>
+
+               </TouchableHighlight>
+             </View>
+           </View>
+
            <TouchableHighlight onPress={() => {
              {this.cancelAction()}
            }}>
@@ -55,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 15,
     paddingRight: 15,
-    backgroundColor: 'blackrgba(4, 4, 4, 0.77)',
+    backgroundColor: 'rgba(4, 4, 4, 0.77)',
   },
   overlayView: {
     padding: 15,
@@ -65,13 +98,30 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   contentView: {
-
+    flex: 1,
   },
   cancelButton: {
 
   },
+  ratingBoxContainer: {
+    flexDirection: 'row',
+    flex: 1,
+  },
   ratingBox: {
-
+    flex: 1,
+    margin: 5,
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ratingOk: {
+    backgroundColor: '#3DD9D6',
+  },
+  ratingGood: {
+    backgroundColor: '#2A93D4',
+  },
+  ratingPerfect: {
+    backgroundColor: '#125488',
   },
   ratingTitle: {
 
