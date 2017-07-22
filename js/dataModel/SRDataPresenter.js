@@ -75,7 +75,7 @@ const sortByDate = (tasksGroupedByDateArray) => {
 
 const sortDateGroup = (array: Array<{dateWithoutTime: string, tasksWithTimes: Array<{taskName: string, taskDate: string}>}>) => {
   return array.sort((a,b) => {
-    return new Date(b.dateWithoutTime) - new Date(a.dateWithoutTime)
+    return new Date(a.dateWithoutTime) - new Date(b.dateWithoutTime)
   })
 }
 
@@ -127,10 +127,10 @@ const testSortDateGroup = () => {
     {dateWithoutTime: 'Thu Jul 20 2017', tasksWithTimes: []}
   ]
   const expectedState = [
-    {dateWithoutTime: 'Sat Jul 29 2017', tasksWithTimes: []},
-    {dateWithoutTime: 'Tue Jul 25 2017', tasksWithTimes: []},
+    {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: []},
     {dateWithoutTime: 'Thu Jul 20 2017', tasksWithTimes: []},
-    {dateWithoutTime: 'Wed Jul 19 2017', tasksWithTimes: []}
+    {dateWithoutTime: 'Tue Jul 25 2017', tasksWithTimes: []},
+    {dateWithoutTime: 'Sat Jul 29 2017', tasksWithTimes: []},
   ]
   expect(sortDateGroup(beforeState)).toEqual(expectedState)
 }
