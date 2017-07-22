@@ -16,9 +16,8 @@ export default class SRStudyListCell extends React.Component {
     return (
       <View>
         {this._renderRateButton()}
-        <Text style={styles.title}>{children.title}</Text>
-        {this._renderNotes}
-        <Button name='detailsButton' title='ℹ️' onPress={this.onPressDetailsButton}/>
+        <Button style={styles.title} title={children.title} onPress={onPressDetailsButton}/>
+        {this._renderNotes()}
       </View>
     )
   }
@@ -39,7 +38,6 @@ export default class SRStudyListCell extends React.Component {
       return null
     }
   }
-
 
 }
 
