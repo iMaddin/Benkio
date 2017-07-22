@@ -87,5 +87,5 @@ test('EF of Perfect rating', () => {
 
   expect(
     new SRSpacedRepetition(2.4, 0, 0).perfect().easinessFactor
-  ).toBeGreatherThan(2.4)
+  ).toBeGreaterThan(2.4)
 })

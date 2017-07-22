@@ -63,6 +63,8 @@ const gradeSRS = (srs: SRSpacedRepetition, grade: number) => {
     newEF = oldEF + (0.1 - (5-grade)*(0.08+(5-grade)*0.02));
     if (newEF < minEF) { // 1.3 is the minimum EF
       easinessFactorCopy = minEF;
+    } else if (newEF > maxEF) { // 2.5 is the maximum EF
+      easinessFactorCopy = maxEF
     } else {
       easinessFactorCopy = newEF;
     }
