@@ -31,13 +31,13 @@ export default class SRSettings extends React.Component {
     return (
       <View style={{marginTop: 22}}>
         <Modal
-          animationType={"slide"}
+          animationType={"fade"}
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <SRRatingView
-            dismissAction={() => this.setModalVisible(!this.state.modalVisible)}
+           dismissAction={() => this.setModalVisible(!this.state.modalVisible)}
          />
 
         </Modal>

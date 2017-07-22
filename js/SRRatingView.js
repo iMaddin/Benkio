@@ -2,8 +2,8 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-const width = 400
-const height = 250
+// const width = 400
+// const height = 250
 
 export default class SRRatingView extends React.Component {
 
@@ -16,16 +16,17 @@ export default class SRRatingView extends React.Component {
 
   render() {
     return (
-      <View style={{flex:1, justifyContent: 'flex-end'}}>
-       <View style={{height: 100, backgroundColor: 'red'}}>
-         <Text>Hello World!</Text>
+      <View style={styles.transparentView}>
+       <View style={styles.overlayView}>
+         <View style={styles.contentView}>
+           <Text>Hello World!</Text>
 
-         <TouchableHighlight onPress={() => {
-           {this.cancelAction()}
-         }}>
-           <Text>Hide Modal</Text>
-         </TouchableHighlight>
-
+           <TouchableHighlight onPress={() => {
+             {this.cancelAction()}
+           }}>
+             <Text style={styles.cancelButton}>Cancel</Text>
+           </TouchableHighlight>
+         </View>
        </View>
       </View>
     )
@@ -48,5 +49,31 @@ export default class SRRatingView extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  transparentView: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: 'blackrgba(4, 4, 4, 0.77)',
+  },
+  overlayView: {
+    padding: 15,
+    flex: 1,
+    height: 240,// TODO: calculate right height
+    backgroundColor: 'azure',
+    borderRadius: 8,
+  },
+  contentView: {
 
+  },
+  cancelButton: {
+
+  },
+  ratingBox: {
+
+  },
+  ratingTitle: {
+
+  },
 })
