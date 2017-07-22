@@ -10,10 +10,11 @@ export function SRSpacedRepetition(
   this.repetition = repetition
 }
 
-SRSpacedRepetition.prototype.nextDate = function(previousDate: Date = new Date()) {
-  const nextDate = new Date(previousDate.getTime())
-  nextDate.setDate(previousDate.getDate() + this.interval)
-  return nextDate
+SRSpacedRepetition.prototype.nextDate = function(previousDate = new Date().toString()) {
+  const previousDateObject = new Date(previousDate)
+  const nextDate = new Date(previousDateObject.getTime())
+  nextDate.setDate(previousDateObject.getDate() + this.interval)
+  return nextDate.toString()
 }
 
 export const SRSGrade = {

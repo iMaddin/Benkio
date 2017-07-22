@@ -2,45 +2,45 @@
 import { SRSpacedRepetition } from '../js/SRSpacedRepetition'
 
 test('Test nextDate()', () => {
-  const taylorSwift = new Date('December 13, 1989 12:34:56')
-  const leapYear2016 = new Date('February 28, 2016 12:34:56')
+  const taylorSwift = 'December 13, 1989 12:34:56'
+  const leapYear2016 = 'February 28, 2016 12:34:56'
 
   expect(
-    new SRSpacedRepetition(2.5, 0, 0).nextDate(taylorSwift)
+    new Date(new SRSpacedRepetition(2.5, 0, 0).nextDate(taylorSwift)).getTime()
   ).toEqual(
-    new Date('December 13, 1989 12:34:56'))
+    new Date('December 13, 1989 12:34:56').getTime())
 
   expect(
-    new SRSpacedRepetition(2.5, 1, 0).nextDate(taylorSwift)
+    new Date(new SRSpacedRepetition(2.5, 1, 0).nextDate(taylorSwift)).getTime()
   ).toEqual(
-    new Date('December 14, 1989 12:34:56'))
+    new Date('December 14, 1989 12:34:56').getTime())
 
   expect(
-    new SRSpacedRepetition(2.5, 3, 0).nextDate(taylorSwift)
+    new Date(new SRSpacedRepetition(2.5, 3, 0).nextDate(taylorSwift)).getTime()
   ).toEqual(
-    new Date('December 16, 1989 12:34:56'))
+    new Date('December 16, 1989 12:34:56').getTime())
 
   expect(
-    new SRSpacedRepetition(2.5, 6, 0).nextDate(taylorSwift)
+    new Date(new SRSpacedRepetition(2.5, 6, 0).nextDate(taylorSwift)).getTime()
   ).toEqual(
-    new Date('December 19, 1989 12:34:56'))
+    new Date('December 19, 1989 12:34:56').getTime())
 
   expect(
-    new SRSpacedRepetition(2.5, 0, 0).nextDate(taylorSwift)
+    new Date(new SRSpacedRepetition(2.5, 0, 0).nextDate(taylorSwift)).getTime()
   ).toEqual(
-    new Date('December 13, 1989 12:34:56'))
+    new Date('December 13, 1989 12:34:56').getTime())
 
   // nextDate -> different month
 
   expect(
-    new SRSpacedRepetition(2.5, 1, 0).nextDate(leapYear2016)
+    new Date(new SRSpacedRepetition(2.5, 1, 0).nextDate(leapYear2016)).getTime()
   ).toEqual(
-    new Date('February 29, 2016 12:34:56'))
+    new Date('February 29, 2016 12:34:56').getTime())
 
   expect(
-    new SRSpacedRepetition(2.5, 2, 0).nextDate(leapYear2016)
+    new Date(new SRSpacedRepetition(2.5, 2, 0).nextDate(leapYear2016)).getTime()
   ).toEqual(
-    new Date('March 1, 2016 12:34:56'))
+    new Date('March 1, 2016 12:34:56').getTime())
 
 })
 
