@@ -52,22 +52,6 @@ export default class SRStudyList extends React.Component {
     this.props.navigation.setParams({openSettings: this.openSettings})
   }
 
-  onAddTodo = (text: string) => {
-    const {store} = this.props.screenProps
-
-    store.dispatch(actionCreators.add(text))
-  }
-
-  onRemoveTodo = (index: number) => {
-    const {store} = this.props.screenProps
-
-    store.dispatch(actionCreators.remove(index))
-  }
-
-  openSettings = () => {
-
-  }
-
   render() {
     const {studyTasks} = this.state
 
@@ -86,7 +70,11 @@ export default class SRStudyList extends React.Component {
             //   updateProps: (select: 'leading' | 'trailing', newProps: Object) => void,
             // },
           }) => {
-            return <SRStudyListCell>{{title: item, notes: 'notes'}}</SRStudyListCell>
+            return <SRStudyListCell
+              canBeRated={true}
+              onPressDetailsButton={this.navigateToDetails}
+              onPressRateButton={this.rateTask}
+              >{{title: item, notes: 'notes'}}</SRStudyListCell>
           }}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
@@ -94,6 +82,31 @@ export default class SRStudyList extends React.Component {
         </View>
     )
   }
+
+  onAddTodo = (text: string) => {
+    const {store} = this.props.screenProps
+
+    store.dispatch(actionCreators.add(text))
+  }
+
+  onRemoveTodo = (index: number) => {
+    const {store} = this.props.screenProps
+
+    store.dispatch(actionCreators.remove(index))
+  }
+
+  openSettings = () => {
+
+  }
+
+  rateTask = () => {
+
+  }
+
+  navigateToDetails = () => {
+
+  }
+
 }
 
 const styles = StyleSheet.create({
