@@ -1,23 +1,34 @@
 import React from 'react'
-import { Button, StyleSheet, Text, TextView, View } from 'react-native'
+import { Button, StyleSheet, Text, TextView, TouchableOpacity, TouchableHighlight, View } from 'react-native'
+
+const taskTextColor = 'rgb(42, 42, 42)'
 
 export default class SRStudyListCell extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      canBeRated: true // TODO: set false
+      // canBeRated: true
     }
   }
 
   render() {
-    const { children, onPressDetailsButton, style } = this.props
-    const { canBeRated } = this.state
+    const { canBeRated, children, onPressDetailsButton, style } = this.props
+    // const {  } = this.state
 
     return (
-      <View>
+      <View style={styles.cell}>
         {this._renderRateButton()}
-        <Button style={styles.title} title={children.title} onPress={onPressDetailsButton}/>
-        {this._renderNotes()}
+        <TouchableHighlight
+          style={styles.cellButton}
+          underlayColor={'rgb(140, 140, 140)'}
+          onPress={onPressDetailsButton}
+        >
+          <View style={styles.cellData}>
+            <Text style={styles.title}>{children.title}</Text>
+            {this._renderNotes()}
+          </View>
+        </TouchableHighlight>
+
       </View>
     )
   }
@@ -32,8 +43,16 @@ export default class SRStudyListCell extends React.Component {
   }
 
   _renderRateButton = () => {
-    if (this.state.canBeRated) {
-      return <Button name='rateButton' title='⭐️' onPress={this.props.onPressRateButton}/>
+    if (this.props.canBeRated) {
+      return(
+        <View style={styles.ratingParent}>
+          <TouchableOpacity
+            name='rateButton' style={styles.ratingButton}
+            onPress={this.props.onPressRateButton}>
+            <Text style={styles.ratingContent}>⭐️</Text>
+          </TouchableOpacity>
+        </View>
+      )
     } else {
       return null
     }
@@ -44,14 +63,36 @@ export default class SRStudyListCell extends React.Component {
 SRStudyListCell.defaultProps = {
   onPressDetailsButton: () => any,
   onPressRateButton: () => any,
+  // canBeRated: bool,
   // style: ?StyleSheet,
 }
 
 const styles = StyleSheet.create({
-  title: {
+  cell: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cellButton: {
+    flex:1,
+  },
+  ratingParent: {
+    width: 44,
+  },
+  ratingButton: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ratingContent: {
+  },
+  cellData: {
+    flex:1,
     padding: 10,
+  },
+  title: {
     fontSize: 18,
     height: 44,
+    color: taskTextColor,
   },
   notes: {
     fontSize: 12,
