@@ -11,6 +11,7 @@ import {
 import { StackNavigator } from 'react-navigation'
 import { actionCreators } from './dataModel/SRSimpleDataModel'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
+import SRStudyListCell from './SRStudyListCell'
 import { processDataForList } from './dataModel/SRDataPresenter'
 
 const studyListTitle = 'Study List'
@@ -74,7 +75,19 @@ export default class SRStudyList extends React.Component {
         <View style={styles.container}>
         <SectionList
           sections={processDataForList(studyTasks)}
-          renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+          // renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+          renderItem={({
+            item,
+            index,
+            section,
+            // separators: {
+            //   highlight: () => void,
+            //   unhighlight: () => void,
+            //   updateProps: (select: 'leading' | 'trailing', newProps: Object) => void,
+            // },
+          }) => {
+            return <SRStudyListCell>{{title: item, notes: 'notes'}}</SRStudyListCell>
+          }}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
           />
@@ -95,10 +108,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
+  }
 })
