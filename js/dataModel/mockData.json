@@ -117,8 +117,8 @@
       "ratingHistory": [],
       "srs": {
         "easinessFactor": 2.5,
-        "interval": 0,
-        "repetition": 0
+        "interval": 1,
+        "repetition": 1
       },
       "intensity": ""},
     { "id": "",
