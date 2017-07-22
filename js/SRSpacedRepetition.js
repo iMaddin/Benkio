@@ -82,5 +82,5 @@ const gradeSRS = (srs: SRSpacedRepetition, grade: number) => {
     }
   }
 
-  return SRSpacedRepetition(easinessFactorCopy, intervalCopy, repetitionCopy)
+  return new SRSpacedRepetition(easinessFactorCopy, intervalCopy, repetitionCopy)
 }
