@@ -155,11 +155,7 @@ export default class SRStudyList extends React.Component {
         break
     }
     const { selectedID } = this.state
-    const { store } = this.props.screenProps
-    const {studyTasks} = store.getState()
-    const filteredArray = studyTasks.filter((item, i) => item.id == selectedID)
-    expect(filteredArray.length).toBe(1)
-    const item = filteredArray[0]
+    const item = this.dataWithID(selectedID)
     const { easinessFactor, interval, repetition } = item.srs
     const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).grade(grade)
     item.srs = updatedSRS
@@ -168,7 +164,19 @@ export default class SRStudyList extends React.Component {
   }
 
   navigateToDetails = () => {
+    const { selectedID } = this.state
+    const { navigation } = this.props
+    const item = this.dataWithID(selectedID)
+    navigation.navigate('DetailsView', {readonly: true, item: item})
+  }
 
+  dataWithID = (id) => {
+    const { store } = this.props.screenProps
+    const {studyTasks} = store.getState()
+    const filteredArray = studyTasks.filter((item) => item.id == id)
+    expect(filteredArray.length).toBe(1)
+    const item = filteredArray[0]
+    return item
   }
 
 }

@@ -30,29 +30,36 @@ const dateSegmentedControlCornerRadius = 4
 
 export default class SRStudyTaskEditor extends React.Component {
 
-  static navigationOptions = {
-    tabBarLabel: 'Add',
-    tabBarIcon: ({ tintColor }) => (
-      <Text>➕</Text>
-    ),
+  static navigationOptions = ({navigation}) => {
+    const { params = {} } = navigation.state
+
+    return {
+      tabBarLabel: 'Add',
+      tabBarIcon: ({ tintColor }) => (
+        <Text>➕</Text>// TODO: disable this when in readonly mode
+      ),
+      title: (params.readonly) ? 'Details' : 'Add a task',
+    }
   }
 
   constructor(props) {
     super(props)
 
+    const { params } = props.navigation.state
+
     this.state = {
-      id:             props.id != null            ? props.id            : uuid(),
-      taskName:       props.taskName != null      ? props.taskName      : null,
-      notes:          props.notes != null         ? props.notes         : null,
-      dates:          props.dates != null         ? props.dates         : [new Date()],
-      ratingHistory:  props.ratingHistory != null ? props.ratingHistory : [],
-      srs:            props.srs != null           ? props.srs           : new SRSpacedRepetition(),
-      intensity:      props.intensity != null     ? props.intensity     : SRStudyTaskIntensity.NORMAL,
+      id:             params != null ? params.item.id            : uuid(),
+      taskName:       params != null ? params.item.taskName      : null,
+      notes:          params != null ? params.item.notes         : null,
+      dates:          params != null ? params.item.dates         : [new Date()],
+      ratingHistory:  params != null ? params.item.ratingHistory : [],
+      srs:            params != null ? params.item.srs           : new SRSpacedRepetition(),
+      intensity:      params != null ? params.item.intensity     : SRStudyTaskIntensity.NORMAL,
 
-      readonly: false,
+      readonly: params != null ? params.readonly : false,
 
-      studyTaskLabelString: ' ',
-      notesLabelString: ' ',
+      studyTaskLabelString: params != null ? studyTaskString : ' ',
+      notesLabelString: params != null ? notesString : ' ',
       pickedDate: 'Other',
       selectedDateIndex: 0,
       selectedIntensityIndex: 0,
@@ -64,24 +71,30 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   render() {
-    const { dates, intensity, notesLabelString, pickedDate, readonly, studyTaskLabelString, taskName } = this.state
-    const newestDate = dates[dates.length-1]
-    const formattedDate = moment().calendar(newestDate, {
-      sameDay: '[Today]',
-      lastDay: '[Yesterday]',
-      sameElse: 'Do MMMM'
-    });
+    const { dates, intensity, notes, readonly, studyTaskLabelString, taskName } = this.state
+
+    // causes warning
+    // const newestDate = dates[dates.length-1]
+    // const formattedDate = moment().calendar(newestDate, {
+    //   sameDay: '[Today]',
+    //   lastDay: '[Yesterday]',
+    //   sameElse: 'MMMM'
+    // });
 
     this.hideStudyTaskLabel(taskName == null || taskName == '')
+    this.hideNotesLabel(notes == null || notes == '')
 
-    const capitalizedIntensity = capitalizeFirstLetter(intensity)
-    const notesInputTitle = notesString
-    const actionButtonTitle = readonly == true ? 'Edit' : 'Save'
-    const formattedPickedDate = pickedDate // TODO:
+    const actionButtonTitle = (readonly == true) ? 'Edit' : 'Save'
+    const destructiveButtonTitle = (readonly == true) ? 'Delete' : 'Cancel'
+
+    // const capitalizedIntensity = capitalizeFirstLetter(intensity)
+
+    const NOT_IMPLEMENTED = false
 
     return (
       <ScrollView style={styles.scrollView}>
         <View style={styles.edgePadding}>
+
           <View style={styles.sections}>
             <Text style={styles.sectionLabel}>{studyTaskLabelString}</Text>
             <TextInput
@@ -89,33 +102,15 @@ export default class SRStudyTaskEditor extends React.Component {
               placeholder={studyTaskString}
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
+              value={taskName}
             />
-            <View name='separator' style={styles.sectionSeparator}/>
+            {this._renderSeparator(!readonly)}
           </View>
-          <View style={styles.sections}>
-            <Text style={styles.sectionLabel}>{notesLabelString}</Text>
-            <TextInput
-              style={styles.dataInputItemPadding}
-              placeholder={notesInputTitle}
-              onSubmitEditing={Keyboard.dismiss}
-              onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
-            />
-            <View name='separator' style={styles.sectionSeparator}/>
-          </View>
-          <View style={styles.sections}>
-            <Text style={styles.sectionLabel}>Date</Text>
-            <SegmentedControlTab
-              borderRadius={dateSegmentedControlCornerRadius}
-              tabsContainerStyle={styles.tabsContainerStyle}
-              tabStyle={styles.tabStyle}
-              tabTextStyle={styles.tabTextStyle}
-              activeTabStyle={styles.activeTabStyle}
-              activeTabTextStyle={styles.activeTabTextStyle}
-              values={['Today', 'Yesterday', formattedPickedDate]}
-              selectedIndex={this.state.selectedDateIndex}
-              onTabPress={this.handleDateSelection}
-            />
-          </View>
+
+          {this._renderNotes(!readonly || (notes != null && notes != ''))}
+          {this._renderDateSelection(!readonly)}
+          {this._renderRatingHistory(NOT_IMPLEMENTED)}
+
           {/* <View style={styles.sections}>
             <Text style={styles.sectionLabel}>Intensity</Text>
             <SegmentedControlTab
@@ -124,19 +119,22 @@ export default class SRStudyTaskEditor extends React.Component {
               onTabPress={this.handleIntensitySelection}
             />
           </View> */}
-          <View name='separator' style={[styles.sectionSeparator, styles.lastSectionSeparator]}/>
+          <View name='dataSeparator' style={[styles.sectionSeparator, styles.lastSectionSeparator]}/>
+
           <View style={[styles.sections, styles.bottomButtonsView]}>
             <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]}
               onPress={this.actionButtonAction}>
               <Text style={[styles.bottomButtonsText, styles.actionButtonText]}>{actionButtonTitle}</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.cancelButton]}
               onPress={this.cancelButtonAction}>
-              <Text style={[styles.bottomButtonsText, styles.cancelButtonText]}>Cancel</Text>
+              <Text style={[styles.bottomButtonsText, styles.destructiveButtonText]}>{destructiveButtonTitle}</Text>
             </TouchableOpacity>
           </View>
+
         </View>
       </ScrollView>
     )
@@ -190,10 +188,79 @@ export default class SRStudyTaskEditor extends React.Component {
     )
 
     store.dispatch(actionCreators.add(studyTask))
+    // TODO: dismiss modal
   }
 
   cancelButtonAction = () => {
 
+  }
+
+  _renderSeparator = (flag) => {
+    if(flag) {
+      return <View name='separator' style={styles.sectionSeparator}/>
+    } else {
+      return null
+    }
+  }
+
+  _renderNotes = (flag) => {
+      if(flag) {
+        const { notes, notesLabelString, readonly } = this.state
+        return(
+          <View style={styles.sections}>
+            <Text style={styles.sectionLabel}>{notesLabelString}</Text>
+            <TextInput
+              style={styles.dataInputItemPadding}
+              placeholder={notesString}
+              onSubmitEditing={Keyboard.dismiss}
+              onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
+              value={notes}
+            />
+            {this._renderSeparator(!readonly)}
+          </View>
+        )
+      } else {
+        return null
+      }
+  }
+
+  _renderDateSelection = (flag) => {
+    if(flag) {
+      const { pickedDate } = this.state
+      const formattedPickedDate = pickedDate // TODO:
+      return (
+        <View style={styles.sections}>
+          <Text style={styles.sectionLabel}>Date</Text>
+          <SegmentedControlTab
+            borderRadius={dateSegmentedControlCornerRadius}
+            tabsContainerStyle={styles.tabsContainerStyle}
+            tabStyle={styles.tabStyle}
+            tabTextStyle={styles.tabTextStyle}
+            activeTabStyle={styles.activeTabStyle}
+            activeTabTextStyle={styles.activeTabTextStyle}
+            values={['Today', 'Yesterday', formattedPickedDate]}
+            selectedIndex={this.state.selectedDateIndex}
+            onTabPress={this.handleDateSelection}
+          />
+        </View>
+      )
+    } else {
+      return null
+    }
+  }
+
+  _renderRatingHistory = (flag) => {
+    if(flag) {
+
+      return (
+        <View style={styles.sections}>
+          <Text style={styles.sectionLabel}>Rating History</Text>
+
+        </View>
+      )
+    } else {
+      return null
+    }
   }
 
 }
@@ -201,7 +268,6 @@ export default class SRStudyTaskEditor extends React.Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    paddingTop: 44, // TODO: replace with navigation bar
   },
   edgePadding: {
     padding: 15,
@@ -253,7 +319,7 @@ const styles = StyleSheet.create({
   actionButtonText: {
     paddingTop: 1,
   },
-  cancelButtonText: {
+  destructiveButtonText: {
     color: cancelButtonTint,
   },
   tabsContainerStyle: {
