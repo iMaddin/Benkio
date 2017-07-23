@@ -20,6 +20,7 @@ import SRRatingView from './SRRatingView'
 import { SRSGrade } from './SRSpacedRepetition'
 import { processDataForList } from './dataModel/SRDataPresenter'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
+import SRTypographicCell from './SRTypographicCell'
 
 const studyListTitle = 'Study List'
 
@@ -28,12 +29,15 @@ export default class SRStudyList extends React.Component {
   static navigationOptions = ({navigation}) => {
     const { params = {} } = navigation.state
     return {
-      headerLeft: <Button title='⚙️' onPress={() => params.openSettings()} />,
+      // headerLeft: <Button title='⚙️' onPress={() => params.openSettings()} />,
       tabBarLabel: studyListTitle,
       tabBarIcon: ({ tintColor }) => (
         <Text>🔜</Text>
       ),
       headerTintColor: SRDarkColor,
+      headerStyle: {
+        backgroundColor: 'white'
+      },
       title: studyListTitle,
     }
   }
@@ -78,19 +82,30 @@ export default class SRStudyList extends React.Component {
           dataSource={this.state.dataSource}
           renderRow={(item) => {
             const formattedDate = moment(item.date).format('D MMM')
+            this.state.selectedID = item.id
 
-            return (
-              <SRStudyListCell
-                onPressDetailsButton={() => {
-                  this.state.selectedID = item.id
-                  this.navigateToDetails()
+            if(true) {
+              return (
+                <SRTypographicCell
+                  onPressDetailsButton={() => {
+                    this.state.selectedID = item.id
+                    this.navigateToDetails()
+                    }
                   }
-                }
-              >
-                {{title: item.taskName, date: formattedDate}}
+                  onPressRateButton={this.openRatingUI}
+                >
+                  {{title: item.taskName, notes: item.notes, date: formattedDate}}
+                </SRTypographicCell>
+              )
+            } else {
+              return (
+                <SRStudyListCell
+                  onPressDetailsButton={this.navigateToDetails}
+                >
+                {{title: item.taskName, notes: item.notes, date: formattedDate}}
               </SRStudyListCell>
             )}
-          }
+          }}
         />
 
         <Modal
