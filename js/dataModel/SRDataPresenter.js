@@ -137,68 +137,13 @@ const testTaskNameAndDate = () => {
     }
   }
 
-  // [
-  //   { "id": "5srtvsvev",
-  //     "taskName": "ませんか",
-  //     "notes": "efefasdad",
-  //     "dates": ["July 17, 2017 11:13:00"],
-  //     "ratingHistory": [],
-  //     "srs": {
-  //       "easinessFactor": 2.5,
-  //       "interval": 0,
-  //       "repetition": 0
-  //     },
-  //     "intensity": ""},
-  //   { "id": "vtsrvtrtv",
-  //     "taskName": "ましょう・ましょうか",
-  //     "notes": "345fdada",
-  //     "dates": ["July 17, 2017 11:13:00"],
-  //     "ratingHistory": [],
-  //     "srs": {
-  //       "easinessFactor": 2.5,
-  //       "interval": 0,
-  //       "repetition": 0
-  //     },
-  //     "intensity": ""},
-  //   { "id": "jdb56srv5",
-  //     "taskName": "てはいけません",
-  //     "notes": "j65dfgd",
-  //     "dates": ["July 16, 2017 10:13:00"],
-  //     "ratingHistory": [],
-  //     "srs": {
-  //       "easinessFactor": 2.5,
-  //       "interval": 0,
-  //       "repetition": 0
-  //     }
-  //   }
-  // ]
-
   const expectedState = {
     id: '5srtvsvev',
     taskName: 'ませんか',
     notes: 'efefasdad',
     nextDate: new Date('July 17, 2017 11:13:00').toString()
   }
-  // [
-  //   {
-  //     id: '5srtvsvev',
-  //     taskName: 'ませんか',
-  //     notes: 'efefasdad',
-  //     nextDate: 'July 17, 2017 11:13:00'
-  //   },
-  //   {
-  //     id: 'vtsrvtrtv',
-  //     taskName: 'ましょう・ましょうか',
-  //     notes: '345fdada',
-  //     nextDate: 'July 17, 2017 11:13:00'
-  //   },
-  //   {
-  //     id: 'jdb56srv5',
-  //     taskName: 'てはいけません',
-  //     notes: 'j65dfgd',
-  //     nextDate: 'July 16, 2017 10:13:00'
-  //   },
-  // ]
+
   expect(taskNameAndDate(beforeState)).toEqual(expectedState)
 }
 testTaskNameAndDate()
