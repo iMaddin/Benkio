@@ -19,6 +19,7 @@ import SRStudyListCell from './SRStudyListCell'
 import SRRatingView from './SRRatingView'
 import { SRSGrade } from './SRSpacedRepetition'
 import { processDataForList } from './dataModel/SRDataPresenter'
+import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
 const studyListTitle = 'Study List'
 

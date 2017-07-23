@@ -1,13 +1,11 @@
 // @flow
 import React from 'react'
 import { Button, StyleSheet, Text, TextView, TouchableOpacity, TouchableHighlight, View } from 'react-native'
+import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
 const taskTextColor = 'rgb(42, 42, 42)'
 
-const SRDarkColor = '#393E41'
-const SRYellowColor = '#FFFC31'
-const SRBrightColor = '#F6F7EB'
-const SRRedColor = '#E94F37'
+
 
 export default class SRStudyListCell extends React.Component {
 
