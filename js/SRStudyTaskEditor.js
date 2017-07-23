@@ -39,6 +39,9 @@ export default class SRStudyTaskEditor extends React.Component {
       tabBarIcon: ({ tintColor }) => (
         <Text>➕</Text>// TODO: disable this when in readonly mode
       ),
+      headerStyle: {
+        backgroundColor: 'white'
+      },
       title: (params.readonly) ? 'Details' : 'Add a task',
     }
   }
@@ -292,6 +295,7 @@ export default class SRStudyTaskEditor extends React.Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
+    backgroundColor: 'white',
   },
   edgePadding: {
     padding: 15,
