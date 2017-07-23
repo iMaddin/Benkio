@@ -27,7 +27,8 @@ export function SRStudyTask(
 // Define action types
 const types = {
   ADD: 'ADD',
-  REMOVE: 'REMOVE'
+  REMOVE: 'REMOVE',
+  REPLACE: 'REPLACE'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
@@ -37,6 +38,9 @@ export const actionCreators = {
   },
   remove: (index: number) => {
     return {type: types.REMOVE, payload: index}
+  },
+  replace: (item: SRStudyTask) => {
+    return {type: types.REPLACE, payload: item}
   }
 }
 
@@ -56,6 +60,16 @@ export const reducer = (state: object = initialState, action: { type: string, pa
     case types.REMOVE: {
       return {
         studyTasks: studyTasks.filter((task, i) => i !== payload),
+      }
+    }
+    case types.REPLACE: {
+      const studyTasksCopy = [...studyTasks]
+      const index = studyTasksCopy.findIndex((item) => item.id == payload.id)
+      if (index >= 0) {
+        studyTasksCopy.splice(index, 1, payload)
+      }
+      return {
+        studyTasks: studyTasksCopy
       }
     }
   }
