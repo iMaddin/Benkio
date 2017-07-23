@@ -89,3 +89,29 @@ test('EF of Perfect rating', () => {
     new SRSpacedRepetition(2.4, 0, 0).perfect().easinessFactor
   ).toBeGreaterThan(2.4)
 })
+
+test('Interval when repetition is <= 2', () => {
+  expect(
+    new SRSpacedRepetition().ok().interval
+  ).toBe(1)
+
+  expect(
+    new SRSpacedRepetition().ok().ok().interval
+  ).toBe(6)
+
+  expect(
+    new SRSpacedRepetition().good().interval
+  ).toBe(1)
+
+  expect(
+    new SRSpacedRepetition().good().good().interval
+  ).toBe(6)
+
+  expect(
+    new SRSpacedRepetition().perfect().interval
+  ).toBe(1)
+
+  expect(
+    new SRSpacedRepetition().perfect().perfect().interval
+  ).toBe(6)
+})
