@@ -1,9 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-
-// const width = 400
-// const height = 250
+import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
 export default class SRRatingView extends React.Component {
 
@@ -19,42 +17,47 @@ export default class SRRatingView extends React.Component {
       <View style={styles.transparentView}>
        <View style={styles.overlayView}>
          <View style={styles.contentView}>
-           <Text>Hello World!</Text>
+           <Text style={styles.ratingBoxTitle}>How well did you do?</Text>
 
            <View style={styles.ratingBoxContainer}>
-             <View style={[styles.ratingBox, styles.ratingOk]}>
+
                <TouchableHighlight
+                 style={styles.ratingTouchable}
+                 underlayColor={'rgba(0, 0, 0, 0.06)'}
                  onPress={() => {
                    this.rated(0)
                  }}>
-
-                  <Text>Ok</Text>
-
+                    <View style={[styles.ratingBox, styles.ratingOk]}>
+                      <Text style={[styles.ratingTitle, styles.ratingOkTitle]}>Ok</Text>
+                    </View>
                </TouchableHighlight>
-             </View>
-             <View style={[styles.ratingBox, styles.ratingGood]}>
+
                <TouchableHighlight
+                 style={styles.ratingTouchable}
+                 underlayColor={'rgba(0, 0, 0, 0.06)'}
                  onPress={() => {
                    this.rated(1)
                  }}>
-
-                  <Text>Good</Text>
-
+                    <View style={[styles.ratingBox, styles.ratingGood]}>
+                      <Text style={[styles.ratingTitle, styles.ratingGoodTitle]}>Good</Text>
+                    </View>
                </TouchableHighlight>
-             </View>
-             <View style={[styles.ratingBox, styles.ratingPerfect]}>
+
                <TouchableHighlight
+                 style={styles.ratingTouchable}
+                 underlayColor={'rgba(0, 0, 0, 0.06)'}
                  onPress={() => {
                    this.rated(2)
                  }}>
-
-                  <Text>Perfect</Text>
-
+                    <View style={[styles.ratingBox, styles.ratingPerfect]}>
+                      <Text style={[styles.ratingTitle, styles.ratingPerfectTitle]}>Perfect</Text>
+                    </View>
                </TouchableHighlight>
-             </View>
            </View>
 
-           <TouchableHighlight onPress={() => {
+           <TouchableHighlight
+             underlayColor={'rgba(0, 0, 0, 0.06)'}
+             onPress={() => {
              {this.cancelAction()}
            }}>
              <Text style={styles.cancelButton}>Cancel</Text>
@@ -94,14 +97,11 @@ const styles = StyleSheet.create({
     padding: 15,
     flex: 1,
     height: 240,// TODO: calculate right height
-    backgroundColor: 'azure',
+    backgroundColor: SRBrightColor,
     borderRadius: 8,
   },
   contentView: {
     flex: 1,
-  },
-  cancelButton: {
-
   },
   ratingBoxContainer: {
     flexDirection: 'row',
@@ -114,16 +114,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  ratingBoxTitle: {
+    color: SRDarkColor,
+    fontSize: 20,
+    textAlign: 'center',
+    padding: 10,
+  },
+  cancelButton: {
+    textAlign: 'center',
+    fontSize: 20,
+    paddingTop: 15,
+    paddingBottom: 5,
+  },
   ratingOk: {
-    backgroundColor: '#3DD9D6',
+    backgroundColor: SRYellowColor,
   },
   ratingGood: {
-    backgroundColor: '#2A93D4',
+    backgroundColor: SRRedColor,
   },
   ratingPerfect: {
-    backgroundColor: '#125488',
+    backgroundColor: SRDarkColor,
+  },
+  ratingTouchable: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
   },
   ratingTitle: {
-
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  ratingOkTitle: {
+    color: SRDarkColor,
+  },
+  ratingGoodTitle: {
+    color: SRDarkColor
+  },
+  ratingPerfectTitle: {
+    color: SRBrightColor,
   },
 })
