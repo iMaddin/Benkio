@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import expect from 'expect'
+import moment from 'moment'
 import { actionCreators } from './dataModel/SRSimpleDataModel'
 import { SRSpacedRepetition } from './SRSpacedRepetition'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
@@ -31,6 +32,7 @@ export default class SRStudyList extends React.Component {
       tabBarIcon: ({ tintColor }) => (
         <Text>🔜</Text>
       ),
+      // headerTintColor: 'black',
       title: studyListTitle,
     }
   }
@@ -65,6 +67,7 @@ export default class SRStudyList extends React.Component {
     return (
         <View style={styles.container}>
         <SectionList
+          style={{backgroundColor: 'white'}}
           sections={processDataForList(studyTasks)}
           // renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
           renderItem={({
@@ -77,6 +80,8 @@ export default class SRStudyList extends React.Component {
             //   updateProps: (select: 'leading' | 'trailing', newProps: Object) => void,
             // },
           }) => {
+            const formattedDate = moment(item.date).format('D MMM')
+
             return (
               <SRStudyListCell
                 canBeRated={true}
@@ -91,7 +96,7 @@ export default class SRStudyList extends React.Component {
                   }
                 }
               >
-                {{title: item.taskName, notes: item.notes}}
+                {{title: item.taskName, date: formattedDate}}
               </SRStudyListCell>
             )
           }}
@@ -159,8 +164,8 @@ export default class SRStudyList extends React.Component {
 
     // update SRS, rating history, date rated,
     item.ratingHistory.push(grade)
-    
-    const dateRated = new Date().toString() // TODO: might not be today
+
+    const dateRated = new Date().toString()
     item.dates.push(dateRated)
 
     const { easinessFactor, interval, repetition } = item.srs

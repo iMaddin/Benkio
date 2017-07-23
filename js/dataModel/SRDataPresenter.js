@@ -107,8 +107,8 @@ const prepareArrayForSectionList = (array) => {
 
     var dataArray = []
     items.forEach((taskItem) => {
-      const { id, taskName, notes } = taskItem
-      dataArray = [...dataArray, {id: id, taskName: taskName, notes: notes}]
+      const { date, id, taskName, notes } = taskItem
+      dataArray = [...dataArray, {id: id, taskName: taskName, notes: notes, date: date}]
     })
 
     resultArray = [...resultArray, {title: formattedTitle, data: dataArray}]

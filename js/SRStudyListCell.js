@@ -4,21 +4,19 @@ import { Button, StyleSheet, Text, TextView, TouchableOpacity, TouchableHighligh
 
 const taskTextColor = 'rgb(42, 42, 42)'
 
+const SRDarkColor = '#393E41'
+const SRYellowColor = '#FFFC31'
+const SRBrightColor = '#F6F7EB'
+const SRRedColor = '#E94F37'
+
 export default class SRStudyListCell extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      // canBeRated: true
-    }
-  }
 
   render() {
-    const { canBeRated, children, onPressDetailsButton, style } = this.props
-    // const {  } = this.state
+    const { children, onPressDetailsButton, style } = this.props
 
     return (
       <View style={styles.cell}>
-        {this._renderRateButton()}
+
         <TouchableHighlight
           style={styles.cellButton}
           underlayColor={'rgb(140, 140, 140)'}
@@ -26,37 +24,13 @@ export default class SRStudyListCell extends React.Component {
         >
           <View style={styles.cellData}>
             <Text style={styles.title}>{children.title}</Text>
-            {this._renderNotes()}
+            <Text style={styles.date}>{children.date}</Text>
           </View>
+
         </TouchableHighlight>
 
       </View>
     )
-  }
-
-  _renderNotes = () => {
-    const { notes } = this.props.children
-    if (notes != null && notes != '') {
-      return <Text style={styles.notes}>{notes}</Text>
-    } else {
-      return null
-    }
-  }
-
-  _renderRateButton = () => {
-    if (this.props.canBeRated) {
-      return(
-        <View style={styles.ratingParent}>
-          <TouchableOpacity
-            name='rateButton' style={styles.ratingButton}
-            onPress={this.props.onPressRateButton}>
-            <Text style={styles.ratingContent}>⭐️</Text>
-          </TouchableOpacity>
-        </View>
-      )
-    } else {
-      return null
-    }
   }
 
 }
@@ -72,31 +46,33 @@ const styles = StyleSheet.create({
   cell: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    borderColor: '#F6F7EB',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    marginRight: 15,
+    marginLeft: 15,
+    marginTop: 6,
+    marginBottom: 6,
   },
   cellButton: {
     flex:1,
   },
-  ratingParent: {
-    width: 44,
-  },
-  ratingButton: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  ratingContent: {
-  },
   cellData: {
     flex:1,
-    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 54,
+    padding: 20,
+    alignItems: 'center',
   },
   title: {
-    fontSize: 18,
-    height: 44,
-    color: taskTextColor,
+    fontSize: 24,
+    // height: 44,
+    color: SRDarkColor,
   },
-  notes: {
-    fontSize: 12,
-    color: 'rgb(189, 189, 189)',
-  }
+  date: {
+    textAlign: 'right',
+  },
 })
