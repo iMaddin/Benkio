@@ -36,7 +36,7 @@ export default class SRStudyListCell extends React.Component {
 
   _renderNotes = () => {
     const { notes } = this.props.children
-    if (notes != null) {
+    if (notes != null && notes != '') {
       return <Text style={styles.notes}>{notes}</Text>
     } else {
       return null
