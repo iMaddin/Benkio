@@ -4,18 +4,12 @@ import { SRSpacedRepetition } from '../SRSpacedRepetition'
 import moment from 'moment'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 
-//Array<{title: string, data: string}>
 export const processDataForList = (studyTasks) => {
-  /**
-   * 1. take object that has _at least_ the properties we need { id, taskName, notes, dates, srs }
-   * 2. Group tasks that belong to the same day
-   * 3. sort day groups
-   * 4. sort tasks inside day groups
-   */
   const itemArray = studyTasks.map(itemWithCalculatedDueDate)
-  const itemsGroupedByDate = groupItemsByDate(itemArray)
-  const sortedByDateArray = sortByDate(itemsGroupedByDate)
-  const listReadyArray = prepareArrayForSectionList(sortedByDateArray)
+  const listReadyArray = itemArray.sort((a,b) => {
+    return new Date(a.date) - new Date(b.date)
+  })
+
   return listReadyArray
 }
 
@@ -150,7 +144,7 @@ const testTaskNameAndDate = () => {
 
   expect(itemWithCalculatedDueDate(beforeState)).toEqual(expectedState)
 }
-testTaskNameAndDate()
+// testTaskNameAndDate()
 
 const testGroupItemsByDate = () => {
   const beforeState = [
@@ -204,7 +198,7 @@ const testSortDateGroup = () => {
   ]
   expect(sortDateGroup(beforeState)).toEqual(expectedState)
 }
-testSortDateGroup()
+// testSortDateGroup()
 
 const testSortTasksByDate = () => {
   const beforeState = [
@@ -233,13 +227,13 @@ const testSortTasksByDate = () => {
   ]
   expect(sortTasksByDate(beforeState)).toEqual(expectedState)
 }
-testSortTasksByDate()
+// testSortTasksByDate()
 
 const testFormatDateForTitle = () => {
   expect(formatDateForTitle('July 19, 2017 08:34:00')).toEqual('19 July')
   expect(formatDateForTitle('July 4, 2017')).toEqual('4 July')
 }
-testFormatDateForTitle()
+// testFormatDateForTitle()
 
 const testPrepareArrayForSectionList = () => {
   const beforeState = [
@@ -289,7 +283,7 @@ const testAddTaskNameToArrayMatchingDateWithEmptyArray = () => {
   }]
   expect(addItemToArrayMatchingDate(beforeState, item)).toEqual(expectedState)
 }
-testAddTaskNameToArrayMatchingDateWithEmptyArray()
+// testAddTaskNameToArrayMatchingDateWithEmptyArray()
 
 const testAddTaskNameToArrayMatchingDateWithDifferentDate = () => {
   const beforeState = [{
@@ -327,7 +321,7 @@ const testAddTaskNameToArrayMatchingDateWithDifferentDate = () => {
   }]
   expect(addItemToArrayMatchingDate(beforeState, item)).toEqual(expectedState)
 }
-testAddTaskNameToArrayMatchingDateWithDifferentDate()
+// testAddTaskNameToArrayMatchingDateWithDifferentDate()
 
 const testAddTaskNameToArrayMatchingDateWithSameDate = () => {
   const beforeState = [{dateGroup: 'Wed Jul 19 2017', items: [{taskName: 'hello', date: 'July 19, 2017 11:13:00'}]}]

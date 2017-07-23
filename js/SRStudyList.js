@@ -4,7 +4,7 @@ import React from 'react'
 import {
   Button,
   Modal,
-  SectionList,
+  ListView,
   StyleSheet,
   Text,
   View
@@ -32,13 +32,18 @@ export default class SRStudyList extends React.Component {
       tabBarIcon: ({ tintColor }) => (
         <Text>🔜</Text>
       ),
-      // headerTintColor: 'black',
+      headerTintColor: SRDarkColor,
       title: studyListTitle,
     }
   }
 
-  state = {
-    modalVisible: false,
+  constructor() {
+    super();
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows([]),
+      modalVisible: false,
+    };
   }
 
   componentWillMount() {
@@ -62,47 +67,31 @@ export default class SRStudyList extends React.Component {
   }
 
   render() {
-    const {studyTasks} = this.state
+    const {dataSource, studyTasks} = this.state
+    this.state.dataSource = dataSource.cloneWithRows(processDataForList(studyTasks))
 
     return (
-        <View style={styles.container}>
-        <SectionList
+      <View style={styles.container}>
+        <ListView
           style={{backgroundColor: 'white'}}
-          sections={processDataForList(studyTasks)}
-          // renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-          renderItem={({
-            item,
-            index,
-            section,
-            // separators: {
-            //   highlight: () => void,
-            //   unhighlight: () => void,
-            //   updateProps: (select: 'leading' | 'trailing', newProps: Object) => void,
-            // },
-          }) => {
+          dataSource={this.state.dataSource}
+          renderRow={(item) => {
             const formattedDate = moment(item.date).format('D MMM')
 
             return (
               <SRStudyListCell
-                canBeRated={true}
                 onPressDetailsButton={() => {
                   this.state.selectedID = item.id
                   this.navigateToDetails()
                   }
                 }
-                onPressRateButton={() => {
-                  this.state.selectedID = item.id
-                  this.openRatingUI()
-                  }
-                }
               >
                 {{title: item.taskName, date: formattedDate}}
               </SRStudyListCell>
-            )
-          }}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-          keyExtractor={(item, index) => index}
+            )}
+          }
         />
+
         <Modal
           animationType={"fade"}
           transparent={true}
@@ -113,9 +102,9 @@ export default class SRStudyList extends React.Component {
            dismissAction={() => this.setModalVisible(!this.state.modalVisible)}
            ratedCallback={(index) => this.rateTask(index)}
          />
-
         </Modal>
-        </View>
+
+      </View>
     )
   }
 
