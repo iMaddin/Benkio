@@ -75,16 +75,19 @@ export default class SRStudyList extends React.Component {
             //   updateProps: (select: 'leading' | 'trailing', newProps: Object) => void,
             // },
           }) => {
-            return <SRStudyListCell
-              canBeRated={true}
-              onPressDetailsButton={this.navigateToDetails}
-              onPressRateButton={() => {
-                this.state.selectedItem = {item}
-                this.state.selectedIndex = {index}
-                this.openRatingUI()
+            return (
+              <SRStudyListCell
+                canBeRated={true}
+                onPressDetailsButton={this.navigateToDetails}
+                onPressRateButton={() => {
+                  this.state.ratingID = item.id
+                  this.openRatingUI()
+                  }
                 }
-              }
-              >{{title: item, notes: 'notes'}}</SRStudyListCell>
+              >
+                {{title: item.taskName, notes: item.notes}}
+              </SRStudyListCell>
+            )
           }}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           keyExtractor={(item, index) => index}
