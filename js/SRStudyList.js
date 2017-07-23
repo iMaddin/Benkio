@@ -156,10 +156,18 @@ export default class SRStudyList extends React.Component {
     }
     const { selectedID } = this.state
     const item = this.dataWithID(selectedID)
+
+    // update SRS, rating history, date rated,
+    item.ratingHistory.push(grade)
+    
+    const dateRated = new Date().toString() // TODO: might not be today
+    item.dates.push(dateRated)
+
     const { easinessFactor, interval, repetition } = item.srs
     const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).grade(grade)
     item.srs = updatedSRS
-    store.dispatch(actionCreators.replace(item))
+
+    this.props.screenProps.store.dispatch(actionCreators.replace(item))
     this.setModalVisible(false)
   }
 
