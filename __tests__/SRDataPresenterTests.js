@@ -124,15 +124,20 @@ test('Tasks falling into same date group', () => {
   ]
 
   const expected = [
-    {title: '30 July', data: ['Volitional Form']},
-    {title: '13 December', data: ['たらどうですか','ておく']}
+    {title: '30 July', data: [
+      {id:'', taskName: 'Volitional Form', notes:''}
+    ]},
+    {title: '13 December', data: [
+      {id:'', taskName: 'たらどうですか', notes:''},
+      {id:'', taskName: 'ておく', notes:''}
+    ]}
   ]
   // [{title: string, data: string}]
   const sectionArray = processDataForList(studyTasks)
 
   expect(sectionArray.length).toEqual(2)
-  expect(sectionArray[0]).toEqual({title: '30 July', data: ['Volitional Form']})
-  expect(sectionArray[1]).toEqual({title: '13 December', data: ['たらどうですか','ておく']})
+  expect(sectionArray[0]).toEqual(expected[0])
+  expect(sectionArray[1]).toEqual(expected[1])
 
   // Seems like toContain can't compare objects this way
   // expect(sectionArray).toContain({title: '30 July', data: ['Volitional Form']})
