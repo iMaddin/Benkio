@@ -36,8 +36,8 @@ export const actionCreators = {
   add: (item: SRStudyTask) => {
     return {type: types.ADD, payload: item}
   },
-  remove: (index: number) => {
-    return {type: types.REMOVE, payload: index}
+  remove: (id: string) => {
+    return {type: types.REMOVE, payload: id}
   },
   replace: (item: SRStudyTask) => {
     return {type: types.REPLACE, payload: item}
@@ -59,7 +59,7 @@ export const reducer = (state: object = initialState, action: { type: string, pa
     }
     case types.REMOVE: {
       return {
-        studyTasks: studyTasks.filter((task, i) => i !== payload),
+        studyTasks: studyTasks.filter((item) => item.id !== payload.id),
       }
     }
     case types.REPLACE: {
