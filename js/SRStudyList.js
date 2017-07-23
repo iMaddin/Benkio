@@ -10,7 +10,9 @@ import {
   View
 } from 'react-native'
 import { StackNavigator } from 'react-navigation'
+import expect from 'expect'
 import { actionCreators } from './dataModel/SRSimpleDataModel'
+import { SRSpacedRepetition } from './SRSpacedRepetition'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRStudyListCell from './SRStudyListCell'
 import SRRatingView from './SRRatingView'
@@ -78,9 +80,13 @@ export default class SRStudyList extends React.Component {
             return (
               <SRStudyListCell
                 canBeRated={true}
-                onPressDetailsButton={this.navigateToDetails}
+                onPressDetailsButton={() => {
+                  this.state.selectedID = item.id
+                  this.navigateToDetails()
+                  }
+                }
                 onPressRateButton={() => {
-                  this.state.ratingID = item.id
+                  this.state.selectedID = item.id
                   this.openRatingUI()
                   }
                 }
@@ -145,13 +151,19 @@ export default class SRStudyList extends React.Component {
         grade = SRSGrade.PERFECT
         break
       default:
+      throw "No valid rating selected"
         break
     }
-    // const { selectedItem, selectedIndex } = this.state
-    // const { task } = // TODO: get data from model
-    // const { easinessFactor, interval, repetition } = task.srs
-    // const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).ok()
-    // TODO: update model
+    const { selectedID } = this.state
+    const { store } = this.props.screenProps
+    const {studyTasks} = store.getState()
+    const filteredArray = studyTasks.filter((item, i) => item.id == selectedID)
+    expect(filteredArray.length).toBe(1)
+    const item = filteredArray[0]
+    const { easinessFactor, interval, repetition } = item.srs
+    const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).grade(grade)
+    item.srs = updatedSRS
+    store.dispatch(actionCreators.replace(item))
     this.setModalVisible(false)
   }
 
