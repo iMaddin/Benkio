@@ -23,7 +23,7 @@ const itemWithCalculatedDueDate = (singleTask) => {
     const { id, taskName, notes, dates, srs } = singleTask
     const { easinessFactor, interval, repetition } = srs
     const srsData = new SRSpacedRepetition(easinessFactor, interval, repetition)
-    const nextDueDate = srsData.nextDate(dates[0])
+    const nextDueDate = srsData.nextDate(dates[dates.length-1])
     return {
       id: id,
       taskName: taskName,
