@@ -1,16 +1,14 @@
 // @flow
 import React from 'react'
-import { Button, StyleSheet, Text, TextView, TouchableOpacity, TouchableHighlight, View } from 'react-native'
+import { Button, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
 const taskTextColor = 'rgb(42, 42, 42)'
 
-
-
 export default class SRStudyListCell extends React.Component {
 
   render() {
-    const { children, onPressDetailsButton, style } = this.props
+    const { children, onPressDetailsButton } = this.props
 
     return (
       <View style={styles.cell}>
