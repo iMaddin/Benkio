@@ -1,5 +1,6 @@
 // @flow
 import { SRSpacedRepetition } from '../SRSpacedRepetition'
+import expect from 'expect'
 import mockData from './mockData.json'
 
 export const SRStudyTaskIntensity = {
@@ -58,8 +59,11 @@ export const reducer = (state: object = initialState, action: { type: string, pa
       }
     }
     case types.REMOVE: {
+      const studyTasksCopy = [...studyTasks]
+      const newStudyTasks = studyTasks.filter((item) => item.id !== payload.id)
+      expect(newStudyTasks).toNotEqual(studyTasksCopy, `payload.id: ${payload.id}`)
       return {
-        studyTasks: studyTasks.filter((item) => item.id !== payload.id),
+        studyTasks: newStudyTasks
       }
     }
     case types.REPLACE: {

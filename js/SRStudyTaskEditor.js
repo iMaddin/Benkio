@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import {
+  Alert,
   Keyboard,
   StyleSheet,
   Text,
@@ -130,7 +131,7 @@ export default class SRStudyTaskEditor extends React.Component {
 
             <TouchableOpacity
               style={[styles.dataInputItemPadding, styles.bottomButtons, styles.cancelButton]}
-              onPress={this.cancelButtonAction}>
+              onPress={this.destructiveButtonAction}>
               <Text style={[styles.bottomButtonsText, styles.destructiveButtonText]}>{destructiveButtonTitle}</Text>
             </TouchableOpacity>
           </View>
@@ -187,12 +188,31 @@ export default class SRStudyTaskEditor extends React.Component {
       this.state.intensity
     )
 
-    store.dispatch(actionCreators.add(studyTask))
-    // TODO: dismiss modal
+    if(this.state.readonly) {
+      store.dispatch(actionCreators.replace(studyTask))
+    } else {
+      store.dispatch(actionCreators.add(studyTask))
+      this.dismissView()
+    }
   }
 
-  cancelButtonAction = () => {
+  destructiveButtonAction = () => {
+    if (this.state.readonly) {
+      Alert.alert(
+        'Delete Study Task',
+        'Are you sure you want to delete the study task?',
+        [
+          {text: 'Cancel', onPress: () => {}, style: 'cancel'},
+          {text: 'Delete', onPress: () => {
+            // expect(this.state.id).toEqual('ada', `this.state.id: ${this.state.id}`)
+            this.props.screenProps.store.dispatch(actionCreators.remove({id: this.state.id}))
+            this.dismissView()
+          }},
+        ],
+        { cancelable: true }
+      )
 
+    }
   }
 
   _renderSeparator = (flag) => {
@@ -261,6 +281,10 @@ export default class SRStudyTaskEditor extends React.Component {
     } else {
       return null
     }
+  }
+
+  dismissView = () => {
+
   }
 
 }
