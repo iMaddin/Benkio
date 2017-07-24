@@ -45,7 +45,7 @@ SRSpacedRepetition.prototype.bad = function() {
   return this.grade(SRSGrade.BAD)
 }
 
-const gradeSRS = (srs: SRSpacedRepetition, grade) => {
+const gradeSRS = (srs: SRSpacedRepetition, grade: typeof(SRSGrade)) => {
   const { easinessFactor, interval, repetition } = srs
   var newEasinessFactor = easinessFactor,
       newInterval = interval,
@@ -63,7 +63,7 @@ const gradeSRS = (srs: SRSpacedRepetition, grade) => {
       expect().toExist('No valid grade')
   }
 
-  if (grade < 3) {
+  if (grade == SRSGrade.BAD) {
     newRepetition = 0;
     newInterval = 1;
   } else {
