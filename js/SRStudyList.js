@@ -91,7 +91,8 @@ export default class SRStudyList extends React.Component {
           dataSource={dataSource}
           renderRow={(item) => {
 
-            const formattedDate = moment(item.date).format('D MMM')
+            const d = new Date(item.date)
+            const formattedDate = moment(d.getTime()).format('D MMM')
 
             if(true) {
               return (
