@@ -44,9 +44,9 @@ export default class SRStudyList extends React.Component {
 
   constructor() {
     super();
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows([]),
+      dataSource: dataSource.cloneWithRows([]),
       modalVisible: false,
     };
   }
@@ -56,10 +56,16 @@ export default class SRStudyList extends React.Component {
 
     const {studyTasks} = store.getState()
     this.setState({studyTasks})
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(processDataForList(studyTasks))
+    })
 
     this.unsubscribe = store.subscribe(() => {
       const {studyTasks} = store.getState()
       this.setState({studyTasks})
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(processDataForList(studyTasks))
+      })
     })
   }
 
@@ -68,42 +74,61 @@ export default class SRStudyList extends React.Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({openSettings: this.openSettings})
+    // this.props.navigation.setParams({openSettings: this.openSettings})
+  }
+
+  componentWillReceiveProps(newProps) {
+
   }
 
   render() {
-    const {dataSource, studyTasks} = this.state
-    this.state.dataSource = dataSource.cloneWithRows(processDataForList(studyTasks))
+    const { dataSource, studyTasks } = this.state
 
     return (
       <View style={styles.container}>
         <ListView
           style={{backgroundColor: 'white'}}
-          dataSource={this.state.dataSource}
+          dataSource={dataSource}
           renderRow={(item) => {
+
             const formattedDate = moment(item.date).format('D MMM')
-            this.state.selectedID = item.id
 
             if(true) {
               return (
+
                 <SRTypographicCell
                   onPressDetailsButton={() => {
-                    this.state.selectedID = item.id
+                    this.setState({
+                      selectedID: item.id
+                    })
                     this.navigateToDetails()
                     }
                   }
-                  onPressRateButton={this.openRatingUI}
+                  onPressRateButton={() => {
+                    this.setState({
+                      selectedID: item.id
+                    })
+                    this.openRatingUI()
+                  }}
                 >
                   {{title: item.taskName, notes: item.notes, date: formattedDate}}
                 </SRTypographicCell>
+
               )
             } else {
               return (
+
                 <SRStudyListCell
-                  onPressDetailsButton={this.navigateToDetails}
+                  onPressDetailsButton={ () => {
+                    this.setState({
+                      selectedID: item.id
+                    })
+                    this.navigateToDetails()
+                  }}
                 >
                 {{title: item.taskName, notes: item.notes, date: formattedDate}}
               </SRStudyListCell>
+
             )}
           }}
         />
@@ -152,19 +177,20 @@ export default class SRStudyList extends React.Component {
     var grade = ''
     switch(index) {
       case 0:
-        grade = SRSGrade.OK
+        grade = SRSGrade.BAD
         break;
       case 1:
-        grade = SRSGrade.GOOD
+        grade = SRSGrade.OK
         break
       case 2:
-        grade = SRSGrade.PERFECT
+        grade = SRSGrade.GOOD
         break
       default:
       throw "No valid rating selected"
         break
     }
-    const { selectedID } = this.state
+    const { selectedID, dataSource } = this.state
+    expect(selectedID).toExist('rateTask(): undefined id')
     const item = this.dataWithID(selectedID)
 
     // update SRS, rating history, date rated,
@@ -175,24 +201,30 @@ export default class SRStudyList extends React.Component {
 
     const { easinessFactor, interval, repetition } = item.srs
     const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).grade(grade)
+    expect(updatedSRS.easinessFactor).toNotEqual(easinessFactor)
     item.srs = updatedSRS
 
-    this.props.screenProps.store.dispatch(actionCreators.replace(item))
+    const { store } = this.props.screenProps
+    store.dispatch(actionCreators.replace(item))
+
     this.setModalVisible(false)
   }
 
   navigateToDetails = () => {
     const { selectedID } = this.state
     const { navigation } = this.props
+    expect(selectedID).toExist('navigateToDetails(): Undefined id')
     const item = this.dataWithID(selectedID)
     navigation.navigate('DetailsView', {readonly: true, item: item})
   }
 
   dataWithID = (id) => {
+    expect(id).toExist('dataWithID(): Undefined id')
     const { store } = this.props.screenProps
-    const {studyTasks} = store.getState()
-    const filteredArray = studyTasks.filter((item) => item.id == id)
-    expect(filteredArray.length).toBe(1)
+    const { studyTasks } = this.state
+    const studyTasksCopy = [...studyTasks]
+    const filteredArray = studyTasksCopy.filter((item) => item.id == id)
+    expect(filteredArray.length).toBe(1, `Looking for data with id: ${id}. Item: ${JSON.stringify(studyTasksCopy)}`)
     const item = filteredArray[0]
     return item
   }
