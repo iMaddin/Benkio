@@ -83,7 +83,6 @@ export default class SRStudyList extends React.Component {
 
   render() {
     const { dataSource, studyTasks } = this.state
-
     return (
       <View style={styles.container}>
         <ListView
@@ -93,8 +92,12 @@ export default class SRStudyList extends React.Component {
 
             const d = new Date(item.date)
             const formattedDate = moment(d.getTime()).format('D MMM')
+            const highlightTasksSinceDate = new Date()
+            const itemIsOverDue = highlightTasksSinceDate > d
+            const itemIsToday = d.toDateString() == new Date().toDateString()
+            const somethingToShowToday = itemIsOverDue || itemIsToday
 
-            if(true) {
+            if(somethingToShowToday) {
               return (
 
                 <SRTypographicCell
