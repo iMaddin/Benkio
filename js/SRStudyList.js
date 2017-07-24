@@ -24,6 +24,11 @@ import SRTypographicCell from './SRTypographicCell'
 
 const studyListTitle = 'Study List'
 
+const AddStudyTaskNavigator = StackNavigator({
+  SRStudyTaskEditor: { screen: SRStudyTaskEditor }
+  }
+)
+
 export default class SRStudyList extends React.Component {
 
   static navigationOptions = ({navigation}) => {
@@ -36,7 +41,7 @@ export default class SRStudyList extends React.Component {
       ),
       headerTintColor: SRDarkColor,
       headerStyle: {
-        backgroundColor: 'white'
+        backgroundColor: SRBrightColor
       },
       title: studyListTitle,
     }
@@ -47,7 +52,8 @@ export default class SRStudyList extends React.Component {
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: dataSource.cloneWithRows([]),
-      modalVisible: false,
+      ratingModalisVisible: false,
+      addTaskModalisVisible: false,
     };
   }
 
@@ -83,10 +89,14 @@ export default class SRStudyList extends React.Component {
 
   render() {
     const { dataSource, studyTasks } = this.state
+    const addTaskScreenProps = {
+      modalDismissAction: () => this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
+    }
     return (
       <View style={styles.container}>
+
         <ListView
-          style={{backgroundColor: 'white'}}
+          style={{backgroundColor: SRBrightColor}}
           dataSource={dataSource}
           renderRow={(item, sectionID, rowID, highlightRow) => {
 
@@ -126,16 +136,31 @@ export default class SRStudyList extends React.Component {
           }}
         />
 
+        <View style={styles.floatingButton}>
+          <Button onPress={()=>{
+            this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
+          }} title='Add task' />
+        </View>
+
         <Modal
           animationType={"fade"}
           transparent={true}
-          visible={this.state.modalVisible}
+          visible={this.state.ratingModalisVisible}
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <SRRatingView
-           dismissAction={() => this.setModalVisible(!this.state.modalVisible)}
+           dismissAction={() => this.setRatingModalVisible(!this.state.ratingModalisVisible)}
            ratedCallback={(index) => this.rateTask(index)}
          />
+        </Modal>
+
+        <Modal
+          animationType={"slide"}
+          transparent={true}
+          visible={this.state.addTaskModalisVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <AddStudyTaskNavigator screenProps={addTaskScreenProps}/>
         </Modal>
 
       </View>
@@ -171,11 +196,15 @@ export default class SRStudyList extends React.Component {
   }
 
   openRatingUI = () => {
-    this.setModalVisible(true)
+    this.setRatingModalVisible(true)
   }
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  setRatingModalVisible(visible) {
+    this.setState({ratingModalisVisible: visible});
+  }
+
+  setAddTaskModalVisible(visible) {
+    this.setState({addTaskModalisVisible: visible})
   }
 
   rateTask = (index) => {
@@ -212,14 +241,14 @@ export default class SRStudyList extends React.Component {
     const { store } = this.props.screenProps
     store.dispatch(actionCreators.replace(item))
 
-    this.setModalVisible(false)
+    this.setRatingModalVisible(false)
   }
 
   navigateToDetails = (id) => {
     const { navigation } = this.props
     expect(id).toExist('navigateToDetails(): Undefined id')
     const item = this.dataWithID(id)
-    navigation.navigate('DetailsView', {readonly: true, item: item})
+    navigation.navigate('SRStudyTaskEditor', {readonly: true, item: item})
   }
 
   dataWithID = (id) => {
@@ -269,5 +298,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
+  },
+  floatingButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#ee6e73',
+    position: 'absolute',
+    bottom: 50,
+    right: 10,
   }
 })

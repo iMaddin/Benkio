@@ -20,31 +20,9 @@ const SettingsStackNavigator = StackNavigator({
   }
 )
 
-const DetailStackNavigator = StackNavigator({
+const SpaceReminder = StackNavigator({
   StudyList: { screen: SRStudyList },
-  DetailsView: { screen: SRStudyTaskEditor },
-  },
-  {
-    tabBarOptions: {
-
-    }
-  }
-)
-
-const AddStudyTaskNavigator = StackNavigator({
-  SRStudyTaskEditor: { screen: SRStudyTaskEditor }
-})
-
-const SpaceReminder = TabNavigator({
-  DetailStackNavigator: { screen: DetailStackNavigator },
-  AddStudyTaskScreen: { screen: AddStudyTaskNavigator },
-  Settings: { screen: SRSettings },
-  },
-  {
-    tabBarOptions: {
-      showLabel: false,
-      activeBackgroundColor: tintColor,
-    },
+  SRStudyTaskEditor: { screen: SRStudyTaskEditor},
   }
 )
 

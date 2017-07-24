@@ -17,15 +17,16 @@ import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/S
 import { SRSpacedRepetition } from './SRSpacedRepetition'
 import { uuid } from './utilities/UUID'
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
-import { tintColor } from './SRSettings'
+import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
 const studyTaskString = 'Study Task'
 const notesString = 'Notes'
 
-const inactiveColor = '#B6D8E2'
+const inactiveColor = SRBrightColor
 const buttonHeight = 46
 const buttonCornerRadius = buttonHeight/2
-const cancelButtonTint = '#bababa'
+const cancelButtonTint = SRDarkColor
+const tintColor = SRRedColor
 
 const dateSegmentedControlCornerRadius = 4
 
@@ -35,12 +36,9 @@ export default class SRStudyTaskEditor extends React.Component {
     const { params = {} } = navigation.state
 
     return {
-      tabBarLabel: 'Add',
-      tabBarIcon: ({ tintColor }) => (
-        <Text>➕</Text>// TODO: disable this when in readonly mode
-      ),
+      headerTintColor: SRDarkColor,
       headerStyle: {
-        backgroundColor: 'white'
+        backgroundColor: SRBrightColor
       },
       title: (params.readonly) ? 'Details' : 'Add a task',
     }
@@ -83,20 +81,8 @@ export default class SRStudyTaskEditor extends React.Component {
   render() {
     const { dates, intensity, notes, readonly, studyTaskLabelString, taskName } = this.state
 
-    // causes warning
-    // const newestDate = dates[dates.length-1]
-    // const formattedDate = moment().calendar(newestDate, {
-    //   sameDay: '[Today]',
-    //   lastDay: '[Yesterday]',
-    //   sameElse: 'MMMM'
-    // });
-
-
-
     const actionButtonTitle = (readonly == true) ? 'Edit' : 'Save'
     const destructiveButtonTitle = (readonly == true) ? 'Delete' : 'Cancel'
-
-    // const capitalizedIntensity = capitalizeFirstLetter(intensity)
 
     const NOT_IMPLEMENTED = false
 
@@ -120,14 +106,6 @@ export default class SRStudyTaskEditor extends React.Component {
           {this._renderDateSelection(!readonly)}
           {this._renderRatingHistory(NOT_IMPLEMENTED)}
 
-          {/* <View style={styles.sections}>
-            <Text style={styles.sectionLabel}>Intensity</Text>
-            <SegmentedControlTab
-              values={[capitalizedIntensity, 'Custom']}
-              selectedIndex={this.state.selectedIntensityIndex}
-              onTabPress={this.handleIntensitySelection}
-            />
-          </View> */}
           <View name='dataSeparator' style={[styles.sectionSeparator, styles.lastSectionSeparator]}/>
 
           <View style={[styles.sections, styles.bottomButtonsView]}>
@@ -223,7 +201,9 @@ export default class SRStudyTaskEditor extends React.Component {
         ],
         { cancelable: true }
       )
-
+    } else {
+      const { modalDismissAction } = this.props.screenProps
+      modalDismissAction()
     }
   }
 
@@ -304,7 +284,7 @@ export default class SRStudyTaskEditor extends React.Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: SRBrightColor,
   },
   edgePadding: {
     padding: 15,
@@ -349,7 +329,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   bottomButtonsText: {
-    color: 'white',
+    color: SRBrightColor,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -373,7 +353,7 @@ const styles = StyleSheet.create({
   },
   tabTextStyle: {
     fontWeight: 'bold',
-    color: 'white',
+    color: SRBrightColor,
   },
   activeTabStyle: {
     backgroundColor: tintColor,
