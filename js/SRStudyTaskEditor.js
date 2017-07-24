@@ -62,6 +62,7 @@ export default class SRStudyTaskEditor extends React.Component {
       intensity:      params != null ? params.item.intensity     : SRStudyTaskIntensity.NORMAL,
 
       readonly: params != null ? params.readonly : false,
+      editMode: false,
 
       studyTaskLabelString: params != null ? studyTaskString : ' ',
       notesLabelString: params != null ? notesString : ' ',
@@ -82,10 +83,10 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   render() {
-    const { dates, intensity, notes, readonly, studyTaskLabelString, taskName } = this.state
+    const { dates, intensity, notes, editMode, readonly, studyTaskLabelString, taskName } = this.state
 
-    const actionButtonTitle = (readonly == true) ? 'Edit' : 'Save'
-    const destructiveButtonTitle = (readonly == true) ? 'Delete' : 'Cancel'
+    const actionButtonTitle = (readonly && editMode == false) ? 'Edit' : 'Save'
+    const destructiveButtonTitle = (readonly && editMode == false) ? 'Delete' : 'Cancel'
 
     const NOT_IMPLEMENTED = false
 
@@ -103,10 +104,10 @@ export default class SRStudyTaskEditor extends React.Component {
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
             />
-            {this._renderSeparator(!readonly)}
+            {this._renderSeparator(editMode)}
           </View>
 
-          {this._renderNotes(!readonly || (notes != null && notes != ''))}
+          {this._renderNotes(!readonly || editMode || (notes != null && notes != ''))}
           {this._renderDateSelection(!readonly)}
           {this._renderRatingHistory(NOT_IMPLEMENTED)}
 
@@ -170,28 +171,34 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   actionButtonAction = () => {
-    const { store } = this.props.screenProps
-
-    const studyTask = new SRStudyTask(
-      this.state.id,
-      this.state.taskName,
-      this.state.notes,
-      this.state.dates,
-      this.state.ratingHistory,
-      this.state.srs,
-      this.state.intensity
-    )
-
-    if(this.state.readonly) {
-      store.dispatch(actionCreators.replace(studyTask))
+    if(this.state.readonly && !this.state.editMode) {
+      this.setState({editMode: true})
     } else {
-      store.dispatch(actionCreators.add(studyTask))
-      this.dismissView()
+      const { store } = this.props.screenProps
+
+      const studyTask = new SRStudyTask(
+        this.state.id,
+        this.state.taskName,
+        this.state.notes,
+        this.state.dates,
+        this.state.ratingHistory,
+        this.state.srs,
+        this.state.intensity
+      )
+
+      if(this.state.readonly) {
+        store.dispatch(actionCreators.replace(studyTask))
+        this.setState({editMode: false})
+      } else {
+        store.dispatch(actionCreators.add(studyTask))
+        this.dismissView()
+      }
     }
+
   }
 
   destructiveButtonAction = () => {
-    if (this.state.readonly) {
+    if (this.state.readonly && !this.state.editMode) {
       Alert.alert(
         'Delete Study Task',
         'Are you sure you want to delete the study task?',
@@ -206,8 +213,7 @@ export default class SRStudyTaskEditor extends React.Component {
         { cancelable: true }
       )
     } else {
-      const { modalDismissAction } = this.props.screenProps
-      modalDismissAction()
+      this.dismissView()
     }
   }
 
@@ -281,7 +287,8 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   dismissView = () => {
-
+    const { modalDismissAction } = this.props.screenProps
+    modalDismissAction()
   }
 
 }
