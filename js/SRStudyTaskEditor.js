@@ -19,8 +19,11 @@ import { uuid } from './utilities/UUID'
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
-const studyTaskString = 'Study Task'
-const notesString = 'Notes'
+const studyTaskString = 'STUDY TASK'
+const notesString = 'NOTES'
+const dateString = 'STARTING DATE'
+
+const SRPlaceholderTextColor = 'rgba(251, 251, 253, 0.5)'
 
 const inactiveColor = SRBrightColor
 const buttonHeight = 46
@@ -93,8 +96,9 @@ export default class SRStudyTaskEditor extends React.Component {
           <View style={styles.sections}>
             <Text style={styles.sectionLabel}>{studyTaskLabelString}</Text>
             <TextInput
-              style={styles.dataInputItemPadding}
+              style={[styles.dataInputItemPadding, styles.textInput]}
               placeholder={studyTaskString}
+              placeholderTextColor={SRPlaceholderTextColor}
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
@@ -222,8 +226,9 @@ export default class SRStudyTaskEditor extends React.Component {
           <View style={styles.sections}>
             <Text style={styles.sectionLabel}>{notesLabelString}</Text>
             <TextInput
-              style={styles.dataInputItemPadding}
+              style={[styles.dataInputItemPadding, styles.textInput]}
               placeholder={notesString}
+              placeholderTextColor={SRPlaceholderTextColor}
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
               value={notes}
@@ -242,7 +247,7 @@ export default class SRStudyTaskEditor extends React.Component {
       const formattedPickedDate = pickedDate // TODO:
       return (
         <View style={styles.sections}>
-          <Text style={styles.sectionLabel}>Date</Text>
+          <Text style={styles.sectionLabel}>{dateString}</Text>
           <SegmentedControlTab
             borderRadius={dateSegmentedControlCornerRadius}
             tabsContainerStyle={styles.tabsContainerStyle}
@@ -284,7 +289,7 @@ export default class SRStudyTaskEditor extends React.Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: SRBrightColor,
+    backgroundColor: SRDarkColor,
   },
   edgePadding: {
     padding: 15,
@@ -293,12 +298,17 @@ const styles = StyleSheet.create({
   dataInputItemPadding: {
     padding: 4,
   },
+  textInput: {
+    fontSize: 48,
+    color: SRBrightColor,
+  },
   sectionLabel: {
-    fontSize: 14,
-    color: tintColor,
+    fontSize: 20,
+    color: SRRedColor,
+    fontWeight: 'bold'
   },
   sectionSeparator: {
-    backgroundColor: cancelButtonTint,
+    backgroundColor: SRBrightColor,
     height: 1,
   },
   lastSectionSeparator: {
@@ -317,19 +327,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   actionButton: {
-    backgroundColor: tintColor,
+    backgroundColor: SRYellowColor,
     borderRadius: buttonCornerRadius,
     flex: 1,
   },
   cancelButton: {
-    borderColor: cancelButtonTint,
-    borderWidth: 2,
+    borderColor: SRYellowColor,
+    borderWidth: 1,
     borderRadius: buttonCornerRadius,
     flex: 1,
     marginTop: 10,
   },
   bottomButtonsText: {
-    color: SRBrightColor,
+    color: SRDarkColor,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -337,28 +347,29 @@ const styles = StyleSheet.create({
     paddingTop: 1,
   },
   destructiveButtonText: {
-    color: cancelButtonTint,
+    color: SRYellowColor,
   },
   tabsContainerStyle: {
-    paddingTop: 5,
+    paddingTop: 15,
     paddingBottom: 5,
-    height: buttonHeight,
+    height: buttonHeight+14,
   },
   tabStyle: {
-    backgroundColor: inactiveColor,
-    borderColor: inactiveColor,
+    backgroundColor: SRBrightColor,
+    borderColor: SRBrightColor,
     borderRadius: dateSegmentedControlCornerRadius,
     marginLeft: 2,
     marginRight: 2,
   },
   tabTextStyle: {
     fontWeight: 'bold',
-    color: SRBrightColor,
+    color: SRDarkColor,
   },
   activeTabStyle: {
-    backgroundColor: tintColor,
-    borderColor: tintColor,
+    backgroundColor: SRYellowColor,
+    borderColor: SRYellowColor,
   },
   activeTabTextStyle: {
+    color: SRDarkColor
   },
 })
