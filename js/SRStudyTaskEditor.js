@@ -155,11 +155,15 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   hideStudyTaskLabel = (flag = true) => {
-    this.state.studyTaskLabelString = flag ? ' ' : studyTaskString
+    this.setState({
+      studyTaskLabelString: flag ? ' ' : studyTaskString
+    })
   }
 
   hideNotesLabel = (flag = true) => {
-    this.state.notesLabelString = flag ? ' ' : notesString
+    this.setState({
+      notesLabelString: flag ? ' ' : notesString
+    })
   }
 
   handleDateSelection = (index) => {
