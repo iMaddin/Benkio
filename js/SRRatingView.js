@@ -27,8 +27,8 @@ export default class SRRatingView extends React.Component {
                  onPress={() => {
                    this.rated(0)
                  }}>
-                    <View style={[styles.ratingBox, styles.ratingOk]}>
-                      <Text style={[styles.ratingTitle, styles.ratingOkTitle]}>Ok</Text>
+                    <View style={[styles.ratingBox, styles.ratingLeft]}>
+                      <Text style={[styles.ratingTitle, styles.ratingLeftTitle]}>Bad</Text>
                     </View>
                </TouchableHighlight>
 
@@ -38,8 +38,8 @@ export default class SRRatingView extends React.Component {
                  onPress={() => {
                    this.rated(1)
                  }}>
-                    <View style={[styles.ratingBox, styles.ratingGood]}>
-                      <Text style={[styles.ratingTitle, styles.ratingGoodTitle]}>Good</Text>
+                    <View style={[styles.ratingBox, styles.ratingCenter]}>
+                      <Text style={[styles.ratingTitle, styles.ratingCenterTitle]}>Okay</Text>
                     </View>
                </TouchableHighlight>
 
@@ -49,8 +49,8 @@ export default class SRRatingView extends React.Component {
                  onPress={() => {
                    this.rated(2)
                  }}>
-                    <View style={[styles.ratingBox, styles.ratingPerfect]}>
-                      <Text style={[styles.ratingTitle, styles.ratingPerfectTitle]}>Perfect</Text>
+                    <View style={[styles.ratingBox, styles.ratingRight]}>
+                      <Text style={[styles.ratingTitle, styles.ratingRightTitle]}>Good</Text>
                     </View>
                </TouchableHighlight>
            </View>
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 5,
   },
-  ratingOk: {
-    backgroundColor: SRYellowColor,
-  },
-  ratingGood: {
+  ratingLeft: {
     backgroundColor: SRRedColor,
   },
-  ratingPerfect: {
+  ratingCenter: {
+    backgroundColor: SRYellowColor,
+  },
+  ratingRight: {
     backgroundColor: SRDarkColor,
   },
   ratingTouchable: {
@@ -144,13 +144,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-  ratingOkTitle: {
+  ratingLeftTitle: {
     color: SRDarkColor,
   },
-  ratingGoodTitle: {
+  ratingCenterTitle: {
     color: SRDarkColor
   },
-  ratingPerfectTitle: {
+  ratingRightTitle: {
     color: SRBrightColor,
   },
 })
