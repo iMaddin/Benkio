@@ -98,17 +98,9 @@ export default class SRStudyList extends React.Component {
               return (
 
                 <SRTypographicCell
-                  onPressDetailsButton={() => {
-                    this.setState({
-                      selectedID: item.id
-                    })
-                    this.navigateToDetails()
-                    }
-                  }
+                  onPressDetailsButton={() => this.navigateToDetails(item.id)}
                   onPressRateButton={() => {
-                    this.setState({
-                      selectedID: item.id
-                    })
+                    this.setState({selectedID: item.id})
                     this.openRatingUI()
                   }}
                 >
@@ -120,12 +112,7 @@ export default class SRStudyList extends React.Component {
               return (
 
                 <SRStudyListCell
-                  onPressDetailsButton={ () => {
-                    this.setState({
-                      selectedID: item.id
-                    })
-                    this.navigateToDetails()
-                  }}
+                  onPressDetailsButton={() => this.navigateToDetails(item.id)}
                 >
                 {{title: item.taskName, notes: item.notes, date: formattedDate}}
               </SRStudyListCell>
@@ -211,11 +198,10 @@ export default class SRStudyList extends React.Component {
     this.setModalVisible(false)
   }
 
-  navigateToDetails = () => {
-    const { selectedID } = this.state
+  navigateToDetails = (id) => {
     const { navigation } = this.props
-    expect(selectedID).toExist('navigateToDetails(): Undefined id')
-    const item = this.dataWithID(selectedID)
+    expect(id).toExist('navigateToDetails(): Undefined id')
+    const item = this.dataWithID(id)
     navigation.navigate('DetailsView', {readonly: true, item: item})
   }
 
