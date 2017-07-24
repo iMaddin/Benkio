@@ -104,6 +104,7 @@ export default class SRStudyTaskEditor extends React.Component {
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
               editable={this.state.editMode}
+              multiline={this.state.readonly && !this.state.editMode}
             />
             {this._renderSeparator(editMode)}
           </View>
@@ -240,6 +241,7 @@ export default class SRStudyTaskEditor extends React.Component {
               onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
               value={notes}
               editable={this.state.editMode}
+              multiline={this.state.readonly && !this.state.editMode}
             />
             {this._renderSeparator(!readonly)}
           </View>
