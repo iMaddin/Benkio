@@ -3,143 +3,94 @@
 import { processDataForList } from '../js/dataModel/SRDataPresenter'
 import mockData from '../js/dataModel/mockData.json'
 
-test('Process data for display in SectionList', () => {
+test('Process data for display in table view', () => {
 
   const expectedResult = [
-    { title: "1 June", data: [
-      { "id": "STYMS5S",
-      "taskName": "Passive Sentences",
+    {
+      "date": "Thu Jun 01 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "STYMS5S",
       "notes": "",
-      }
-    ]},
-    { title: "16 July", data: [
-      { "id": "jdb56srv5",
-      "taskName": "てはいけません",
+      "taskName": "Passive Sentences"
+    },
+    {
+      "date": "Sun Jul 16 2017 10:13:00 GMT+0200 (CEST)",
+      "id": "jdb56srv5",
       "notes": "Jitzilca retlogih wa osutaf du duz losiwailu wo gov tiz eve timna.",
-      },
-      { "id": "S7SM6ND6BVD",
-      "taskName": "何も",
+      "taskName": "てはいけません"
+    },
+    {
+      "date": "Sun Jul 16 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "S7SM6ND6BVD",
       "notes": "As so ha zuf von bafnogam tev nunmonij tiskem ej liwujsav emaeve.",
-      },
-    ]},
-    { title: "17 July", data: [
-      { "id": "5srtvsvev",
-      "taskName": "ませんか",
+      "taskName": "何も"
+    },
+    {
+      "date": "Mon Jul 17 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "5srtvsvev",
       "notes": "Diake anirakum nibu fojopkit woluvdi sa so zarum gi balig te atsot geulwen awmaci daz pe rarun.",
-      },
-      { "id": "vtsrvtrtv",
-      "taskName": "ましょう・ましょうか",
+      "taskName": "ませんか"
+    },
+    {
+      "date": "Mon Jul 17 2017 21:13:00 GMT+0200 (CEST)",
+      "id": "vtsrvtrtv",
       "notes": "Ciftiaj vegtew lazehe mewnevif veabbi uvedalrew zaf jondew erireh dovordol pej ne gatnorab cone.",
-      },
-    ]},
-    { title: "18 July", data: [
-      { "id": "SV5YS5NST",
-      "taskName": "んです",
+      "taskName": "ましょう・ましょうか"
+    },
+    {
+      "date": "Tue Jul 18 2017 06:13:00 GMT+0200 (CEST)",
+      "id": "SV5YS5NST",
       "notes": "",
-      },
-      { "id": "D6UD6MU",
-      "taskName": "どこかに・どこにも",
+      "taskName": "んです"
+    },
+    {
+      "date": "Tue Jul 18 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "D6UD6MU",
       "notes": "",
-      },
-    ]},
-    { title: "19 July", data: [
-      { "id": "5SM5YBV",
-      "taskName": "すぎる",
+      "taskName": "どこかに・どこにも"
+    },
+    {
+      "date": "Wed Jul 19 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "5SM5YBV",
       "notes": "",
-      },
-      { "id": "5SBS5MS55",
-      "taskName": "でしょう",
+      "taskName": "すぎる"
+    },
+    {
+      "date": "Wed Jul 19 2017 13:13:00 GMT+0200 (CEST)",
+      "id": "5SBS5MS55",
       "notes": "",
-      },
-    ]},
-    { title: "23 July", data: [
-      { "id": "TSTBHHTBST",
-      "taskName": "˜し",
+      "taskName": "でしょう"
+    },
+    {
+      "date": "Sun Jul 23 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "TSTBHHTBST",
       "notes": "",
-      },
-      { "id": "II,MOYUN",
-      "taskName": "たらどうですか",
+      "taskName": "˜し"
+    },
+    {
+      "date": "Sun Jul 23 2017 21:13:00 GMT+0200 (CEST)",
+      "id": "II,MOYUN",
       "notes": "",
-      },
-    ]},
-    { title: "30 July", data: [
-      { "id": "RTBTMS",
-      "taskName": "Volitional Form",
+      "taskName": "たらどうですか"
+    },
+    {
+      "date": "Sun Jul 30 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "RTBTMS",
       "notes": "",
-      },
-    ]},
-    { title: "31 July", data: [
-      { "id": "ARBBTATB4B",
-      "taskName": "ておく",
+      "taskName": "Volitional Form"
+    },
+    {
+      "date": "Mon Jul 31 2017 11:13:00 GMT+0200 (CEST)",
+      "id": "ARBBTATB4B",
       "notes": "",
-      },
-    ]},
-    { title: "10 November", data: [
-      { "id": "STYNTYSS5M",
-      "taskName": "といい",
+      "taskName": "ておく"
+    },
+    {
+      "date": "Fri Nov 10 2017 11:13:00 GMT+0100 (CET)",
+      "id": "STYNTYSS5M",
       "notes": "",
-      },
-    ]},
+      "taskName": "といい"
+    }
   ]
 
   expect(processDataForList(mockData.studyTasks)).toEqual(expectedResult)
-})
-
-test('Tasks falling into same date group', () => {
-
-  const studyTasks = [
-    { "id": "",
-      "taskName": "たらどうですか",
-      "notes": "",
-      "dates": ["December 1, 2017 11:13:00"],
-      "ratingHistory": [],
-      "srs": {
-        "easinessFactor": 2.5,
-        "interval": 12,
-        "repetition": 0
-      },
-      "intensity": ""},
-    { "id": "",
-      "taskName": "ておく",
-      "notes": "",
-      "dates": ["December 5, 2017 16:13:00"],
-      "ratingHistory": [],
-      "srs": {
-        "easinessFactor": 2.5,
-        "interval": 8,
-        "repetition": 1
-      },
-      "intensity": ""},
-    { "id": "",
-      "taskName": "Volitional Form",
-      "notes": "",
-      "dates": ["July 30, 2017 11:13:00"],
-      "ratingHistory": [],
-      "srs": {
-        "easinessFactor": 2.5,
-        "interval": 0,
-        "repetition": 0
-      },
-      "intensity": ""},
-  ]
-
-  const expected = [
-    {title: '30 July', data: [
-      {id:'', taskName: 'Volitional Form', notes:''}
-    ]},
-    {title: '13 December', data: [
-      {id:'', taskName: 'たらどうですか', notes:''},
-      {id:'', taskName: 'ておく', notes:''}
-    ]}
-  ]
-  // [{title: string, data: string}]
-  const sectionArray = processDataForList(studyTasks)
-
-  expect(sectionArray.length).toEqual(2)
-  expect(sectionArray[0]).toEqual(expected[0])
-  expect(sectionArray[1]).toEqual(expected[1])
-
-  // Seems like toContain can't compare objects this way
-  // expect(sectionArray).toContain({title: '30 July', data: ['Volitional Form']})
-  // expect(sectionArray).toContain({title: '13 December', data: ['たらどうですか','ておく']})
 })
