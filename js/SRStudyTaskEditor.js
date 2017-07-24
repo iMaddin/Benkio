@@ -74,6 +74,12 @@ export default class SRStudyTaskEditor extends React.Component {
     saveAction: (studyTask) => any,
   }
 
+  componentWillReceiveProps() {
+    const { notes, taskName } = this.state
+    this.hideStudyTaskLabel(taskName == null || taskName == '')
+    this.hideNotesLabel(notes == null || notes == '')
+  }
+
   render() {
     const { dates, intensity, notes, readonly, studyTaskLabelString, taskName } = this.state
 
@@ -85,8 +91,7 @@ export default class SRStudyTaskEditor extends React.Component {
     //   sameElse: 'MMMM'
     // });
 
-    this.hideStudyTaskLabel(taskName == null || taskName == '')
-    this.hideNotesLabel(notes == null || notes == '')
+
 
     const actionButtonTitle = (readonly == true) ? 'Edit' : 'Save'
     const destructiveButtonTitle = (readonly == true) ? 'Delete' : 'Cancel'
