@@ -103,6 +103,7 @@ export default class SRStudyTaskEditor extends React.Component {
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
+              editable={this.state.editMode}
             />
             {this._renderSeparator(editMode)}
           </View>
@@ -238,6 +239,7 @@ export default class SRStudyTaskEditor extends React.Component {
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
               value={notes}
+              editable={this.state.editMode}
             />
             {this._renderSeparator(!readonly)}
           </View>
