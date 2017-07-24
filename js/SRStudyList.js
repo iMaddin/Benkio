@@ -88,14 +88,16 @@ export default class SRStudyList extends React.Component {
         <ListView
           style={{backgroundColor: 'white'}}
           dataSource={dataSource}
-          renderRow={(item) => {
+          renderRow={(item, sectionID, rowID, highlightRow) => {
 
             const d = new Date(item.date)
-            const formattedDate = moment(d.getTime()).format('D MMM')
             const highlightTasksSinceDate = new Date()
             const itemIsOverDue = highlightTasksSinceDate > d
             const itemIsToday = d.toDateString() == new Date().toDateString()
             const somethingToShowToday = itemIsOverDue || itemIsToday
+
+            const formattedDate = this.formatCellDate(d)
+
 
             if(somethingToShowToday) {
               return (
@@ -138,6 +140,18 @@ export default class SRStudyList extends React.Component {
 
       </View>
     )
+  }
+
+  _renderNothingTodayCell = (flag) => {
+    if(flag) {
+      return(
+        <SRTypographicCell hideRateButton='true'>
+          {{title: 'Come back later', notes: '🙇‍♀️🙆🙋💁🙅🤷‍♀️🤦‍♀️', date: 'in 2 days'}}
+        </SRTypographicCell>
+      )
+    } else {
+      return null
+    }
   }
 
   onAddTodo = (text: string) => {
@@ -219,6 +233,28 @@ export default class SRStudyList extends React.Component {
     return item
   }
 
+  formatCellDate = (date) => {
+    const itemIsOverDue = new Date() > date
+
+    var formattedDate = ''
+    const momentDate = moment(date)
+
+    formattedDate = momentDate.calendar(null, {
+        sameDay: '[Today]',
+        nextDay: '[Tomorrow]',
+        nextWeek: 'dddd',
+        lastDay: '[Yesterday]',
+        lastWeek: '[Last] dddd',
+        sameElse: 'D MMM'
+    });
+
+    if (itemIsOverDue) {
+      const momentFromNow = moment(date)
+      momentFromNow.format('dd')
+      formattedDate = momentFromNow.fromNow()
+    }
+    return formattedDate
+  }
 }
 
 const styles = StyleSheet.create({
