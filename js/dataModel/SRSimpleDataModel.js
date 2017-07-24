@@ -68,10 +68,14 @@ export const reducer = (state: object = initialState, action: { type: string, pa
     }
     case types.REPLACE: {
       const studyTasksCopy = [...studyTasks]
+      expect(studyTasksCopy.length).toNotEqual(0,'Replacing when there is nothing')
       const index = studyTasksCopy.findIndex((item) => item.id == payload.id)
+      expect(index).toBeGreaterThanOrEqualTo(0, 'Nothing found to replace.')
       if (index >= 0) {
         studyTasksCopy.splice(index, 1, payload)
       }
+      // TODO: bug here? ⬇️ is studyTasks modified correctly before replace occurs?
+      // expect(studyTasksCopy).toNotEqual(studyTasks, `Payload: ${JSON.stringify(payload)}. studyTasksCopy: ${JSON.stringify(studyTasks)}`)
       return {
         studyTasks: studyTasksCopy
       }
