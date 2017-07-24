@@ -319,13 +319,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(247,247,247,1.0)',
   },
   floatingButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#ee6e73',
+    backgroundColor: 'rgba(255, 252, 49, 0.9)',
     position: 'absolute',
-    bottom: 50,
-    right: 10,
+    bottom: 15,
+    right: 15,
   },
   emptyStateHeaderBackground: {
     backgroundColor: SRDarkColor,
