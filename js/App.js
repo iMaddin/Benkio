@@ -1,17 +1,19 @@
 // @flow
 
 import React from 'react'
-import { AppRegistry } from 'react-native'
-
+import { AppRegistry, AsyncStorage } from 'react-native'
+import PropTypes from 'prop-types'
 import { StackNavigator, TabNavigator } from 'react-navigation'
+import { createStore } from 'redux'
+import { persistStore, autoRehydrate } from 'redux-persist'
+
 import SRStudyList from './SRStudyList'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRSettings from './SRSettings'
-
 import { reducer } from './dataModel/SRSimpleDataModel'
-import { createStore } from 'redux'
-import PropTypes from 'prop-types'
-import { tintColor } from './SRSettings'
+
+const store = createStore(reducer, undefined, autoRehydrate())
+persistStore(store, {storage: AsyncStorage})
 
 const SettingsStackNavigator = StackNavigator({
   Settings: { screen: SRSettings },
@@ -62,7 +64,7 @@ TaylorSwift.contextTypes = {
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={store}>
         <TaylorSwift />
       </Provider>
     )
