@@ -13,6 +13,8 @@ import {
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 import moment from 'moment'
+import { NavigationActions } from 'react-navigation'
+
 import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import { SRSpacedRepetition } from './SRSpacedRepetition'
 import { uuid } from './utilities/UUID'
@@ -235,7 +237,7 @@ export default class SRStudyTaskEditor extends React.Component {
     if (deleteWhenReadonly) {
       Alert.alert(
         'Delete Study Task',
-        'Are you sure you want to delete the study task?',
+        'Are you sure you want to delete the study task? This cannot be undone.',
         [
           {text: 'Cancel', onPress: () => {}, style: 'cancel'},
           {text: 'Delete', onPress: () => {
@@ -412,9 +414,14 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   dismissView = () => {
-    expect(this.state.readonly).toEqual(false)
-    const { modalDismissAction } = this.props.screenProps
-    modalDismissAction()
+    const { navigation, screenProps } = this.props
+    const { readonly } = this.state
+    if(readonly) {
+      navigation.dispatch(NavigationActions.back())
+    } else {
+      const { modalDismissAction } = screenProps
+      modalDismissAction()
+    }
   }
 
 }
