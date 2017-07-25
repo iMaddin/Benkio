@@ -179,8 +179,24 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   handleDateSelection = (index) => {
+    var selectedDate = ''
+    switch(index) {
+      case 0:
+        selectedDate = new Date()
+        break
+      case 1:
+        selectedDate = new Date(moment().subtract(1, 'days'))
+        break
+      case 2:
+        openDatePicker()
+        break
+      default:
+      throw 'handleDateSelection()'
+    }
+
     this.setState({
       ...this.state,
+      dates: [selectedDate],
       selectedDateIndex: index,
       hasChanges: true
     })
@@ -326,6 +342,7 @@ export default class SRStudyTaskEditor extends React.Component {
 
   openDatePicker = () => {
     // TODO: missing implementation
+    // pickedDate = '' // set this to a nicely formatted date
   }
 
   _renderSeparator = (flag) => {
