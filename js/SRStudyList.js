@@ -90,6 +90,7 @@ export default class SRStudyList extends React.Component {
   render() {
     const { dataSource, studyTasks } = this.state
     const addTaskScreenProps = {
+      ...this.props.screenProps,
       modalDismissAction: () => this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
     }
 
