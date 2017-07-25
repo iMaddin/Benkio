@@ -117,12 +117,15 @@ export default class SRStudyTaskEditor extends React.Component {
               style={[styles.dataInputItemPadding, styles.textInput]}
               placeholder={studyTaskString}
               placeholderTextColor={SRPlaceholderTextColor}
-              onSubmitEditing={Keyboard.dismiss}
+              onSubmitEditing={(event) => {
+                this.refs.notesTextInput.focus()
+              }}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
               editable={editingOrAddingNewTask}
               multiline={viewingOnly}
               autoFocus={!readonly}
+              returnKeyType={'next'}
             />
             {this._renderSeparator(editMode)}
           </View>
@@ -340,6 +343,7 @@ export default class SRStudyTaskEditor extends React.Component {
           <View style={styles.sections}>
             <Text style={styles.sectionLabel}>{notesLabelString}</Text>
             <TextInput
+              ref='notesTextInput'
               style={[styles.dataInputItemPadding, styles.textInput]}
               placeholder={notesString}
               placeholderTextColor={SRPlaceholderTextColor}
@@ -348,6 +352,7 @@ export default class SRStudyTaskEditor extends React.Component {
               value={notes}
               editable={editingOrAddingNewTask}
               multiline={viewingOnly}
+              returnKeyType={'done'}
             />
             {this._renderSeparator(!readonly)}
           </View>
