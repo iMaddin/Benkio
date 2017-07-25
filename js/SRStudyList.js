@@ -96,7 +96,8 @@ export default class SRStudyList extends React.Component {
     }
     const tableData = processDataForList(studyTasks)
     var showEmptyStateHeader = false
-    if(tableData.length == 0 || (new Date(tableData[0].date) > new Date())) {
+    const noDataYet = tableData.length == 0
+    if(noDataYet || (new Date(tableData[0].date) > new Date())) {
       showEmptyStateHeader = true
     }
 
@@ -145,6 +146,7 @@ export default class SRStudyList extends React.Component {
 
         <View style={styles.floatingButton}>
           <SRFloatingButton
+            keepSpinning={noDataYet}
             style={styles.addTouchable}
             onPress={()=>{
             this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
@@ -159,7 +161,6 @@ export default class SRStudyList extends React.Component {
           animationType={"fade"}
           transparent={true}
           visible={this.state.ratingModalisVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <SRRatingView
            dismissAction={() => this.setRatingModalVisible(!this.state.ratingModalisVisible)}
@@ -169,9 +170,8 @@ export default class SRStudyList extends React.Component {
 
         <Modal
           animationType={"slide"}
-          transparent={true}
+          transparent={false}
           visible={this.state.addTaskModalisVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <AddStudyTaskNavigator screenProps={addTaskScreenProps}/>
         </Modal>
