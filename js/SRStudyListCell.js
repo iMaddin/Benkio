@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Button, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
 const taskTextColor = 'rgb(42, 42, 42)'
