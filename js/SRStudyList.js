@@ -139,10 +139,14 @@ export default class SRStudyList extends React.Component {
         />
 
         <View style={styles.floatingButton}>
-          <TouchableOpacity onPress={()=>{
+          <TouchableOpacity
+            style={styles.addTouchable}
+            onPress={()=>{
             this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
           }}>
-          <Text style={styles.floatingButtonText}>＋</Text>
+          {/* <View> */}
+            <Text style={styles.floatingButtonText}>＋</Text>
+          {/* </View> */}
           </TouchableOpacity>
         </View>
 
@@ -321,7 +325,7 @@ const styles = StyleSheet.create({
   },
   floatingButton: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -330,8 +334,13 @@ const styles = StyleSheet.create({
     bottom: 15,
     right: 15,
   },
+  addTouchable: {
+    flex:1,
+    justifyContent: 'center',
+  },
   floatingButtonText: {
     fontSize: 20,
+    textAlign: 'center',
     color: SRDarkColor,
   },
   emptyStateHeaderBackground: {
