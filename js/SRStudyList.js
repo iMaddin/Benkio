@@ -100,16 +100,27 @@ export default class SRStudyList extends React.Component {
   }
 
   render() {
-    const { dataSource, studyTasks } = this.state
+    const { addTaskModalisVisible, dataSource, studyTasks } = this.state
     const addTaskScreenProps = {
       ...this.props.screenProps,
-      modalDismissAction: () => this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
+      modalDismissAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible)
     }
-    const tableData = processDataForList(studyTasks)
+
+    // var onlyFutureTasks
+    // var todayAndFutureTasks
+
     var showEmptyStateHeader = false
-    const noDataYet = tableData.length == 0
-    if(noDataYet || (new Date(tableData[0].date) > new Date())) {
+    const noDataYet = dataSource.getRowCount() == 0
+
+    if(noDataYet) {
       showEmptyStateHeader = true
+      // see if this is called after table view changes
+    } else {
+      const firstItem = dataSource.getRowData(0, 0)
+      const onlyFutureTasks = (new Date(firstItem.date) > new Date())
+      if(onlyFutureTasks) {
+        showEmptyStateHeader = true
+      }
     }
 
     return (
@@ -123,21 +134,17 @@ export default class SRStudyList extends React.Component {
           renderRow={(item, sectionID, rowID, highlightRow) => {
 
             const d = new Date(item.date)
-            const highlightTasksSinceDate = new Date()
-            const itemIsOverDue = highlightTasksSinceDate > d
+            const itemIsOverDue = new Date() > d
             const itemIsToday = d.toDateString() == new Date().toDateString()
-            const somethingToShowToday = itemIsOverDue || itemIsToday
+            const allowRating = itemIsToday || itemIsOverDue
             const formattedDate = this.formatCellDate(d)
 
-            if(somethingToShowToday) {
+            if(allowRating) {
               return (
 
                 <SRTypographicCell
-                  onPressDetailsButton={() => this.navigateToDetails(item.id)}
-                  onPressRateButton={() => {
-                    this.setState({selectedID: item.id})
-                    this.openRatingUI()
-                  }}
+                  onPressDetailsButton={() => this.navigateToDetails(item)}
+                  onPressRateButton={() => this.rateItem(item.id)}
                 >
                   {{title: item.taskName, notes: item.notes, date: formattedDate}}
                 </SRTypographicCell>
@@ -147,7 +154,7 @@ export default class SRStudyList extends React.Component {
               return (
 
                 <SRStudyListCell
-                  onPressDetailsButton={() => this.navigateToDetails(item.id)}
+                  onPressDetailsButton={() => this.navigateToDetails(item)}
                 >
                 {{title: item.taskName, notes: item.notes, date: formattedDate}}
               </SRStudyListCell>
@@ -208,23 +215,8 @@ export default class SRStudyList extends React.Component {
     }
   }
 
-  _renderNothingTodayCell = (flag) => {
-    if(flag) {
-      return(
-        <SRTypographicCell hideRateButton='true'>
-          {{title: 'Come back later', notes: '🙇‍♀️🙆🙋💁🙅🤷‍♀️🤦‍♀️', date: 'in 2 days'}}
-        </SRTypographicCell>
-      )
-    } else {
-      return null
-    }
-  }
-
-  openSettings = () => {
-
-  }
-
-  openRatingUI = () => {
+  rateItem = (id: string) => {
+    this.setState({selectedID: id})
     this.setRatingModalVisible(true)
   }
 
@@ -234,6 +226,49 @@ export default class SRStudyList extends React.Component {
 
   setAddTaskModalVisible(visible: bool) {
     this.setState({addTaskModalisVisible: visible})
+  }
+
+  navigateToDetails = (item: object) => {
+    const { navigation } = this.props
+    navigation.navigate('SRStudyTaskEditor', {readonly: true, item: item})
+  }
+
+  openSettings = () => {
+
+  }
+
+  dataWithID = (id: string) => {
+    expect(id).toExist('dataWithID(): Undefined id')
+    const { store } = this.props.screenProps
+    const { studyTasks } = this.state
+    const studyTasksCopy = [...studyTasks]
+    const filteredArray = studyTasksCopy.filter((item) => item.id == id)
+    expect(filteredArray.length).toBe(1, `Looking for data with id: ${id}. Item: ${JSON.stringify(studyTasksCopy)}`)
+    const item = filteredArray[0]
+    return item
+  }
+
+  formatCellDate = (date: string) => {
+    const itemIsOverDue = moment(date).isBefore(new Date(), 'day')
+
+    var formattedDate = ''
+    const momentDate = moment(date)
+
+    formattedDate = momentDate.calendar(null, {
+        sameDay: '[Today]',
+        nextDay: '[Tomorrow]',
+        nextWeek: 'dddd',
+        lastDay: '[Yesterday]',
+        lastWeek: '[Last] dddd',
+        sameElse: 'D MMM'
+    });
+
+    if (itemIsOverDue) {
+      const momentFromNow = moment(date)
+      momentFromNow.format('dd')
+      formattedDate = momentFromNow.fromNow()
+    }
+    return formattedDate
   }
 
   rateTask = (index: Number) => {
@@ -270,47 +305,6 @@ export default class SRStudyList extends React.Component {
     store.dispatch(actionCreators.replace(item))
 
     this.setRatingModalVisible(false)
-  }
-
-  navigateToDetails = (id: string) => {
-    const { navigation } = this.props
-    expect(id).toExist('navigateToDetails(): Undefined id')
-    const item = this.dataWithID(id)
-    navigation.navigate('SRStudyTaskEditor', {readonly: true, item: item})
-  }
-
-  dataWithID = (id: string) => {
-    expect(id).toExist('dataWithID(): Undefined id')
-    const { store } = this.props.screenProps
-    const { studyTasks } = this.state
-    const studyTasksCopy = [...studyTasks]
-    const filteredArray = studyTasksCopy.filter((item) => item.id == id)
-    expect(filteredArray.length).toBe(1, `Looking for data with id: ${id}. Item: ${JSON.stringify(studyTasksCopy)}`)
-    const item = filteredArray[0]
-    return item
-  }
-
-  formatCellDate = (date: string) => {
-    const itemIsOverDue = moment(date).isBefore(new Date(), 'day')
-
-    var formattedDate = ''
-    const momentDate = moment(date)
-
-    formattedDate = momentDate.calendar(null, {
-        sameDay: '[Today]',
-        nextDay: '[Tomorrow]',
-        nextWeek: 'dddd',
-        lastDay: '[Yesterday]',
-        lastWeek: '[Last] dddd',
-        sameElse: 'D MMM'
-    });
-
-    if (itemIsOverDue) {
-      const momentFromNow = moment(date)
-      momentFromNow.format('dd')
-      formattedDate = momentFromNow.fromNow()
-    }
-    return formattedDate
   }
 }
 
