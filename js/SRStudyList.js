@@ -21,6 +21,7 @@ import { SRSGrade } from './SRSpacedRepetition'
 import { processDataForList } from './dataModel/SRDataPresenter'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 import SRTypographicCell from './SRTypographicCell'
+import SRFloatingButton from './SRFloatingButton'
 
 const studyListTitle = 'Reviews'
 
@@ -143,15 +144,15 @@ export default class SRStudyList extends React.Component {
         />
 
         <View style={styles.floatingButton}>
-          <TouchableOpacity
+          <SRFloatingButton
             style={styles.addTouchable}
             onPress={()=>{
             this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
           }}>
-          {/* <View> */}
+
             <Text style={styles.floatingButtonText}>⬥</Text>
-          {/* </View> */}
-          </TouchableOpacity>
+
+          </SRFloatingButton>
         </View>
 
         <Modal
