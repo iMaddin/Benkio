@@ -22,7 +22,7 @@ import { processDataForList } from './dataModel/SRDataPresenter'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 import SRTypographicCell from './SRTypographicCell'
 
-const studyListTitle = 'Study List'
+const studyListTitle = 'Reviews'
 
 const AddStudyTaskNavigator = StackNavigator({
   SRStudyTaskEditor: { screen: SRStudyTaskEditor }
@@ -105,6 +105,7 @@ export default class SRStudyList extends React.Component {
         <ListView
           style={{backgroundColor: SRBrightColor}}
           dataSource={dataSource}
+          enableEmptySections={true}
           renderRow={(item, sectionID, rowID, highlightRow) => {
 
             const d = new Date(item.date)
@@ -148,7 +149,7 @@ export default class SRStudyList extends React.Component {
             this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
           }}>
           {/* <View> */}
-            <Text style={styles.floatingButtonText}>＋</Text>
+            <Text style={styles.floatingButtonText}>⬥</Text>
           {/* </View> */}
           </TouchableOpacity>
         </View>
@@ -329,7 +330,6 @@ const styles = StyleSheet.create({
   floatingButton: {
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: 'rgba(255, 252, 49, 0.9)',
     position: 'absolute',
     bottom: 15,
     right: 15,
@@ -340,11 +340,12 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
+    backgroundColor: 'rgba(57, 62, 65, 0.9)',
   },
   floatingButtonText: {
     fontSize: 20,
     textAlign: 'center',
-    color: SRDarkColor,
+    color: 'rgba(255, 252, 49, 0.9)',
   },
   emptyStateHeaderBackground: {
     backgroundColor: SRDarkColor,
