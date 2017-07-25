@@ -65,8 +65,8 @@ export default class SRStudyTaskEditor extends React.Component {
       srs:            params != null ? params.item.srs           : new SRSpacedRepetition(),
       intensity:      params != null ? params.item.intensity     : SRStudyTaskIntensity.NORMAL,
 
-      studyTaskLabelString: params != null ? studyTaskString : ' ',
-      notesLabelString: params != null ? notesString : ' ',
+      studyTaskLabelString: params.item.taskName != null ? studyTaskString : ' ',
+      notesLabelString: params.item.notes != null ? notesString : ' ',
       pickedDate: 'Other', // TODO: implement
       selectedDateIndex: 0,
       selectedIntensityIndex: 0,
@@ -78,9 +78,17 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   componentWillReceiveProps() {
+
+  }
+
+  componentWillMount() {
     const { notes, taskName } = this.state
-    this.hideStudyTaskLabel(taskName == null || taskName == '')
-    this.hideNotesLabel(notes == null || notes == '')
+
+    const taskNameTextFieldIsEmpty = taskName == null || taskName == ''
+    this.hideStudyTaskLabel(taskNameTextFieldIsEmpty)
+
+    const notesTextFieldIsEmpty = notes == null || notes == ''
+    this.hideNotesLabel(notesTextFieldIsEmpty)
   }
 
   componentDidMount() {
