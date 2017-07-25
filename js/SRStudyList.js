@@ -105,6 +105,7 @@ export default class SRStudyList extends React.Component {
       <View style={styles.container}>
         {this._renderEmptyStateHeader(showEmptyStateHeader)}
         <ListView
+          contentContainerStyle={styles.tableViewContainer}
           style={styles.tableView}
           dataSource={dataSource}
           enableEmptySections={true}
@@ -319,8 +320,10 @@ const styles = StyleSheet.create({
   container: {
    flex: 1,
   },
+  tableViewContainer: {
+    paddingBottom: 10,
+  },
   tableView: {
-    paddingTop: 10,
     backgroundColor: SRBrightColor,
   },
   floatingButton: {
