@@ -329,9 +329,6 @@ const styles = StyleSheet.create({
   floatingButton: {
     justifyContent: 'center',
     alignItems: 'stretch',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
     backgroundColor: 'rgba(255, 252, 49, 0.9)',
     position: 'absolute',
     bottom: 15,
@@ -340,6 +337,9 @@ const styles = StyleSheet.create({
   addTouchable: {
     flex:1,
     justifyContent: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
   floatingButtonText: {
     fontSize: 20,
