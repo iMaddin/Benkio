@@ -93,8 +93,11 @@ export default class SRStudyList extends React.Component {
       ...this.props.screenProps,
       modalDismissAction: () => this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
     }
-
-    const showEmptyStateHeader = new Date(processDataForList(studyTasks)[0].date) > new Date()
+    const tableData = processDataForList(studyTasks)
+    var showEmptyStateHeader = false
+    if(tableData.length == 0 || (new Date(tableData[0].date) > new Date())) {
+      showEmptyStateHeader = true
+    }
 
     return (
       <View style={styles.container}>
