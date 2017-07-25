@@ -82,6 +82,10 @@ export default class SRStudyTaskEditor extends React.Component {
     this.hideNotesLabel(notes == null || notes == '')
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     const { dates, intensity, notes, editMode, readonly, studyTaskLabelString, taskName } = this.state
 
@@ -103,8 +107,9 @@ export default class SRStudyTaskEditor extends React.Component {
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
-              editable={this.state.editMode}
+              editable={this.state.editMode || !readonly}
               multiline={this.state.readonly && !this.state.editMode}
+              autoFocus={!readonly}
             />
             {this._renderSeparator(editMode)}
           </View>
@@ -240,7 +245,7 @@ export default class SRStudyTaskEditor extends React.Component {
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
               value={notes}
-              editable={this.state.editMode}
+              editable={this.state.editMode || !readonly}
               multiline={this.state.readonly && !this.state.editMode}
             />
             {this._renderSeparator(!readonly)}
