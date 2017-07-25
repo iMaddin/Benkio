@@ -102,6 +102,9 @@ export default class SRStudyTaskEditor extends React.Component {
     const destructiveButtonTitle = (readonly && editMode == false) ? 'Delete' : 'Cancel'
 
     const disableActionButton = taskName == null || taskName == ''
+    const editingOrAddingNewTask = editMode || !readonly
+    const viewingOnly = readonly && !editMode
+    const notesExistOrEditingOrAddingTask = !readonly || editMode || (notes != null && notes != '')
     const NOT_IMPLEMENTED = false
 
     return (
@@ -117,14 +120,14 @@ export default class SRStudyTaskEditor extends React.Component {
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
-              editable={editMode || !readonly}
-              multiline={readonly && !editMode}
+              editable={editingOrAddingNewTask}
+              multiline={viewingOnly}
               autoFocus={!readonly}
             />
             {this._renderSeparator(editMode)}
           </View>
 
-          {this._renderNotes(!readonly || editMode || (notes != null && notes != ''))}
+          {this._renderNotes(notesExistOrEditingOrAddingTask)}
           {this._renderDateSelection(!readonly)}
           {this._renderRatingHistory(NOT_IMPLEMENTED)}
 
@@ -153,7 +156,8 @@ export default class SRStudyTaskEditor extends React.Component {
   // Data input
 
   studyTextFieldOnChangeText = (taskName) => {
-    this.hideStudyTaskLabel(taskName == null || taskName == '')
+    const taskNameExists = taskName == null || taskName == ''
+    this.hideStudyTaskLabel(taskNameExists)
     this.setState({
       taskName,
       hasChanges: true
@@ -161,7 +165,8 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   notesTextFieldOnChangeText = (notes) => {
-    this.hideNotesLabel(notes == null || notes == '')
+    const notesExist = notes == null || notes == ''
+    this.hideNotesLabel(notesExist)
     this.setState({
       notes,
       hasChanges: true
@@ -328,7 +333,9 @@ export default class SRStudyTaskEditor extends React.Component {
 
   _renderNotes = (flag) => {
       if(flag) {
-        const { notes, notesLabelString, readonly } = this.state
+        const { notes, notesLabelString, editMode, readonly } = this.state
+        const editingOrAddingNewTask = editMode || !readonly
+        const viewingOnly = readonly && !editMode
         return(
           <View style={styles.sections}>
             <Text style={styles.sectionLabel}>{notesLabelString}</Text>
@@ -339,8 +346,8 @@ export default class SRStudyTaskEditor extends React.Component {
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(notes) => this.notesTextFieldOnChangeText(notes)}
               value={notes}
-              editable={this.state.editMode || !readonly}
-              multiline={this.state.readonly && !this.state.editMode}
+              editable={editingOrAddingNewTask}
+              multiline={viewingOnly}
             />
             {this._renderSeparator(!readonly)}
           </View>
