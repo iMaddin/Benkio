@@ -52,8 +52,10 @@ export default class SRStudyList extends React.Component {
     addTaskModalisVisible: bool,
     dataSource: ListView.DataSource,
     ratingModalisVisible: bool,
+    renderEmptyStateHeader: bool,
     selectedID: string,
     studyTasks: Array<any>,
+    keepSpinning: bool,
   }
 
   constructor() {
@@ -66,6 +68,8 @@ export default class SRStudyList extends React.Component {
       ratingModalisVisible: false,
       selectedID: '',
       studyTasks: [],
+      renderEmptyStateHeader: false,
+      keepSpinning: false,
     };
   }
 
@@ -93,39 +97,48 @@ export default class SRStudyList extends React.Component {
 
   componentDidMount() {
     // this.props.navigation.setParams({openSettings: this.openSettings})
+    // this.updateStuff()
   }
 
   componentWillReceiveProps(newProps: Object) {
-
+    this.updateStuff()
   }
 
-  render() {
-    const { addTaskModalisVisible, dataSource, studyTasks } = this.state
-    const addTaskScreenProps = {
-      ...this.props.screenProps,
-      modalDismissAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible)
-    }
-
-    // var onlyFutureTasks
-    // var todayAndFutureTasks
-
+  updateStuff = () => {
+      const {studyTasks} = this.props.screenProps.store.getState()
+    const { addTaskModalisVisible, dataSource, keepSpinning } = this.state
+    console.log(`FOO LENGTH: ${studyTasks}`)
+    const foo = processDataForList(studyTasks)
     var showEmptyStateHeader = false
-    const noDataYet = dataSource.getRowCount() == 0
-
+    const noDataYet = foo.length == 0 //dataSource.getRowCount() == 0
+    console.log(`updateStuff(): noDataYet: ${noDataYet}`)
     if(noDataYet) {
       showEmptyStateHeader = true
       // see if this is called after table view changes
     } else {
-      const firstItem = dataSource.getRowData(0, 0)
+      const firstItem = foo[0]//dataSource.getRowData(0, 0)
       const onlyFutureTasks = (new Date(firstItem.date) > new Date())
       if(onlyFutureTasks) {
         showEmptyStateHeader = true
       }
     }
 
+    this.setState({
+      renderEmptyStateHeader: showEmptyStateHeader,
+      keepSpinning: noDataYet,
+    })
+  }
+
+  render() {
+    const { addTaskModalisVisible, dataSource, studyTasks, renderEmptyStateHeader, keepSpinning, ratingModalisVisible} = this.state
+    const addTaskScreenProps = {
+      ...this.props.screenProps,
+      modalDismissAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible)
+    }
+
     return (
       <View style={styles.container}>
-        {this._renderEmptyStateHeader(showEmptyStateHeader)}
+        {this._renderEmptyStateHeader(renderEmptyStateHeader)}
         <ListView
           contentContainerStyle={styles.tableViewContainer}
           style={styles.tableView}
@@ -165,7 +178,7 @@ export default class SRStudyList extends React.Component {
 
         <View style={styles.floatingButton}>
           <SRFloatingButton
-            keepSpinning={noDataYet}
+            keepSpinning={keepSpinning}
             style={styles.addTouchable}
             onPress={()=>{
             this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
@@ -179,10 +192,10 @@ export default class SRStudyList extends React.Component {
         <Modal
           animationType={"fade"}
           transparent={true}
-          visible={this.state.ratingModalisVisible}
+          visible={ratingModalisVisible}
           >
          <SRRatingView
-           dismissAction={() => this.setRatingModalVisible(!this.state.ratingModalisVisible)}
+           dismissAction={() => this.setRatingModalVisible(!ratingModalisVisible)}
            ratedCallback={(index) => this.rateTask(index)}
          />
         </Modal>
@@ -190,7 +203,7 @@ export default class SRStudyList extends React.Component {
         <Modal
           animationType={"slide"}
           transparent={false}
-          visible={this.state.addTaskModalisVisible}
+          visible={addTaskModalisVisible}
           >
          <AddStudyTaskNavigator screenProps={addTaskScreenProps}/>
         </Modal>
@@ -228,7 +241,7 @@ export default class SRStudyList extends React.Component {
     this.setState({addTaskModalisVisible: visible})
   }
 
-  navigateToDetails = (item: object) => {
+  navigateToDetails = (item: any) => {
     const { navigation } = this.props
     navigation.navigate('SRStudyTaskEditor', {readonly: true, item: item})
   }
