@@ -292,7 +292,7 @@ export default class SRStudyList extends React.Component {
   }
 
   formatCellDate = (date) => {
-    const itemIsOverDue = new Date() > date
+    const itemIsOverDue = moment(date).isBefore(new Date(), 'day')
 
     var formattedDate = ''
     const momentDate = moment(date)
