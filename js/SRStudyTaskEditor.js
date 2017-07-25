@@ -19,9 +19,9 @@ import { uuid } from './utilities/UUID'
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
-const studyTaskString = 'STUDY TASK'
-const notesString = 'NOTES'
-const dateString = 'STARTING DATE'
+const studyTaskString = 'Study Task'
+const notesString = 'Notes'
+const dateString = 'Starting Date'
 
 const SRPlaceholderTextColor = 'rgba(251, 251, 253, 0.5)'
 
@@ -312,13 +312,13 @@ export default class SRStudyTaskEditor extends React.Component {
 
   hideStudyTaskLabel = (flag = true) => {
     this.setState({
-      studyTaskLabelString: flag ? ' ' : studyTaskString
+      studyTaskLabelString: flag ? ' ' : studyTaskString.toUpperCase()
     })
   }
 
   hideNotesLabel = (flag = true) => {
     this.setState({
-      notesLabelString: flag ? ' ' : notesString
+      notesLabelString: flag ? ' ' : notesString.toUpperCase()
     })
   }
 
@@ -368,7 +368,7 @@ export default class SRStudyTaskEditor extends React.Component {
       const formattedPickedDate = pickedDate // TODO:
       return (
         <View style={styles.sections}>
-          <Text style={styles.sectionLabel}>{dateString}</Text>
+          <Text style={styles.sectionLabel}>{dateString.toUpperCase()}</Text>
           <SegmentedControlTab
             borderRadius={dateSegmentedControlCornerRadius}
             tabsContainerStyle={styles.tabsContainerStyle}
