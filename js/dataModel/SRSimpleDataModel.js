@@ -46,7 +46,8 @@ export const actionCreators = {
 }
 
 // Initial state of the store
-const initialState = mockData
+// const initialState = mockData
+const initialState = {studyTasks:[]}
 
 export const reducer = (state: object = initialState, action: { type: string, payload: any}) => {
   const {studyTasks} = state
