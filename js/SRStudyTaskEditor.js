@@ -93,6 +93,7 @@ export default class SRStudyTaskEditor extends React.Component {
     const actionButtonTitle = (readonly && editMode == false) ? 'Edit' : 'Save'
     const destructiveButtonTitle = (readonly && editMode == false) ? 'Delete' : 'Cancel'
 
+    const disableActionButton = taskName == null || taskName == ''
     const NOT_IMPLEMENTED = false
 
     return (
@@ -123,7 +124,8 @@ export default class SRStudyTaskEditor extends React.Component {
 
           <View style={[styles.sections, styles.bottomButtonsView]}>
             <TouchableOpacity
-              style={[styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]}
+              style={this.disabledButtonStyle(disableActionButton)}
+              disabled={disableActionButton}
               onPress={this.actionButtonAction}>
               <Text style={[styles.bottomButtonsText, styles.actionButtonText]}>{actionButtonTitle}</Text>
             </TouchableOpacity>
@@ -176,9 +178,15 @@ export default class SRStudyTaskEditor extends React.Component {
   // Actions
 
   actionButtonAction = () => {
-    if(this.state.readonly && !this.state.editMode) {
+    const wantsEdit = this.state.readonly && !this.state.editMode
+
+    if(wantsEdit) {
       this.setState({editMode: true})
-    } else {
+    } else { // Save data input
+      const { taskName, readonly } = this.state
+      const saveRequirementsHaveBeenMet = taskName != null && taskName != ''
+      if (!saveRequirementsHaveBeenMet) { return }
+
       const { store } = this.props.screenProps
 
       const studyTask = new SRStudyTask(
@@ -374,6 +382,15 @@ export default class SRStudyTaskEditor extends React.Component {
     }
   }
 
+  disabledButtonStyle = (flag) => {
+    const defaultStyle = [styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]
+    if(flag) {
+      return [...defaultStyle, styles.actionButtonDisabled]
+    } else {
+      return defaultStyle
+    }
+  }
+
   dismissView = () => {
     expect(this.state.readonly).toEqual(false)
     const { modalDismissAction } = this.props.screenProps
@@ -426,6 +443,9 @@ const styles = StyleSheet.create({
     backgroundColor: SRYellowColor,
     borderRadius: buttonCornerRadius,
     flex: 1,
+  },
+  actionButtonDisabled: {
+    backgroundColor: 'rgba(255, 252, 49, 0.5)'
   },
   cancelButton: {
     borderColor: SRYellowColor,
