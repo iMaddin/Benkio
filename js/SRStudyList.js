@@ -2,11 +2,11 @@
 
 import React from 'react'
 import {
-  Button,
   Modal,
   ListView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
 import { StackNavigator } from 'react-navigation'
@@ -109,9 +109,7 @@ export default class SRStudyList extends React.Component {
             const itemIsOverDue = highlightTasksSinceDate > d
             const itemIsToday = d.toDateString() == new Date().toDateString()
             const somethingToShowToday = itemIsOverDue || itemIsToday
-
             const formattedDate = this.formatCellDate(d)
-
 
             if(somethingToShowToday) {
               return (
@@ -141,9 +139,11 @@ export default class SRStudyList extends React.Component {
         />
 
         <View style={styles.floatingButton}>
-          <Button onPress={()=>{
+          <TouchableOpacity onPress={()=>{
             this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
-          }} title='＋' />
+          }}>
+          <Text style={styles.floatingButtonText}>＋</Text>
+          </TouchableOpacity>
         </View>
 
         <Modal
@@ -329,6 +329,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 15,
     right: 15,
+  },
+  floatingButtonText: {
+    fontSize: 20,
+    color: SRDarkColor,
   },
   emptyStateHeaderBackground: {
     backgroundColor: SRDarkColor,
