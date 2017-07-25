@@ -48,13 +48,24 @@ export default class SRStudyList extends React.Component {
     }
   }
 
+  state: {
+    addTaskModalisVisible: bool,
+    dataSource: ListView.DataSource,
+    ratingModalisVisible: bool,
+    selectedID: string,
+    studyTasks: Array<any>,
+  }
+
   constructor() {
     super();
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
+      addTaskModalisVisible: false,
       dataSource: dataSource.cloneWithRows([]),
       ratingModalisVisible: false,
-      addTaskModalisVisible: false,
+      selectedID: '',
+      studyTasks: [],
     };
   }
 
@@ -84,7 +95,7 @@ export default class SRStudyList extends React.Component {
     // this.props.navigation.setParams({openSettings: this.openSettings})
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Object) {
 
   }
 
@@ -209,18 +220,6 @@ export default class SRStudyList extends React.Component {
     }
   }
 
-  onAddTodo = (text: string) => {
-    const {store} = this.props.screenProps
-
-    store.dispatch(actionCreators.add(text))
-  }
-
-  onRemoveTodo = (index: number) => {
-    const {store} = this.props.screenProps
-
-    store.dispatch(actionCreators.remove(index))
-  }
-
   openSettings = () => {
 
   }
@@ -229,15 +228,15 @@ export default class SRStudyList extends React.Component {
     this.setRatingModalVisible(true)
   }
 
-  setRatingModalVisible(visible) {
+  setRatingModalVisible(visible: bool) {
     this.setState({ratingModalisVisible: visible});
   }
 
-  setAddTaskModalVisible(visible) {
+  setAddTaskModalVisible(visible: bool) {
     this.setState({addTaskModalisVisible: visible})
   }
 
-  rateTask = (index) => {
+  rateTask = (index: Number) => {
     var grade = ''
     switch(index) {
       case 0:
@@ -251,7 +250,6 @@ export default class SRStudyList extends React.Component {
         break
       default:
       throw "No valid rating selected"
-        break
     }
     const { selectedID, dataSource } = this.state
     expect(selectedID).toExist('rateTask(): undefined id')
@@ -274,14 +272,14 @@ export default class SRStudyList extends React.Component {
     this.setRatingModalVisible(false)
   }
 
-  navigateToDetails = (id) => {
+  navigateToDetails = (id: string) => {
     const { navigation } = this.props
     expect(id).toExist('navigateToDetails(): Undefined id')
     const item = this.dataWithID(id)
     navigation.navigate('SRStudyTaskEditor', {readonly: true, item: item})
   }
 
-  dataWithID = (id) => {
+  dataWithID = (id: string) => {
     expect(id).toExist('dataWithID(): Undefined id')
     const { store } = this.props.screenProps
     const { studyTasks } = this.state
@@ -292,7 +290,7 @@ export default class SRStudyList extends React.Component {
     return item
   }
 
-  formatCellDate = (date) => {
+  formatCellDate = (date: string) => {
     const itemIsOverDue = moment(date).isBefore(new Date(), 'day')
 
     var formattedDate = ''
