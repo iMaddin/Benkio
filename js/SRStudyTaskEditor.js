@@ -53,6 +53,10 @@ export default class SRStudyTaskEditor extends React.Component {
     const { params } = props.navigation.state
 
     this.state = {
+      readonly: params != null ? params.readonly : false,
+      editMode: false,
+      hasChanges: false,
+
       id:             params != null ? params.item.id            : uuid(),
       taskName:       params != null ? params.item.taskName      : null,
       notes:          params != null ? params.item.notes         : null,
@@ -61,12 +65,9 @@ export default class SRStudyTaskEditor extends React.Component {
       srs:            params != null ? params.item.srs           : new SRSpacedRepetition(),
       intensity:      params != null ? params.item.intensity     : SRStudyTaskIntensity.NORMAL,
 
-      readonly: params != null ? params.readonly : false,
-      editMode: false,
-
       studyTaskLabelString: params != null ? studyTaskString : ' ',
       notesLabelString: params != null ? notesString : ' ',
-      pickedDate: 'Other',
+      pickedDate: 'Other', // TODO: implement
       selectedDateIndex: 0,
       selectedIntensityIndex: 0,
     }
@@ -83,7 +84,7 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   componentDidMount() {
-
+    this.setState({originalState: this.state})
   }
 
   render() {
@@ -107,8 +108,8 @@ export default class SRStudyTaskEditor extends React.Component {
               onSubmitEditing={Keyboard.dismiss}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
-              editable={this.state.editMode || !readonly}
-              multiline={this.state.readonly && !this.state.editMode}
+              editable={editMode || !readonly}
+              multiline={readonly && !editMode}
               autoFocus={!readonly}
             />
             {this._renderSeparator(editMode)}
@@ -139,43 +140,40 @@ export default class SRStudyTaskEditor extends React.Component {
     )
   }
 
+  // Data input
+
   studyTextFieldOnChangeText = (taskName) => {
     this.hideStudyTaskLabel(taskName == null || taskName == '')
-    this.setState({taskName})
+    this.setState({
+      taskName,
+      hasChanges: true
+    })
   }
 
   notesTextFieldOnChangeText = (notes) => {
     this.hideNotesLabel(notes == null || notes == '')
-    this.setState({notes})
-  }
-
-  hideStudyTaskLabel = (flag = true) => {
     this.setState({
-      studyTaskLabelString: flag ? ' ' : studyTaskString
-    })
-  }
-
-  hideNotesLabel = (flag = true) => {
-    this.setState({
-      notesLabelString: flag ? ' ' : notesString
+      notes,
+      hasChanges: true
     })
   }
 
   handleDateSelection = (index) => {
-    this.setState({...this.state, selectedDateIndex: index})
+    this.setState({
+      ...this.state,
+      selectedDateIndex: index,
+      hasChanges: true
+    })
   }
 
   handleIntensitySelection = (index) => {
-    this.setState({...this.state, selectedIntensityIndex: index})
+    this.setState({...this.state,
+      selectedIntensityIndex: index,
+      hasChanges: true
+    })
   }
 
-  openDatePicker = () => {
-
-  }
-
-  changeIntensity = () => {
-
-  }
+  // Actions
 
   actionButtonAction = () => {
     if(this.state.readonly && !this.state.editMode) {
@@ -205,23 +203,103 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   destructiveButtonAction = () => {
-    if (this.state.readonly && !this.state.editMode) {
+    const { editMode, hasChanges, readonly } = this.state
+    const deleteWhenReadonly = readonly && !editMode
+    const cancelEditing = readonly && editMode
+    const dismissAddingNewTask = !readonly
+
+    if (deleteWhenReadonly) {
       Alert.alert(
         'Delete Study Task',
         'Are you sure you want to delete the study task?',
         [
           {text: 'Cancel', onPress: () => {}, style: 'cancel'},
           {text: 'Delete', onPress: () => {
-            // expect(this.state.id).toEqual('ada', `this.state.id: ${this.state.id}`)
             this.props.screenProps.store.dispatch(actionCreators.remove({id: this.state.id}))
             this.dismissView()
           }},
         ],
         { cancelable: true }
       )
-    } else {
+    } else if(cancelEditing) {
+      if (hasChanges) {
+        Alert.alert(
+          'Discard Changes',
+          'Are you sure you want to discard your changes?',
+          [
+            {text: 'Keep Editing', onPress: () => {}, style: 'cancel'},
+            {text: 'Discard Changes', onPress: () => {
+              this.resetFields()
+              this.setState({editMode: false})
+            }},
+          ],
+          { cancelable: true }
+        )
+      } else {
+        this.resetFields()
+        this.setState({editMode: false})
+      }
+    } else if (dismissAddingNewTask) {
       this.dismissView()
+    } else {
+      expect(0).toBe(1, 'destructiveButtonAction() else')
     }
+  }
+
+  resetFields = () => {
+    const { params } = this.props.navigation.state
+    expect(params).toExist('resetFields(): params == null')
+    if (params == null) { return }
+
+    const {
+      hasChanges,
+      id,
+      taskName,
+      notes,
+      dates,
+      ratingHistory,
+      srs,
+      intensity,
+      studyTaskLabelString,
+      notesLabelString,
+      pickedDate,
+      selectedDateIndex,
+      selectedIntensityIndex
+    } = this.state.originalState
+
+    this.setState({
+      hasChanges,
+      id,
+      taskName,
+      notes,
+      dates,
+      ratingHistory,
+      srs,
+      intensity,
+      studyTaskLabelString,
+      notesLabelString,
+      pickedDate,
+      selectedDateIndex,
+      selectedIntensityIndex
+    })
+  }
+
+  // UI changes
+
+  hideStudyTaskLabel = (flag = true) => {
+    this.setState({
+      studyTaskLabelString: flag ? ' ' : studyTaskString
+    })
+  }
+
+  hideNotesLabel = (flag = true) => {
+    this.setState({
+      notesLabelString: flag ? ' ' : notesString
+    })
+  }
+
+  openDatePicker = () => {
+    // TODO: missing implementation
   }
 
   _renderSeparator = (flag) => {
@@ -283,7 +361,8 @@ export default class SRStudyTaskEditor extends React.Component {
 
   _renderRatingHistory = (flag) => {
     if(flag) {
-
+      // TODO: missing implementation
+      // if made changes then set hasChanges: true
       return (
         <View style={styles.sections}>
           <Text style={styles.sectionLabel}>Rating History</Text>
@@ -296,6 +375,7 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   dismissView = () => {
+    expect(this.state.readonly).toEqual(false)
     const { modalDismissAction } = this.props.screenProps
     modalDismissAction()
   }
