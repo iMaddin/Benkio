@@ -129,7 +129,7 @@ export default class SRStudyTaskEditor extends React.Component {
               autoFocus={!readonly}
               returnKeyType={'next'}
             />
-            {this._renderSeparator(editMode)}
+            {this._renderSeparator(editingOrAddingNewTask)}
           </View>
 
           {this._renderNotes(notesExistOrEditingOrAddingTask)}
