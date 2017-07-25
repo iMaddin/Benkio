@@ -103,7 +103,7 @@ export default class SRStudyList extends React.Component {
       <View style={styles.container}>
         {this._renderEmptyStateHeader(showEmptyStateHeader)}
         <ListView
-          style={{backgroundColor: SRBrightColor}}
+          style={styles.tableView}
           dataSource={dataSource}
           enableEmptySections={true}
           renderRow={(item, sectionID, rowID, highlightRow) => {
@@ -318,14 +318,9 @@ const styles = StyleSheet.create({
   container: {
    flex: 1,
   },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
+  tableView: {
+    paddingTop: 10,
+    backgroundColor: SRBrightColor,
   },
   floatingButton: {
     justifyContent: 'center',
@@ -343,13 +338,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(57, 62, 65, 0.9)',
   },
   floatingButtonText: {
+    marginBottom: 3,
     fontSize: 20,
     textAlign: 'center',
     color: 'rgba(255, 252, 49, 0.9)',
   },
   emptyStateHeaderBackground: {
     backgroundColor: SRDarkColor,
-    marginBottom: 10,
+    // marginBottom: 10,
     padding: 18,
   },
   circle: {
