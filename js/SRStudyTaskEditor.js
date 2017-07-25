@@ -110,7 +110,11 @@ export default class SRStudyTaskEditor extends React.Component {
     const NOT_IMPLEMENTED = false
 
     return (
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={styles.scrollView}
+        keyboardDismissMode={'on-drag'}
+        keyboardShouldPersistTaps={'handled'}
+        >
         <View style={styles.edgePadding}>
 
           <View style={styles.sections}>
