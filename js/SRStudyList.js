@@ -2,8 +2,8 @@
 
 import React from 'react'
 import {
-  Modal,
   ListView,
+  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,23 +12,23 @@ import {
 import { StackNavigator } from 'react-navigation'
 import expect from 'expect'
 import moment from 'moment'
-import { actionCreators } from './dataModel/SRSimpleDataModel'
-import { SRSpacedRepetition } from './SRSpacedRepetition'
-import SRStudyTaskEditor from './SRStudyTaskEditor'
-import SRStudyListCell from './SRStudyListCell'
-import SRRatingView from './SRRatingView'
-import { SRSGrade } from './SRSpacedRepetition'
-import { processDataForList } from './dataModel/SRDataPresenter'
-import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
-import SRTypographicCell from './SRTypographicCell'
+
 import SRFloatingButton from './SRFloatingButton'
+import SRRatingView from './SRRatingView'
+import SRStudyListCell from './SRStudyListCell'
+import SRStudyTaskEditor from './SRStudyTaskEditor'
+import SRTypographicCell from './SRTypographicCell'
+import { SRSGrade } from './SRSpacedRepetition'
+import { SRSpacedRepetition } from './SRSpacedRepetition'
+import { actionCreators } from './dataModel/SRSimpleDataModel'
+import { processDataForList } from './dataModel/SRDataPresenter'
+import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 
 const studyListTitle = 'Reviews'
 
 const AddStudyTaskNavigator = StackNavigator({
   SRStudyTaskEditor: { screen: SRStudyTaskEditor }
-  }
-)
+})
 
 export default class SRStudyList extends React.Component {
 
