@@ -108,19 +108,18 @@ export class SRHome extends Component {
     )
     console.log(`task: ${JSON.stringify(task)}`)
     console.log(`studyTask ${JSON.stringify(studyTask)}`)
-    // addItem(studyTask)
-    dispatch(actionCreators.add(studyTask))
+    addItem(studyTask)
   }
 
-  updateTask = (newItem, oldItem) => {
+  updateTask = (newTask: {id: string, taskName: string, notes: string, date: string}, oldTask: {id: string, taskName: string, notes: string, date: string}) => {
     const { replaceItem } = this.props
-    const mergedItem = this.dataWithID(oldItem.id)
-    mergedItem.taskName = newItem.taskName
-    mergedItem.notes = newItem.notes
+    const mergedItem = this.dataWithID(oldTask.id)
+    mergedItem.taskName = newTask.taskName
+    mergedItem.notes = newTask.notes
     replaceItem(mergedItem)
   }
 
-  deleteTask = (task) => {
+  deleteTask = (task: {id: string, taskName: string, notes: string, date: string}) => {
     const { navigation, removeItem } = this.props
     Alert.alert(
       'Delete Study Task',

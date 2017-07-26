@@ -38,7 +38,7 @@ export const actionCreators = {
   add: (item: SRStudyTask) => {
     return {type: types.ADD, payload: item}
   },
-  remove: (item: string) => {
+  remove: (item: Object) => {
     return {type: types.REMOVE, payload: item}
   },
   replace: (item: SRStudyTask) => {
@@ -50,7 +50,7 @@ export const actionCreators = {
 // const initialState = mockData
 const initialState = {studyTasks:[]}
 
-export const reducer = (state: object = initialState, action: { type: string, payload: any}) => {
+export const reducer = (state: Object = initialState, action: { type: string, payload: any}) => {
   const {studyTasks} = state
   const {type, payload} = action
 
