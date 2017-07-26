@@ -125,7 +125,10 @@ export class SRStudyList extends React.Component {
     const { addItem } = this.props
 
     const addTaskScreenProps = {
-      saveAction: (item) => this.addTask(item),
+      saveAction: (item) => {
+        this.addTask(item)
+        this.setAddTaskModalVisible(!addTaskModalisVisible)
+      },
       cancelAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible),
       readonly: false,
     }
