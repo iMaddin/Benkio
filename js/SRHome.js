@@ -10,7 +10,7 @@ import { withMappedNavigationProps, withMappedNavigationAndConfigProps } from 'r
 import { connect } from 'react-redux'
 import expect from 'expect'
 
-import SRStudyList from './SRStudyList'
+import SRStudyList, { studyListTitle } from './SRStudyList'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRFloatingButton from './SRFloatingButton'
 import SRDiamond from './components/geometry/SRDiamond'
@@ -31,7 +31,7 @@ export class SRHome extends Component {
     return {
       headerTintColor: SRDarkColor,
       headerStyle: { backgroundColor: SRBrightColor},
-      title: 'CHANGE ME',
+      title: studyListTitle,
     }
   }
 
@@ -67,7 +67,6 @@ export class SRHome extends Component {
       <View style={{flex:1}}>
 
         <SRStudyList
-          props={this.props.navigation}
           navigationAction ={ (item) => {
             const displayProps = {
               readonly: true,

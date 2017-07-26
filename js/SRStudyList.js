@@ -25,17 +25,9 @@ import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { StudyTaskDetailsScreenName } from './SRHome'
 
-const studyListTitle = 'Reviews'
+export const studyListTitle = 'Reviews'
 
 export class SRStudyList extends React.Component {
-
-  // static navigationOptions = (props) => {
-  //   return {
-  //     headerTintColor: SRDarkColor,
-  //     headerStyle: { backgroundColor: SRBrightColor},
-  //     title: studyListTitle,
-  //   }
-  // }
 
   state: {
     dataSource: ListView.DataSource,
