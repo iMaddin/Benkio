@@ -16,7 +16,7 @@ import SRFloatingButton from './SRFloatingButton'
 import SRDiamond from './components/geometry/SRDiamond'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
-import { uuid } from './utilities/UUID'
+import uuid from './utilities/UUID'
 import SRSpacedRepetition from './SRSpacedRepetition'
 
 export const StudyTaskDetailsScreenName = 'StudyTaskDetails'
