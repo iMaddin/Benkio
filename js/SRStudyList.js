@@ -56,7 +56,6 @@ export class SRStudyList extends React.Component {
     ratingModalisVisible: bool,
     renderEmptyStateHeader: bool,
     selectedID: string,
-    studyTasks: Array<any>,
     keepSpinning: bool,
   }
 
@@ -69,7 +68,6 @@ export class SRStudyList extends React.Component {
       dataSource: dataSource.cloneWithRows([]),
       ratingModalisVisible: false,
       selectedID: '',
-      studyTasks: [],
       renderEmptyStateHeader: false,
       keepSpinning: false,
     };
@@ -96,7 +94,7 @@ export class SRStudyList extends React.Component {
   }
 
   updateStuff = () => {
-      const {studyTasks} = this.props
+    const {studyTasks} = this.props
     const { addTaskModalisVisible, dataSource, keepSpinning } = this.state
     console.log(`FOO LENGTH: ${studyTasks}`)
     const foo = processDataForList(studyTasks)
@@ -123,7 +121,6 @@ export class SRStudyList extends React.Component {
   render() {
     const { addTaskModalisVisible,
       dataSource,
-      studyTasks,
       renderEmptyStateHeader,
       keepSpinning,
       ratingModalisVisible
@@ -310,9 +307,8 @@ export class SRStudyList extends React.Component {
   dataWithID = (id: string) => {
     expect(id).toExist('dataWithID(): Undefined id')
     const { studyTasks } = this.props
-    const studyTasksCopy = [...studyTasks]
-    const filteredArray = studyTasksCopy.filter((item) => item.id == id)
-    expect(filteredArray.length).toBe(1, `Looking for data with id: ${id}. Item: ${JSON.stringify(studyTasksCopy)}`)
+    const filteredArray = studyTasks.filter((item) => item.id == id)
+    expect(filteredArray.length).toBe(1, `Looking for data with id: ${id}. Item: ${JSON.stringify(studyTasks)}`)
     const item = filteredArray[0]
     return item
   }
