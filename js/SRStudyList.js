@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { StackNavigator } from 'react-navigation'
+import { NavigationActions, StackNavigator } from 'react-navigation'
 import { withMappedNavigationProps } from 'react-navigation-props-mapper'
 import expect from 'expect'
 import moment from 'moment'
@@ -27,7 +27,6 @@ import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { uuid } from './utilities/UUID'
 
-
 const studyListTitle = 'Reviews'
 
 const AddStudyTaskNavigator = StackNavigator({
@@ -36,8 +35,7 @@ const AddStudyTaskNavigator = StackNavigator({
 
 export class SRStudyList extends React.Component {
 
-  static navigationOptions = ({navigation}) => {
-    const { params = {} } = navigation.state
+  static navigationOptions = (props) => {
     return {
       // headerLeft: <Button title='⚙️' onPress={() => params.openSettings()} />,
       tabBarLabel: studyListTitle,

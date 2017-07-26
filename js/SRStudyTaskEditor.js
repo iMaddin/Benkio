@@ -13,7 +13,6 @@ import {
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 import moment from 'moment'
-import { NavigationActions } from 'react-navigation'
 import PropTypes from 'prop-types'
 
 import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
@@ -38,8 +37,8 @@ const dateSegmentedControlCornerRadius = 4
 
 export default class SRStudyTaskEditor extends React.Component {
 
-  static navigationOptions = ({navigation}) => {
-    const { params = {} } = navigation.state
+  static navigationOptions = (props) => {
+    const { readonly } = props
 
     return {
       headerTintColor: SRDarkColor,

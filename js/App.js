@@ -3,6 +3,7 @@
 import React from 'react'
 import { AppRegistry, AsyncStorage, Text } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
+import { withMappedNavigationAndConfigProps } from 'react-navigation-props-mapper'
 import { createStore } from 'redux'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { Provider } from 'react-redux'
@@ -21,7 +22,7 @@ const SettingsStackNavigator = StackNavigator({
 
 const SpaceReminder = StackNavigator({
   StudyList: { screen: SRStudyList },
-  SRStudyTaskEditor: { screen: SRStudyTaskEditor},
+  SRStudyTaskEditor: { screen: withMappedNavigationAndConfigProps(SRStudyTaskEditor)},
   }
 )
 
