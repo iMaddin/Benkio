@@ -240,7 +240,13 @@ export class SRStudyList extends React.Component {
 
   navigateToDetails = (item: any) => {
     const { navigation } = this.props
-    navigation.navigate('SRStudyTaskEditor', {readonly: true, item: item})
+    const displayProps = {
+      readonly: true,
+      item: item,
+      saveAction: (newItem, oldItem) => this.updateTask(newItem, oldItem),
+      deleteAction: () => this.deleteTask(item),
+    }
+    navigation.navigate('SRStudyTaskEditor', displayProps)
   }
 
   openSettings = () => {
