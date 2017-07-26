@@ -121,9 +121,12 @@ export class SRStudyList extends React.Component {
 
   render() {
     const { addTaskModalisVisible, dataSource, studyTasks, renderEmptyStateHeader, keepSpinning, ratingModalisVisible} = this.state
+    const { addItem } = this.props
+
     const addTaskScreenProps = {
-      ...this.props.screenProps,
-      modalDismissAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible)
+      saveAction: (item) => this.addItem(item), // need to creat id and stuff
+      cancelAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible),
+      readonly: false,
     }
 
     return (
@@ -239,6 +242,17 @@ export class SRStudyList extends React.Component {
   openSettings = () => {
 
   }
+
+  //
+
+  // : {title: string, notes: string, date: string}
+  addTask = (task) => {
+    const {addItem} = this.props
+    const {title, notes, date} = task
+    // TODO: set up other properties of SRSTask
+  }
+
+  //
 
   dataWithID = (id: string) => {
     expect(id).toExist('dataWithID(): Undefined id')
