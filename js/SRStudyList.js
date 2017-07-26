@@ -14,6 +14,7 @@ import { withMappedNavigationProps } from 'react-navigation-props-mapper'
 import expect from 'expect'
 import moment from 'moment'
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 
 import SRRatingView from './SRRatingView'
 import SRStudyListCell from './SRStudyListCell'
@@ -22,23 +23,19 @@ import SRTypographicCell from './SRTypographicCell'
 import { SRSGrade } from './SRSpacedRepetition'
 import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
-import { AddStudyTaskScreenName } from './SRHome'
+import { StudyTaskDetailsScreenName } from './SRHome'
 
 const studyListTitle = 'Reviews'
 
 export class SRStudyList extends React.Component {
 
-  static navigationOptions = (props) => {
-    return {
-      headerTintColor: SRDarkColor,
-      headerStyle: { backgroundColor: SRBrightColor},
-      title: studyListTitle,
-    }
-  }
-
-  props: {
-
-  }
+  // static navigationOptions = (props) => {
+  //   return {
+  //     headerTintColor: SRDarkColor,
+  //     headerStyle: { backgroundColor: SRBrightColor},
+  //     title: studyListTitle,
+  //   }
+  // }
 
   state: {
     dataSource: ListView.DataSource,
@@ -105,7 +102,6 @@ export class SRStudyList extends React.Component {
     const {
       dataSource,
       renderEmptyStateHeader,
-
       ratingModalisVisible
     } = this.state
 
@@ -192,14 +188,17 @@ export class SRStudyList extends React.Component {
   }
 
   navigateToDetails = (item: any) => {
-    const { navigation } = this.props
-    const displayProps = {
-      readonly: true,
-      item: item,
-      saveAction: (newItem, oldItem) => this.updateTask(newItem, oldItem),
-      deleteAction: () => this.deleteTask(item),
-    }
-    navigation.navigate(AddStudyTaskScreenName, displayProps)
+    const { navigation, saveAction, deleteAction, navigationAction } = this.props
+    console.log(`item${item}`)
+    console.log(`navigationAction${navigationAction}`)
+    navigationAction(item)
+    // const displayProps = {
+    //   readonly: true,
+    //   item: item,
+    //   saveAction: (newItem, oldItem) => saveAction(newItem, oldItem),
+    //   deleteAction: () => deleteAction(item),
+    // }
+    // navigation.navigate(AddStudyTaskScreenName, displayProps)
   }
 
   //
@@ -257,11 +256,16 @@ export class SRStudyList extends React.Component {
     expect(updatedSRS.easinessFactor).toNotEqual(easinessFactor)
     item.srs = updatedSRS
 
-    const { store } = this.props.screenProps
+    const { store } = this.props.screenProps // TODO:
     store.dispatch(actionCreators.replace(item))
 
     this.setRatingModalVisible(false)
   }
+}
+
+SRStudyList.propTypes = {
+  saveAction: PropTypes.func,
+  deleteAction: PropTypes.func,
 }
 
 const mapStateToProps = (state) => {

@@ -19,13 +19,21 @@ import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/S
 import { uuid } from './utilities/UUID'
 import SRSpacedRepetition from './SRSpacedRepetition'
 
-export const AddStudyTaskScreenName = 'AddStudyTask'
+export const StudyTaskDetailsScreenName = 'StudyTaskDetails'
 
 const AddStudyTaskNavigator = StackNavigator({
   AddStudyTask: { screen: withMappedNavigationProps(SRStudyTaskEditor) }
 })
 
 export class SRHome extends Component {
+
+  static navigationOptions = (props) => {
+    return {
+      headerTintColor: SRDarkColor,
+      headerStyle: { backgroundColor: SRBrightColor},
+      title: 'CHANGE ME',
+    }
+  }
 
   state: {
     addTaskModalisVisible: bool,
@@ -59,7 +67,16 @@ export class SRHome extends Component {
       <View style={{flex:1}}>
 
         <SRStudyList
-
+          props={this.props.navigation}
+          navigationAction ={ (item) => {
+            const displayProps = {
+              readonly: true,
+              item: item,
+              saveAction: (newItem, oldItem) => this.updateTask(newItem, oldItem),
+              deleteAction: () => this.deleteTask(item),
+            }
+            this.props.navigation.navigate(StudyTaskDetailsScreenName, displayProps)
+          }}
         />
 
         <View style={styles.floatingButton}>
