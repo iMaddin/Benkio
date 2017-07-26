@@ -338,7 +338,7 @@ export class SRStudyList extends React.Component {
     return formattedDate
   }
 
-  rateTask = (index: Number) => {
+  rateTask = (index: number) => {
     var grade = ''
     switch(index) {
       case 0:

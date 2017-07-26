@@ -57,8 +57,8 @@ export default class SRStudyTaskEditor extends React.Component {
     studyTaskLabelString: string,
     notesLabelString: string,
     pickedDate: string,
-    selectedDateIndex: Number,
-    selectedIntensityIndex: Number,
+    selectedDateIndex: number,
+    selectedIntensityIndex: number,
   }
 
   _initialState = (props: Object) => {
@@ -191,7 +191,7 @@ export default class SRStudyTaskEditor extends React.Component {
     })
   }
 
-  handleDateSelection = (index: Number) => {
+  handleDateSelection = (index: number) => {
     var selectedDate = new Date()
     switch(index) {
       case 0:
@@ -214,7 +214,7 @@ export default class SRStudyTaskEditor extends React.Component {
     })
   }
 
-  handleIntensitySelection = (index: Number) => {
+  handleIntensitySelection = (index: number) => {
     this.setState({
       selectedIntensityIndex: index,
       hasChanges: true
