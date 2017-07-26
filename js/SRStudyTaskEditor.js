@@ -222,26 +222,23 @@ export default class SRStudyTaskEditor extends React.Component {
     if(wantsEdit) {
       this.setState({editMode: true})
     } else { // Save data input
-      const { taskName, readonly } = this.state
-      const saveRequirementsHaveBeenMet = taskName != null && taskName != ''
-      if (!saveRequirementsHaveBeenMet) { return }
+      const { readonly, saveAction } = this.props
+      const { taskName, notes, date } = this.state
 
-      const studyTask = new SRStudyTask(
-        this.state.id,
-        this.state.taskName,
-        this.state.notes,
-        this.state.dates,
-        this.state.ratingHistory,
-        this.state.srs,
-        this.state.intensity
-      )
+      expect(taskName).toExist('No taskName')
+      expect(taskName).toNotEqual('','taskName is empty string')
 
-      const { dispatch } = this.props
+      const item = {
+        title: taskName,
+        notes: notes,
+        date: date,
+      }
+
       if(this.state.readonly) {
         dispatch(replace(studyTask))
         this.setState({editMode: false})
       } else {
-        dispatch(actionCreators.add(studyTask))
+        saveAction(item)
         this.dismissView()
       }
     }

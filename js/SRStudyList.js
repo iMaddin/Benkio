@@ -22,9 +22,11 @@ import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRTypographicCell from './SRTypographicCell'
 import { SRSGrade } from './SRSpacedRepetition'
 import { SRSpacedRepetition } from './SRSpacedRepetition'
-import { actionCreators } from './dataModel/SRSimpleDataModel'
+import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
+import { uuid } from './utilities/UUID'
+
 
 const studyListTitle = 'Reviews'
 
@@ -125,7 +127,7 @@ export class SRStudyList extends React.Component {
     const { addItem } = this.props
 
     const addTaskScreenProps = {
-      saveAction: (item) => this.addItem(item), // need to creat id and stuff
+      saveAction: (item) => this.addTask(item),
       cancelAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible),
       readonly: false,
     }
@@ -245,12 +247,22 @@ export class SRStudyList extends React.Component {
   }
 
   //
-
-  // : {title: string, notes: string, date: string}
-  addTask = (task) => {
+  // TODO: refactor out of here
+  addTask = (task: {title: string, notes: string, date: string}) => {
     const {addItem} = this.props
     const {title, notes, date} = task
-    // TODO: set up other properties of SRSTask
+
+    const studyTask = new SRStudyTask(
+      uuid(),
+      title,
+      notes,
+      [date],
+      [],
+      SRStudyTaskIntensity.NORMAL,
+      new SRSpacedRepetition(),
+    )
+
+    addItem(studyTask)
   }
 
   //
