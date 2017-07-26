@@ -164,6 +164,25 @@ export class SRHome extends Component {
     }
     this.props.navigation.navigate(StudyTaskDetailsScreenName, displayProps)
   }
+
+  rateItem = (id: string, grade: number) => {
+    expect(id).toExist('rateItem(): undefined id')
+    const item = this.dataWithID(id)
+
+    // update SRS, rating history, date rated,
+    item.ratingHistory.push(grade)
+
+    const dateRated = new Date().toString()
+    item.dates.push(dateRated)
+
+    const { easinessFactor, interval, repetition } = item.srs
+    const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).grade(grade)
+    expect(updatedSRS.easinessFactor).toNotEqual(easinessFactor)
+    item.srs = updatedSRS
+
+    this.props.replaceItem(item)
+  }
+
 }
 
 const mapDispatchToProps = dispatch => {

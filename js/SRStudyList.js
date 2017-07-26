@@ -176,8 +176,7 @@ export class SRStudyList extends React.Component {
   }
 
   navigateToDetails = (item: any) => {
-    const { navigation, saveAction, deleteAction, navigationAction } = this.props
-
+    const { navigationAction } = this.props
     navigationAction(item)
   }
 
@@ -207,7 +206,7 @@ export class SRStudyList extends React.Component {
   }
 
   rateTask = (index: number) => {
-    var grade = ''
+    var grade = -1
     switch(index) {
       case 0:
         grade = SRSGrade.BAD
@@ -221,31 +220,16 @@ export class SRStudyList extends React.Component {
       default:
       throw "No valid rating selected"
     }
-    const { selectedID, dataSource } = this.state
-    expect(selectedID).toExist('rateTask(): undefined id')
-    const item = this.dataWithID(selectedID)
-
-    // update SRS, rating history, date rated,
-    item.ratingHistory.push(grade)
-
-    const dateRated = new Date().toString()
-    item.dates.push(dateRated)
-
-    const { easinessFactor, interval, repetition } = item.srs
-    const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).grade(grade)
-    expect(updatedSRS.easinessFactor).toNotEqual(easinessFactor)
-    item.srs = updatedSRS
-
-    const { store } = this.props.screenProps // TODO:
-    store.dispatch(actionCreators.replace(item))
-
+    const { rateAction } = this.props
+    const { selectedID } = this.state
+    rateAction(selectedID, grade)
     this.setRatingModalVisible(false)
   }
 }
 
 SRStudyList.propTypes = {
-  saveAction: PropTypes.func,
-  deleteAction: PropTypes.func,
+  rateAction: PropTypes.func,
+  navigationAction: PropTypes.func,
 }
 
 const mapStateToProps = (state) => {
