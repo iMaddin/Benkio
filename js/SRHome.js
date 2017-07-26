@@ -204,7 +204,9 @@ const mapStateToProps = (state) => {
         studyTasks: state.studyTasks
     }
 }
-
+// This does not work for some reason.
+// this.props.dispatch is still available, and shouldn't be if mapDispatchToProps was working
+// That's why manually calling dispatch() works.
 export default connect(mapStateToProps, mapDispatchToProps)(SRHome)
 
 const styles = StyleSheet.create({
