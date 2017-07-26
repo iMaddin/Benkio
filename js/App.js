@@ -1,30 +1,12 @@
 // @flow
-
 import React from 'react'
 import { AppRegistry, AsyncStorage, Text } from 'react-native'
-import { StackNavigator, TabNavigator } from 'react-navigation'
-import { withMappedNavigationAndConfigProps } from 'react-navigation-props-mapper'
 import { createStore } from 'redux'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { Provider } from 'react-redux'
 
-import SRStudyList from './SRStudyList'
-import SRStudyTaskEditor from './SRStudyTaskEditor'
-import SRSettings from './SRSettings'
+import TaylorSwift from './TaylorSwift'
 import { reducer } from './dataModel/SRSimpleDataModel'
-
-const SettingsStackNavigator = StackNavigator({
-  Settings: { screen: SRSettings },
-  },{
-  mode: 'modal',
-  }
-)
-
-const SpaceReminder = StackNavigator({
-  StudyList: { screen: SRStudyList },
-  SRStudyTaskEditor: { screen: withMappedNavigationAndConfigProps(SRStudyTaskEditor)},
-  }
-)
 
 const store = createStore(reducer, undefined, autoRehydrate())
 
@@ -48,11 +30,11 @@ export default class App extends React.Component {
 
   render() {
     if(!this.state.rehydrated){
-      return <Text>Loading...</Text> // TODO: maybe not needed since react redux updates props anyway
+      return <Text>🙈🙉🙊🐵</Text> // TODO: maybe not needed since react redux updates props anyway
     }
     return (
       <Provider store={store}>
-        <SpaceReminder />
+        <TaylorSwift />
       </Provider>
     )
   }
