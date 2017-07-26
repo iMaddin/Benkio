@@ -71,7 +71,7 @@ export class SRStudyList extends React.Component {
       selectedID: '',
       renderEmptyStateHeader: false,
       keepSpinning: false,
-    };
+    }
   }
 
   componentWillMount() {
@@ -82,8 +82,6 @@ export class SRStudyList extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.navigation.setParams({openSettings: this.openSettings})
-
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -95,7 +93,7 @@ export class SRStudyList extends React.Component {
   }
 
   updateStuff = () => {
-    const {studyTasks} = this.props
+    const { studyTasks } = this.props
     const { addTaskModalisVisible, dataSource, keepSpinning } = this.state
     console.log(`FOO LENGTH: ${studyTasks}`)
     const foo = processDataForList(studyTasks)
