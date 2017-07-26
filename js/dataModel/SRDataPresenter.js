@@ -10,7 +10,7 @@ export const processDataForList = (studyTasks) => {
     return new Date(a.date) - new Date(b.date)
   })
 
-  return listReadyArray
+  return listReadyArray // id: string, taskName: string, notes: string, date: string}
 }
 
 const itemWithCalculatedDueDate = (singleTask) => {
