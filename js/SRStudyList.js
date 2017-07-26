@@ -272,6 +272,31 @@ export class SRStudyList extends React.Component {
     addItem(studyTask)
   }
 
+  updateTask = (newItem, oldItem) => {
+    const { replaceItem } = this.props
+    const mergedItem = this.dataWithID(oldItem.id)
+    mergedItem.taskName = newItem.taskName
+    mergedItem.notes = newItem.notes
+    replaceItem(mergedItem)
+  }
+
+  deleteTask = (task) => {
+    const { navigation, removeItem } = this.props
+    Alert.alert(
+      'Delete Study Task',
+      'Are you sure you want to delete the study task? This cannot be undone.',
+      [
+        {text: 'Cancel', onPress: () => {}, style: 'cancel'},
+        {text: 'Delete', onPress: () => {
+          removeItem(task)
+          navigation.dispatch(NavigationActions.back())
+        }},
+      ],
+      { cancelable: true }
+    )
+
+  }
+
   //
 
   dataWithID = (id: string) => {
