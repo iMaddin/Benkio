@@ -52,7 +52,7 @@ export class SRHome extends Component {
     const {
       addTaskModalisVisible,
       keepSpinning,
-     } = this.state
+    } = this.state
 
     const addTaskScreenProps = {
       readonly: false,
@@ -67,15 +67,8 @@ export class SRHome extends Component {
       <View style={{flex:1}}>
 
         <SRStudyList
-          navigationAction ={ (item) => {
-            const displayProps = {
-              readonly: true,
-              item: item,
-              saveAction: (newItem, oldItem) => this.updateTask(newItem, oldItem),
-              deleteAction: () => this.deleteTask(item),
-            }
-            this.props.navigation.navigate(StudyTaskDetailsScreenName, displayProps)
-          }}
+          navigationAction ={item => this.navigateToItem}
+          rateAction = {(item, grade) => this.rateItem(item, grade)}
         />
 
         <View style={styles.floatingButton}>
@@ -160,6 +153,17 @@ export class SRHome extends Component {
     return item
   }
 
+  // SRStudyListCell
+
+  navigateToItem = (item: {id: string, taskName: string, notes: string, date: string}) => {
+    const displayProps = {
+      readonly: true,
+      item: item,
+      saveAction: (newItem, oldItem) => this.updateTask(newItem, oldItem),
+      deleteAction: () => this.deleteTask(item),
+    }
+    this.props.navigation.navigate(StudyTaskDetailsScreenName, displayProps)
+  }
 }
 
 const mapDispatchToProps = dispatch => {
