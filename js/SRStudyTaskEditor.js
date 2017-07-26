@@ -161,7 +161,7 @@ export default class SRStudyTaskEditor extends React.Component {
 
   // Data input
 
-  studyTextFieldOnChangeText = (taskName) => {
+  studyTextFieldOnChangeText = (taskName: string) => {
     const taskNameExists = taskName == null || taskName == ''
     this.hideStudyTaskLabel(taskNameExists)
     this.setState({
@@ -170,7 +170,7 @@ export default class SRStudyTaskEditor extends React.Component {
     })
   }
 
-  notesTextFieldOnChangeText = (notes) => {
+  notesTextFieldOnChangeText = (notes: string) => {
     const notesExist = notes == null || notes == ''
     this.hideNotesLabel(notesExist)
     this.setState({
@@ -179,8 +179,8 @@ export default class SRStudyTaskEditor extends React.Component {
     })
   }
 
-  handleDateSelection = (index) => {
-    var selectedDate = ''
+  handleDateSelection = (index: Number) => {
+    var selectedDate = new Date()
     switch(index) {
       case 0:
         selectedDate = new Date()
@@ -203,8 +203,8 @@ export default class SRStudyTaskEditor extends React.Component {
     })
   }
 
-  handleIntensitySelection = (index) => {
-    this.setState({...this.state,
+  handleIntensitySelection = (index: Number) => {
+    this.setState({
       selectedIntensityIndex: index,
       hasChanges: true
     })
@@ -325,13 +325,13 @@ export default class SRStudyTaskEditor extends React.Component {
 
   // UI changes
 
-  hideStudyTaskLabel = (flag = true) => {
+  hideStudyTaskLabel = (flag: bool = true) => {
     this.setState({
       studyTaskLabelString: flag ? ' ' : studyTaskString.toUpperCase()
     })
   }
 
-  hideNotesLabel = (flag = true) => {
+  hideNotesLabel = (flag: bool = true) => {
     this.setState({
       notesLabelString: flag ? ' ' : notesString.toUpperCase()
     })
@@ -418,23 +418,12 @@ export default class SRStudyTaskEditor extends React.Component {
     }
   }
 
-  disabledButtonStyle = (flag) => {
+  disabledButtonStyle = (flag: bool) => {
     const defaultStyle = [styles.dataInputItemPadding, styles.bottomButtons, styles.actionButton]
     if(flag) {
       return [...defaultStyle, styles.actionButtonDisabled]
     } else {
       return defaultStyle
-    }
-  }
-
-  dismissView = () => {
-    const { navigation, screenProps } = this.props
-    const { readonly } = this.state
-    if(readonly) {
-      navigation.dispatch(NavigationActions.back())
-    } else {
-      const { cancelAction } = this.props
-      cancelAction()
     }
   }
 
@@ -447,7 +436,6 @@ SRStudyTaskEditor.propTypes = {
   }),
 
   saveAction: PropTypes.func.isRequired,
-  editAction: PropTypes.func,
   deleteAction: PropTypes.func,
   cancelAction: PropTypes.func,
 
