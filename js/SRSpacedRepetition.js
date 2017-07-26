@@ -45,7 +45,7 @@ SRSpacedRepetition.prototype.bad = function() {
   return this.grade(SRSGrade.BAD)
 }
 
-const gradeSRS = (srs: SRSpacedRepetition, grade: typeof(SRSGrade)) => {
+const gradeSRS = (srs: SRSpacedRepetition, grade: number) => {
   const { easinessFactor, interval, repetition } = srs
   var newEasinessFactor = easinessFactor,
       newInterval = interval,
