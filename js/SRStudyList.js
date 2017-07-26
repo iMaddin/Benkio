@@ -9,21 +9,17 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-import { withMappedNavigationProps } from 'react-navigation-props-mapper'
 import expect from 'expect'
 import moment from 'moment'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import SRRatingView from './SRRatingView'
 import SRStudyListCell from './SRStudyListCell'
-import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRTypographicCell from './SRTypographicCell'
 import { SRSGrade } from './SRSpacedRepetition'
 import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
-import { StudyTaskDetailsScreenName } from './SRHome'
 
 export const studyListTitle = 'Reviews'
 
@@ -181,16 +177,8 @@ export class SRStudyList extends React.Component {
 
   navigateToDetails = (item: any) => {
     const { navigation, saveAction, deleteAction, navigationAction } = this.props
-    console.log(`item${item}`)
-    console.log(`navigationAction${navigationAction}`)
+
     navigationAction(item)
-    // const displayProps = {
-    //   readonly: true,
-    //   item: item,
-    //   saveAction: (newItem, oldItem) => saveAction(newItem, oldItem),
-    //   deleteAction: () => deleteAction(item),
-    // }
-    // navigation.navigate(AddStudyTaskScreenName, displayProps)
   }
 
   //
