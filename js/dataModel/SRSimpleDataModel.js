@@ -7,22 +7,23 @@ export const SRStudyTaskIntensity = {
   NORMAL: 'NORMAL'
 }
 
+// TODO: refactor into own file
 export function SRStudyTask(
   id: string,
   taskName: string,
   notes: ?string,
   dates: Array<string> = [new Date().toDateString()],
   ratingHistory: Array<string> = [],
+  intensity: string,
   srs: SRSpacedRepetition,
-  intensity: typeof(SRStudyTaskIntensity)
 ) {
   this.id = id,
   this.taskName = taskName,
   this.notes = notes,
   this.dates = dates,
-  this.ratingHistory = ratingHistory
-  this.srs = srs,
-  this.intensity = intensity
+  this.ratingHistory = ratingHistory,
+  this.intensity = intensity,
+  this.srs = srs
 }
 
 // Define action types
