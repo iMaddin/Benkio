@@ -1,5 +1,5 @@
 // @flow
-import { SRSpacedRepetition } from '../SRSpacedRepetition'
+import SRSpacedRepetition from '../SRSpacedRepetition'
 import expect from 'expect'
 import mockData from './mockData.json'
 
