@@ -37,8 +37,8 @@ export const actionCreators = {
   add: (item: SRStudyTask) => {
     return {type: types.ADD, payload: item}
   },
-  remove: (id: String) => {
-    return {type: types.REMOVE, payload: id}
+  remove: (item: string) => {
+    return {type: types.REMOVE, payload: item}
   },
   replace: (item: SRStudyTask) => {
     return {type: types.REPLACE, payload: item}
