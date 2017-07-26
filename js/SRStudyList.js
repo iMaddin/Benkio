@@ -301,8 +301,7 @@ export class SRStudyList extends React.Component {
 
   dataWithID = (id: string) => {
     expect(id).toExist('dataWithID(): Undefined id')
-    const { store } = this.props.screenProps
-    const { studyTasks } = this.state
+    const { studyTasks } = this.props
     const studyTasksCopy = [...studyTasks]
     const filteredArray = studyTasksCopy.filter((item) => item.id == id)
     expect(filteredArray.length).toBe(1, `Looking for data with id: ${id}. Item: ${JSON.stringify(studyTasksCopy)}`)
