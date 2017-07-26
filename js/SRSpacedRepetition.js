@@ -1,7 +1,7 @@
 // @flow
 import expect from 'expect'
 
-export function SRSpacedRepetition(
+export default function SRSpacedRepetition(
   easinessFactor: number = 2.5,
   interval: number = 1, // repeat tomorrow by default
   repetition: number = 0

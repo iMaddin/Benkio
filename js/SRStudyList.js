@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { NavigationActions, StackNavigator } from 'react-navigation'
+import { StackNavigator } from 'react-navigation'
 import { withMappedNavigationProps } from 'react-navigation-props-mapper'
 import expect from 'expect'
 import moment from 'moment'
@@ -20,11 +20,8 @@ import SRStudyListCell from './SRStudyListCell'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRTypographicCell from './SRTypographicCell'
 import { SRSGrade } from './SRSpacedRepetition'
-import { SRSpacedRepetition } from './SRSpacedRepetition'
-import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
-import { uuid } from './utilities/UUID'
 import { AddStudyTaskScreenName } from './SRHome'
 
 const studyListTitle = 'Reviews'
@@ -111,8 +108,6 @@ export class SRStudyList extends React.Component {
 
       ratingModalisVisible
     } = this.state
-    const { addItem, action } = this.props
-
 
     return (
       <View style={styles.container}>
@@ -208,59 +203,6 @@ export class SRStudyList extends React.Component {
   }
 
   //
-  // TODO: refactor out of here
-  addTask = (task: {taskName: string, notes: string, date: string}) => {
-    const {addItem} = this.props
-    const {taskName, notes, date} = task
-
-    const studyTask = new SRStudyTask(
-      uuid(),
-      taskName,
-      notes,
-      [date],
-      [],
-      SRStudyTaskIntensity.NORMAL,
-      new SRSpacedRepetition(),
-    )
-
-    addItem(studyTask)
-  }
-
-  updateTask = (newItem, oldItem) => {
-    const { replaceItem } = this.props
-    const mergedItem = this.dataWithID(oldItem.id)
-    mergedItem.taskName = newItem.taskName
-    mergedItem.notes = newItem.notes
-    replaceItem(mergedItem)
-  }
-
-  deleteTask = (task) => {
-    const { navigation, removeItem } = this.props
-    Alert.alert(
-      'Delete Study Task',
-      'Are you sure you want to delete the study task? This cannot be undone.',
-      [
-        {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-        {text: 'Delete', onPress: () => {
-          removeItem(task)
-          navigation.dispatch(NavigationActions.back())
-        }},
-      ],
-      { cancelable: true }
-    )
-
-  }
-
-  //
-
-  dataWithID = (id: string) => {
-    expect(id).toExist('dataWithID(): Undefined id')
-    const { studyTasks } = this.props
-    const filteredArray = studyTasks.filter((item) => item.id == id)
-    expect(filteredArray.length).toBe(1, `Looking for data with id: ${id}. Item: ${JSON.stringify(studyTasks)}`)
-    const item = filteredArray[0]
-    return item
-  }
 
   formatCellDate = (date: string) => {
     const itemIsOverDue = moment(date).isBefore(new Date(), 'day')
@@ -322,27 +264,13 @@ export class SRStudyList extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addItem: item => {
-      dispatch(actionCreators.add(item))
-    },
-    removeItem: item => {
-      dispatch(actionCreators.remove(item))
-    },
-    replaceItem: item => {
-      dispatch(actionCreators.replace(item))
-    }
-  }
-}
-
 const mapStateToProps = (state) => {
     return {
         studyTasks: state.studyTasks
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SRStudyList)
+export default connect(mapStateToProps)(SRStudyList)
 
 const styles = StyleSheet.create({
   container: {

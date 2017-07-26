@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { StackNavigator } from 'react-navigation'
 import { withMappedNavigationAndConfigProps } from 'react-navigation-props-mapper'
 
@@ -11,12 +12,14 @@ const SpaceReminder = StackNavigator({
   StudyTaskDetails: { screen: withMappedNavigationAndConfigProps(SRStudyTaskEditor)},
 })
 
-export default class TaylorSwift extends Component {
+export class TaylorSwift extends Component {
 
   render() {
     return (
-      <SpaceReminder />
+      <SpaceReminder screenProps={this.props}/>
     )
   }
 
 }
+
+export default connect()(TaylorSwift)
