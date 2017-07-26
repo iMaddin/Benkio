@@ -11,15 +11,12 @@ import {
   View
 } from 'react-native'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
-import expect, { createSpy, spyOn, isSpy } from 'expect'
+import expect from 'expect'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 
-import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
-import { SRSpacedRepetition } from './SRSpacedRepetition'
-import { uuid } from './utilities/UUID'
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
-import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
+import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 
 const studyTaskString = 'Study Task'
 const notesString = 'Notes'
