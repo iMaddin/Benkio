@@ -14,7 +14,7 @@ import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 import moment from 'moment'
 import { NavigationActions } from 'react-navigation'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import { SRSpacedRepetition } from './SRSpacedRepetition'
@@ -36,7 +36,7 @@ const tintColor = SRRedColor
 
 const dateSegmentedControlCornerRadius = 4
 
-export class SRStudyTaskEditor extends React.Component {
+export default class SRStudyTaskEditor extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     const { params = {} } = navigation.state
@@ -447,8 +447,19 @@ export class SRStudyTaskEditor extends React.Component {
 
 }
 
-export default connect()(SRStudyTaskEditor)
+SRStudyTaskEditor.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string,
+    notes: PropTypes.string,
+  }),
 
+  saveAction: PropTypes.func.isRequired,
+  editAction: PropTypes.func,
+  deleteAction: PropTypes.func,
+  cancelAction: PropTypes.func,
+
+  readonly: PropTypes.bool.isRequired,
+}
 
 const styles = StyleSheet.create({
   scrollView: {
