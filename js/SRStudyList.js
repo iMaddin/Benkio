@@ -15,7 +15,6 @@ import expect from 'expect'
 import moment from 'moment'
 import {connect} from 'react-redux'
 
-import SRFloatingButton from './SRFloatingButton'
 import SRRatingView from './SRRatingView'
 import SRStudyListCell from './SRStudyListCell'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
@@ -26,7 +25,6 @@ import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/S
 import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { uuid } from './utilities/UUID'
-import SRDiamond from './components/geometry/SRDiamond'
 import { AddStudyTaskScreenName } from './SRHome'
 
 const studyListTitle = 'Reviews'
@@ -42,7 +40,7 @@ export class SRStudyList extends React.Component {
   }
 
   props: {
-    action: () => any,
+
   }
 
   state: {
@@ -50,10 +48,9 @@ export class SRStudyList extends React.Component {
     ratingModalisVisible: bool,
     renderEmptyStateHeader: bool,
     selectedID: string,
-    keepSpinning: bool, // TODO: refactor
   }
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -62,7 +59,6 @@ export class SRStudyList extends React.Component {
       ratingModalisVisible: false,
       selectedID: '',
       renderEmptyStateHeader: false,
-      keepSpinning: false,
     }
   }
 
@@ -86,7 +82,7 @@ export class SRStudyList extends React.Component {
 
   updateStuff = () => {
     const { studyTasks } = this.props
-    const { dataSource, keepSpinning } = this.state
+    const { dataSource } = this.state
     console.log(`FOO LENGTH: ${studyTasks}`)
     const foo = processDataForList(studyTasks)
     var showEmptyStateHeader = false
@@ -105,7 +101,6 @@ export class SRStudyList extends React.Component {
 
     this.setState({
       renderEmptyStateHeader: showEmptyStateHeader,
-      keepSpinning: noDataYet,
     })
   }
 
@@ -113,7 +108,7 @@ export class SRStudyList extends React.Component {
     const {
       dataSource,
       renderEmptyStateHeader,
-      keepSpinning,
+
       ratingModalisVisible
     } = this.state
     const { addItem, action } = this.props
@@ -158,19 +153,6 @@ export class SRStudyList extends React.Component {
             )}
           }}
         />
-
-        <View style={styles.floatingButton}>
-          <SRFloatingButton
-            keepSpinning={keepSpinning}
-            style={styles.addTouchable}
-            onPress={()=>{
-            action()
-          }}>
-
-            <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
-
-          </SRFloatingButton>
-        </View>
 
         <Modal
           animationType={"fade"}
@@ -372,24 +354,9 @@ const styles = StyleSheet.create({
   tableView: {
     backgroundColor: SRBrightColor,
   },
-  floatingButton: {
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    position: 'absolute',
-    bottom: 15,
-    right: 15,
-  },
-  addTouchable: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(57, 62, 65, 0.9)',
-  },
-  floatingButtonContent: {
-  },
+
+
+
   emptyStateHeaderBackground: {
     backgroundColor: SRDarkColor,
     padding: 18,
