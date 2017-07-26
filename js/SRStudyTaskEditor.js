@@ -42,46 +42,50 @@ export default class SRStudyTaskEditor extends React.Component {
       headerStyle: {
         backgroundColor: SRBrightColor
       },
-      title: (params.readonly) ? 'Details' : 'Add a task',
+      title: readonly ? 'Details' : 'Add a task',
     }
   }
 
-  constructor(props) {
-    super(props)
+  state: {
+    editMode: bool,
+    hasChanges: bool,
 
-    const { params } = props.navigation.state
+    taskName: string,
+    notes: string,
+    date: string,
 
-    this.state = {
-      readonly: params != null ? params.readonly : false,
+    studyTaskLabelString: string,
+    notesLabelString: string,
+    pickedDate: string,
+    selectedDateIndex: Number,
+    selectedIntensityIndex: Number,
+  }
+
+  _initialState = (props: Object) => {
+    const { item } = props
+
+    return {
       editMode: false,
       hasChanges: false,
 
-      id:             params != null ? params.item.id            : uuid(),
-      taskName:       params != null ? params.item.taskName      : null,
-      notes:          params != null ? params.item.notes         : null,
-      dates:          params != null ? params.item.dates         : [new Date()],
-      ratingHistory:  params != null ? params.item.ratingHistory : [],
-      srs:            params != null ? params.item.srs           : new SRSpacedRepetition(),
-      intensity:      params != null ? params.item.intensity     : SRStudyTaskIntensity.NORMAL,
+      taskName: item != null && item.taskName != null ? item.taskName : '',
+      notes: item != null && item.notes != null ? item.notes : '',
+      date: new Date().toString(),
 
-      studyTaskLabelString: (params != null && params.item.taskName != null) ? studyTaskString : ' ',
-      notesLabelString: (params != null && params.item.notes != null) ? notesString : ' ',
+      studyTaskLabelString: item != null && item.taskName != null ? studyTaskString : ' ',
+      notesLabelString: item != null && item.notes != null ? notesString : ' ',
       pickedDate: 'Other', // TODO: implement
       selectedDateIndex: 0,
       selectedIntensityIndex: 0,
     }
   }
-
-  props: {
-    saveAction: (studyTask) => any,
-  }
-
-  componentWillReceiveProps() {
-
+  constructor(props: Object) {
+    super(props)
+    this.state = this._initialState(props)
   }
 
   componentWillMount() {
-    const { notes, taskName } = this.state
+    const { notes, taskName } = this.props
 
     const taskNameTextFieldIsEmpty = taskName == null || taskName == ''
     this.hideStudyTaskLabel(taskNameTextFieldIsEmpty)
@@ -91,11 +95,19 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({originalState: this.state})
+  }
+
+  componentWillReceiveProps() {
   }
 
   render() {
-    const { dates, intensity, notes, editMode, readonly, studyTaskLabelString, taskName } = this.state
+    const { readonly } = this.props
+    const {
+      editMode,
+      taskName,
+      notes,
+      studyTaskLabelString
+    } = this.state
 
     const actionButtonTitle = (readonly && editMode == false) ? 'Edit' : 'Save'
     const destructiveButtonTitle = (readonly && editMode == false) ? 'Delete' : 'Cancel'
@@ -189,15 +201,14 @@ export default class SRStudyTaskEditor extends React.Component {
         selectedDate = new Date(moment().subtract(1, 'days'))
         break
       case 2:
-        openDatePicker()
+        this.openDatePicker()
         break
       default:
       throw 'handleDateSelection()'
     }
 
     this.setState({
-      ...this.state,
-      dates: [selectedDate],
+      date: selectedDate.toString(),
       selectedDateIndex: index,
       hasChanges: true
     })
@@ -213,7 +224,9 @@ export default class SRStudyTaskEditor extends React.Component {
   // Actions
 
   actionButtonAction = () => {
-    const wantsEdit = this.state.readonly && !this.state.editMode
+    const { readonly, item } = this.props
+    const { editMode } = this.state
+    const wantsEdit = readonly && !editMode
 
     if(wantsEdit) {
       this.setState({editMode: true})
@@ -224,42 +237,29 @@ export default class SRStudyTaskEditor extends React.Component {
       expect(taskName).toExist('No taskName')
       expect(taskName).toNotEqual('','taskName is empty string')
 
-      const item = {
-        title: taskName,
+      const newItemChanges = {
+        taskName: taskName,
         notes: notes,
         date: date,
       }
 
-      if(this.state.readonly) {
-        dispatch(replace(studyTask))
+      saveAction(newItemChanges, item)
+      if(readonly) {
         this.setState({editMode: false})
-      } else {
-        saveAction(item)
-        this.dismissView()
       }
     }
 
   }
 
   destructiveButtonAction = () => {
-    const { editMode, hasChanges, readonly } = this.state
+    const { readonly, deleteAction, cancelAction, item } = this.props
+    const { editMode, hasChanges } = this.state
     const deleteWhenReadonly = readonly && !editMode
     const cancelEditing = readonly && editMode
     const dismissAddingNewTask = !readonly
 
     if (deleteWhenReadonly) {
-      Alert.alert(
-        'Delete Study Task',
-        'Are you sure you want to delete the study task? This cannot be undone.',
-        [
-          {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-          {text: 'Delete', onPress: () => {
-            this.props.screenProps.store.dispatch(actionCreators.remove({id: this.state.id}))
-            this.dismissView()
-          }},
-        ],
-        { cancelable: true }
-      )
+      deleteAction(item)
     } else if(cancelEditing) {
       if (hasChanges) {
         Alert.alert(
@@ -279,47 +279,16 @@ export default class SRStudyTaskEditor extends React.Component {
         this.setState({editMode: false})
       }
     } else if (dismissAddingNewTask) {
-      this.dismissView()
+      cancelAction()
     } else {
       expect(0).toBe(1, 'destructiveButtonAction() else')
     }
   }
 
   resetFields = () => {
-    const { params } = this.props.navigation.state
-    expect(params).toExist('resetFields(): params == null')
-    if (params == null) { return }
-
-    const {
-      hasChanges,
-      id,
-      taskName,
-      notes,
-      dates,
-      ratingHistory,
-      srs,
-      intensity,
-      studyTaskLabelString,
-      notesLabelString,
-      pickedDate,
-      selectedDateIndex,
-      selectedIntensityIndex
-    } = this.state.originalState
-
     this.setState({
-      hasChanges,
-      id,
-      taskName,
-      notes,
-      dates,
-      ratingHistory,
-      srs,
-      intensity,
-      studyTaskLabelString,
-      notesLabelString,
-      pickedDate,
-      selectedDateIndex,
-      selectedIntensityIndex
+      ...this.state,
+      ...this._initialState(this.props),
     })
   }
 
@@ -352,7 +321,8 @@ export default class SRStudyTaskEditor extends React.Component {
 
   _renderNotes = (flag) => {
       if(flag) {
-        const { notes, notesLabelString, editMode, readonly } = this.state
+        const { readonly } = this.props
+        const { notes, notesLabelString, editMode } = this.state
         const editingOrAddingNewTask = editMode || !readonly
         const viewingOnly = readonly && !editMode
         return(
