@@ -67,7 +67,7 @@ export class SRHome extends Component {
       <View style={{flex:1}}>
 
         <SRStudyList
-          navigationAction ={item => this.navigateToItem}
+          navigationAction ={item => this.navigateToItem(item)}
           rateAction = {(item, grade) => this.rateItem(item, grade)}
         />
 
