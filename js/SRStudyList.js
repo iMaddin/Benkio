@@ -255,13 +255,13 @@ export class SRStudyList extends React.Component {
 
   //
   // TODO: refactor out of here
-  addTask = (task: {title: string, notes: string, date: string}) => {
+  addTask = (task: {taskName: string, notes: string, date: string}) => {
     const {addItem} = this.props
-    const {title, notes, date} = task
+    const {taskName, notes, date} = task
 
     const studyTask = new SRStudyTask(
       uuid(),
-      title,
+      taskName,
       notes,
       [date],
       [],
