@@ -27,45 +27,37 @@ import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { uuid } from './utilities/UUID'
 import SRDiamond from './components/geometry/SRDiamond'
+import { AddStudyTaskScreenName } from './SRHome'
 
 const studyListTitle = 'Reviews'
-
-const AddStudyTaskNavigator = StackNavigator({
-  SRStudyTaskEditor: { screen: withMappedNavigationProps(SRStudyTaskEditor) }
-})
 
 export class SRStudyList extends React.Component {
 
   static navigationOptions = (props) => {
     return {
-      // headerLeft: <Button title='⚙️' onPress={() => params.openSettings()} />,
-      tabBarLabel: studyListTitle,
-      tabBarIcon: ({ tintColor }) => (
-        <Text>🔜</Text>
-      ),
       headerTintColor: SRDarkColor,
-      headerStyle: {
-        backgroundColor: SRBrightColor
-      },
+      headerStyle: { backgroundColor: SRBrightColor},
       title: studyListTitle,
     }
   }
 
+  props: {
+    action: () => any,
+  }
+
   state: {
-    addTaskModalisVisible: bool,
     dataSource: ListView.DataSource,
     ratingModalisVisible: bool,
     renderEmptyStateHeader: bool,
     selectedID: string,
-    keepSpinning: bool,
+    keepSpinning: bool, // TODO: refactor
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      addTaskModalisVisible: false,
       dataSource: dataSource.cloneWithRows([]),
       ratingModalisVisible: false,
       selectedID: '',
@@ -94,7 +86,7 @@ export class SRStudyList extends React.Component {
 
   updateStuff = () => {
     const { studyTasks } = this.props
-    const { addTaskModalisVisible, dataSource, keepSpinning } = this.state
+    const { dataSource, keepSpinning } = this.state
     console.log(`FOO LENGTH: ${studyTasks}`)
     const foo = processDataForList(studyTasks)
     var showEmptyStateHeader = false
@@ -118,22 +110,14 @@ export class SRStudyList extends React.Component {
   }
 
   render() {
-    const { addTaskModalisVisible,
+    const {
       dataSource,
       renderEmptyStateHeader,
       keepSpinning,
       ratingModalisVisible
     } = this.state
-    const { addItem } = this.props
+    const { addItem, action } = this.props
 
-    const addTaskScreenProps = {
-      saveAction: (item) => {
-        this.addTask(item)
-        this.setAddTaskModalVisible(!addTaskModalisVisible)
-      },
-      cancelAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible),
-      readonly: false,
-    }
 
     return (
       <View style={styles.container}>
@@ -180,10 +164,9 @@ export class SRStudyList extends React.Component {
             keepSpinning={keepSpinning}
             style={styles.addTouchable}
             onPress={()=>{
-            this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
+            action()
           }}>
 
-            {/* <Text style={styles.floatingButtonContent}>⬥</Text> */}
             <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
 
           </SRFloatingButton>
@@ -198,14 +181,6 @@ export class SRStudyList extends React.Component {
            dismissAction={() => this.setRatingModalVisible(!ratingModalisVisible)}
            ratedCallback={(index) => this.rateTask(index)}
          />
-        </Modal>
-
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={addTaskModalisVisible}
-          >
-         <AddStudyTaskNavigator screenProps={addTaskScreenProps}/>
         </Modal>
 
       </View>
@@ -239,10 +214,6 @@ export class SRStudyList extends React.Component {
     this.setState({ratingModalisVisible: visible});
   }
 
-  setAddTaskModalVisible(visible: bool) {
-    this.setState({addTaskModalisVisible: visible})
-  }
-
   navigateToDetails = (item: any) => {
     const { navigation } = this.props
     const displayProps = {
@@ -251,11 +222,7 @@ export class SRStudyList extends React.Component {
       saveAction: (newItem, oldItem) => this.updateTask(newItem, oldItem),
       deleteAction: () => this.deleteTask(item),
     }
-    navigation.navigate('SRStudyTaskEditor', displayProps)
-  }
-
-  openSettings = () => {
-
+    navigation.navigate(AddStudyTaskScreenName, displayProps)
   }
 
   //
