@@ -1,7 +1,7 @@
 // @flow
-
 import React from 'react'
 import {
+  Alert,
   ListView,
   Modal,
   StyleSheet,
@@ -121,7 +121,13 @@ export class SRStudyList extends React.Component {
   }
 
   render() {
-    const { addTaskModalisVisible, dataSource, studyTasks, renderEmptyStateHeader, keepSpinning, ratingModalisVisible} = this.state
+    const { addTaskModalisVisible,
+      dataSource,
+      studyTasks,
+      renderEmptyStateHeader,
+      keepSpinning,
+      ratingModalisVisible
+    } = this.state
     const { addItem } = this.props
 
     const addTaskScreenProps = {
@@ -208,6 +214,8 @@ export class SRStudyList extends React.Component {
       </View>
     )
   }
+
+  // UI state
 
   _renderEmptyStateHeader = (flag) => {
     if(flag) {
