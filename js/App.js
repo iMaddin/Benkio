@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { AppRegistry, AsyncStorage, Text } from 'react-native'
-import PropTypes from 'prop-types'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import { createStore } from 'redux'
 import { persistStore, autoRehydrate } from 'redux-persist'
@@ -53,7 +52,6 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <SpaceReminder />
-        {/* <SRStudyList /> */}
       </Provider>
     )
   }
