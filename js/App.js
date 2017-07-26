@@ -1,19 +1,17 @@
 // @flow
 
 import React from 'react'
-import { AppRegistry, AsyncStorage } from 'react-native'
+import { AppRegistry, AsyncStorage, Text } from 'react-native'
 import PropTypes from 'prop-types'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import { createStore } from 'redux'
 import { persistStore, autoRehydrate } from 'redux-persist'
+import { Provider } from 'react-redux'
 
 import SRStudyList from './SRStudyList'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRSettings from './SRSettings'
 import { reducer } from './dataModel/SRSimpleDataModel'
-
-const store = createStore(reducer, undefined, autoRehydrate())
-persistStore(store, {storage: AsyncStorage})
 
 const SettingsStackNavigator = StackNavigator({
   Settings: { screen: SRSettings },
@@ -28,44 +26,34 @@ const SpaceReminder = StackNavigator({
   }
 )
 
-class Provider extends React.Component {
-  getChildContext() {
-    return {
-      store: this.props.store
-    }
-  }
-  render() {
-    return this.props.children
-  }
-}
-
-Provider.childContextTypes = {
-  store: PropTypes.object
-}
-
-class TaylorSwift extends React.Component {
-  render() {
-    const { store } = this.context
-
-    const screenProps = {
-      store: store,
-    }
-
-    return (
-      <SpaceReminder screenProps={screenProps}/>
-    )
-  }
-}
-
-TaylorSwift.contextTypes = {
-  store: PropTypes.object
-}
+const store = createStore(reducer, undefined, autoRehydrate())
 
 export default class App extends React.Component {
+
+  state: {
+    rehydrated: bool,
+  }
+
+  constructor() {
+    super()
+    this.state = { rehydrated: false }
+  }
+
+  componentWillMount() {
+    persistStore(store, {storage: AsyncStorage}, () => {
+      this.setState({ rehydrated: true })
+    })
+    // persistStore(store, {storage: AsyncStorage}).purge()
+  }
+
   render() {
+    if(!this.state.rehydrated){
+      return <Text>Loading...</Text> // TODO: maybe not needed since react redux updates props anyway
+    }
     return (
       <Provider store={store}>
-        <TaylorSwift />
+        <SpaceReminder />
+        {/* <SRStudyList /> */}
       </Provider>
     )
   }

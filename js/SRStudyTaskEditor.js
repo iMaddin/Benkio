@@ -14,6 +14,7 @@ import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect, { createSpy, spyOn, isSpy } from 'expect'
 import moment from 'moment'
 import { NavigationActions } from 'react-navigation'
+import { connect } from 'react-redux'
 
 import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import { SRSpacedRepetition } from './SRSpacedRepetition'
@@ -35,7 +36,7 @@ const tintColor = SRRedColor
 
 const dateSegmentedControlCornerRadius = 4
 
-export default class SRStudyTaskEditor extends React.Component {
+export class SRStudyTaskEditor extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     const { params = {} } = navigation.state
@@ -225,8 +226,6 @@ export default class SRStudyTaskEditor extends React.Component {
       const saveRequirementsHaveBeenMet = taskName != null && taskName != ''
       if (!saveRequirementsHaveBeenMet) { return }
 
-      const { store } = this.props.screenProps
-
       const studyTask = new SRStudyTask(
         this.state.id,
         this.state.taskName,
@@ -237,11 +236,12 @@ export default class SRStudyTaskEditor extends React.Component {
         this.state.intensity
       )
 
+      const { dispatch } = this.props
       if(this.state.readonly) {
-        store.dispatch(actionCreators.replace(studyTask))
+        dispatch(replace(studyTask))
         this.setState({editMode: false})
       } else {
-        store.dispatch(actionCreators.add(studyTask))
+        dispatch(actionCreators.add(studyTask))
         this.dismissView()
       }
     }
@@ -446,6 +446,9 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
 }
+
+export default connect()(SRStudyTaskEditor)
+
 
 const styles = StyleSheet.create({
   scrollView: {

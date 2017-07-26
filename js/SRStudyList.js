@@ -12,6 +12,7 @@ import {
 import { StackNavigator } from 'react-navigation'
 import expect from 'expect'
 import moment from 'moment'
+import {connect} from 'react-redux'
 
 import SRFloatingButton from './SRFloatingButton'
 import SRRatingView from './SRRatingView'
@@ -30,7 +31,7 @@ const AddStudyTaskNavigator = StackNavigator({
   SRStudyTaskEditor: { screen: SRStudyTaskEditor }
 })
 
-export default class SRStudyList extends React.Component {
+export class SRStudyList extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     const { params = {} } = navigation.state
@@ -74,38 +75,27 @@ export default class SRStudyList extends React.Component {
   }
 
   componentWillMount() {
-    const {store} = this.props.screenProps
-
-    const {studyTasks} = store.getState()
-    this.setState({studyTasks})
+    const {studyTasks} = this.props
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(processDataForList(studyTasks))
     })
-
-    this.unsubscribe = store.subscribe(() => {
-      const {studyTasks} = store.getState()
-      this.setState({studyTasks})
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(processDataForList(studyTasks))
-      })
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
   }
 
   componentDidMount() {
     // this.props.navigation.setParams({openSettings: this.openSettings})
-    // this.updateStuff()
+
   }
 
   componentWillReceiveProps(newProps: Object) {
+    const {studyTasks} = newProps
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(processDataForList(studyTasks))
+    })
     this.updateStuff()
   }
 
   updateStuff = () => {
-      const {studyTasks} = this.props.screenProps.store.getState()
+      const {studyTasks} = this.props
     const { addTaskModalisVisible, dataSource, keepSpinning } = this.state
     console.log(`FOO LENGTH: ${studyTasks}`)
     const foo = processDataForList(studyTasks)
@@ -320,6 +310,28 @@ export default class SRStudyList extends React.Component {
     this.setRatingModalVisible(false)
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addItem: item => {
+      dispatch(actionCreators.add(item))
+    },
+    removeItem: item => {
+      dispatch(actionCreators.remove(item))
+    },
+    replaceItem: item => {
+      dispatch(actionCreators.replace(item))
+    }
+  }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        studyTasks: state.studyTasks
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SRStudyList)
 
 const styles = StyleSheet.create({
   container: {
