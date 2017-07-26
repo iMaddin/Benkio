@@ -440,7 +440,7 @@ export default class SRStudyTaskEditor extends React.Component {
     if(readonly) {
       navigation.dispatch(NavigationActions.back())
     } else {
-      const { cancelAction } = screenProps
+      const { cancelAction } = this.props
       cancelAction()
     }
   }

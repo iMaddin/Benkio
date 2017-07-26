@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native'
 import { StackNavigator } from 'react-navigation'
+import { withMappedNavigationProps } from 'react-navigation-props-mapper'
 import expect from 'expect'
 import moment from 'moment'
 import {connect} from 'react-redux'
@@ -28,7 +29,7 @@ import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utiliti
 const studyListTitle = 'Reviews'
 
 const AddStudyTaskNavigator = StackNavigator({
-  SRStudyTaskEditor: { screen: SRStudyTaskEditor }
+  SRStudyTaskEditor: { screen: withMappedNavigationProps(SRStudyTaskEditor) }
 })
 
 export class SRStudyList extends React.Component {
