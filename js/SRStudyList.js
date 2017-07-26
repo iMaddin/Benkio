@@ -26,6 +26,7 @@ import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/S
 import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { uuid } from './utilities/UUID'
+import SRDiamond from './components/geometry/SRDiamond'
 
 const studyListTitle = 'Reviews'
 
@@ -184,7 +185,8 @@ export class SRStudyList extends React.Component {
             this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
           }}>
 
-            <Text style={styles.floatingButtonText}>⬥</Text>
+            {/* <Text style={styles.floatingButtonContent}>⬥</Text> */}
+            <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
 
           </SRFloatingButton>
         </View>
@@ -415,20 +417,16 @@ const styles = StyleSheet.create({
   addTouchable: {
     flex:1,
     justifyContent: 'center',
+    alignItems: 'center',
     width: 60,
     height: 60,
     borderRadius: 30,
     backgroundColor: 'rgba(57, 62, 65, 0.9)',
   },
-  floatingButtonText: {
-    marginBottom: 3,
-    fontSize: 20,
-    textAlign: 'center',
-    color: 'rgba(255, 252, 49, 0.9)',
+  floatingButtonContent: {
   },
   emptyStateHeaderBackground: {
     backgroundColor: SRDarkColor,
-    // marginBottom: 10,
     padding: 18,
   },
   circle: {
