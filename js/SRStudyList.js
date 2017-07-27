@@ -70,6 +70,9 @@ class SRStudyList extends React.Component {
       ratingModalisVisible
     } = this.state
 
+    var listViewHeight = 0
+    var todayCellHeight = 0
+
     return (
       <View style={styles.container}>
         {this._renderEmptyStateHeader(renderEmptyStateHeader)}
@@ -80,8 +83,8 @@ class SRStudyList extends React.Component {
           enableEmptySections={true}
           onLayout={(event) => {
             const {x, y, width, height} = event.nativeEvent.layout
-            console.log(`listViewHeight ${height}`)
-            this.setState({listViewHeight: height})
+            console.log(`render() ListView height ${height}`)
+            this.setState({listViewHeight: height}) // only called once when it changes
           }}
           renderRow={(item, sectionID, rowID, highlightRow) => {
 
@@ -98,8 +101,8 @@ class SRStudyList extends React.Component {
                   onLayout={(event) => {
                     const {x, y, width, height} = event.nativeEvent.layout
                     if(rowID == 0) {
-                      console.log(`onlyTypographicCellHeight ${height}`)
-                      this.setState({onlyTypographicCellHeight: height})
+                      console.log(`render() onlyTypographicCellHeight ${height}`)
+                      this.setState({onlyTypographicCellHeight: height}) // only called once when it changes
                     }
                   }}>
                   <SRTypographicCell
@@ -122,7 +125,9 @@ class SRStudyList extends React.Component {
             )}
           }}
         />
-        {this._renderEmptyStateTable(renderEmptyStateTable)}
+
+        {this._renderEmptyStateTable(true)}
+
         <Modal
           animationType={"fade"}
           transparent={true}
@@ -163,9 +168,9 @@ class SRStudyList extends React.Component {
     emptyStateTableDistanceFromBottomCalculated = listViewHeight - onlyTypographicCellHeight
     console.log(`componentDidMount() emptyStateTableDistanceFromBottomCalculated ${emptyStateTableDistanceFromBottomCalculated}`)
 
-    this.setState({
-      emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
-    })
+    // this.setState({
+    //   emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
+    // })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -174,9 +179,9 @@ class SRStudyList extends React.Component {
     console.log(`componentDidUpdate() emptyStateTableDistanceFromBottomCalculated ${emptyStateTableDistanceFromBottomCalculated}`)
 
     if (listViewHeight != 0 && onlyTypographicCellHeight != 0 && prevState.emptyStateTableDistanceFromBottom != emptyStateTableDistanceFromBottomCalculated) {
-      this.setState({
-        emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
-      })
+      // this.setState({
+      //   emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
+      // })
     }
 
   }
@@ -211,7 +216,7 @@ class SRStudyList extends React.Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(tableData),
       renderEmptyStateHeader: showEmptyStateHeader,
-      emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
+      // emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
     })
 
     // empty state table
@@ -232,14 +237,18 @@ class SRStudyList extends React.Component {
   }
 
   _renderEmptyStateTable = (flag) => {
-    if(flag) {
+    const { listViewHeight, onlyTypographicCellHeight } = this.state
+    console.log(`_renderEmptyStateTable`)
+
+    if(flag && listViewHeight != 0 && onlyTypographicCellHeight != 0) {
+      console.log(`_renderEmptyStateTable: READY FOR TAKEOFF listViewHeight ${listViewHeight} onlyTypographicCellHeight ${onlyTypographicCellHeight}`)
       return (
         <View style={{
           position: 'absolute',
           alignItems: 'center',
           right: 0,
           left: 0,
-          bottom: this.state.emptyStateTableDistanceFromBottom,
+          bottom: (listViewHeight - onlyTypographicCellHeight) / 2,
           backgroundColor: 'red',
         }}>
           <SREmptyState style={{
