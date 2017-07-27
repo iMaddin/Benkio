@@ -25,7 +25,7 @@ const AddStudyTaskNavigator = StackNavigator({
   AddStudyTask: { screen: withMappedNavigationProps(SRStudyTaskEditor) }
 })
 
-export class SRHome extends Component {
+class SRHome extends Component {
 
   static navigationOptions = (props) => {
     return {

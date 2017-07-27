@@ -23,7 +23,7 @@ import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utiliti
 
 export const studyListTitle = 'Reviews'
 
-export class SRStudyList extends React.Component {
+class SRStudyList extends React.Component {
 
   state: {
     dataSource: ListView.DataSource,

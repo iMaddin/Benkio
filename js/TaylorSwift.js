@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { StackNavigator } from 'react-navigation'
 import { withMappedNavigationAndConfigProps } from 'react-navigation-props-mapper'
 
-import { SRHome } from './SRHome'
+import SRHome from './SRHome'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
 
 const SpaceReminder = StackNavigator({
@@ -12,7 +12,7 @@ const SpaceReminder = StackNavigator({
   StudyTaskDetails: { screen: withMappedNavigationAndConfigProps(SRStudyTaskEditor)},
 })
 
-export class TaylorSwift extends Component {
+export default class TaylorSwift extends Component {
 
   // screenProps={this.props}
   // Provider can forward props to TaylorSwift but
@@ -20,10 +20,10 @@ export class TaylorSwift extends Component {
   // Since we are using withMappedNavigationAndConfigProps, the props will be available in children.
   render() {
     return (
-      <SpaceReminder screenProps={this.props}/>
+      <SpaceReminder />
     )
   }
 
 }
 
-export default connect()(TaylorSwift)
+// export default connect()(TaylorSwift)
