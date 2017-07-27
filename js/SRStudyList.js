@@ -21,6 +21,7 @@ import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { formatCellDate } from './utilities/SRDateFormat'
 import SREmptyStateHeader from './components/SREmptyStateHeader'
+import SREmptyState from './components/SREmptyState'
 
 export const studyListTitle = 'Reviews'
 
@@ -30,6 +31,8 @@ class SRStudyList extends React.Component {
     dataSource: ListView.DataSource,
     ratingModalisVisible: bool,
     renderEmptyStateHeader: bool,
+    renderEmptyStateTable: bool,
+    emptyStateTableDistanceFromBottom: number,
     selectedID: string,
   }
 
@@ -42,6 +45,8 @@ class SRStudyList extends React.Component {
       ratingModalisVisible: false,
       selectedID: '',
       renderEmptyStateHeader: false,
+      renderEmptyStateTable: true,
+      emptyStateTableDistanceFromBottom: 0,
     }
   }
 
@@ -57,12 +62,13 @@ class SRStudyList extends React.Component {
     const {
       dataSource,
       renderEmptyStateHeader,
+      renderEmptyStateTable,
       ratingModalisVisible
     } = this.state
 
     return (
       <View style={styles.container}>
-        {this._renderEmptyStateHeader(renderEmptyStateHeader)}
+        {this._renderEmptyStateHeader(false)}
         <ListView
           contentContainerStyle={styles.tableViewContainer}
           style={styles.tableView}
@@ -99,7 +105,7 @@ class SRStudyList extends React.Component {
             )}
           }}
         />
-
+        {this._renderEmptyStateTable(renderEmptyStateTable)}
         <Modal
           animationType={"fade"}
           transparent={true}
@@ -125,6 +131,7 @@ class SRStudyList extends React.Component {
       dataSource: this.state.dataSource.cloneWithRows(tableData)
     })
 
+    // empty state header
     var showEmptyStateHeader = false
     const noDataYet = tableData.length == 0
 
@@ -141,12 +148,41 @@ class SRStudyList extends React.Component {
     this.setState({
       renderEmptyStateHeader: showEmptyStateHeader,
     })
+
+    // empty state table
+    /**
+     * no data - table/2
+     * 1 today or overdue data - calculate space below typographic cell
+     */
   }
 
   _renderEmptyStateHeader = (flag) => {
     if(flag) {
       return (
         <SREmptyStateHeader />
+      )
+    } else {
+      return null
+    }
+  }
+
+  _renderEmptyStateTable = (flag) => {
+    if(flag) {
+      return (
+        <View style={{
+          position: 'absolute',
+          alignItems: 'center',
+          right: 0,
+          left: 0,
+          bottom: this.state.emptyStateTableDistanceFromBottom,
+          backgroundColor: 'red',
+        }}>
+          <SREmptyState style={{
+            // flex:1,
+            // justifyContent: 'center',
+            // alignItems: 'center',
+          }}/>
+        </View>
       )
     } else {
       return null
