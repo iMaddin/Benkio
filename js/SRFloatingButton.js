@@ -9,10 +9,19 @@ import {
 
 export default class SRFloatingButton extends React.Component {
 
-  state = {
-    bounceAnimation: new Animated.Value(0),
-    spinAnimation: new Animated.Value(0),
-    springAnimation: new Animated.Value(0),
+  state: {
+    bounceAnimation: Animated.Value,
+    spinAnimation: Animated.Value,
+    springAnimation: Animated.Value,
+  }
+
+  constructor() {
+    super()
+    this.state = {
+      bounceAnimation: new Animated.Value(0),
+      spinAnimation: new Animated.Value(0),
+      springAnimation: new Animated.Value(0),
+    }
   }
 
   componentWillMount() {
@@ -35,7 +44,7 @@ export default class SRFloatingButton extends React.Component {
               inputRange: [0, 1],
               outputRange: ['0deg', '360deg']
             })
-          ,}]
+          }]
         }}
       >
         <TouchableOpacity
