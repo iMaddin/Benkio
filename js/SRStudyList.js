@@ -34,6 +34,8 @@ class SRStudyList extends React.Component {
     renderEmptyStateTable: bool,
     emptyStateTableDistanceFromBottom: number,
     selectedID: string,
+    listViewHeight: number,
+    onlyTypographicCellHeight: number,
   }
 
   constructor(props: Object) {
@@ -47,6 +49,8 @@ class SRStudyList extends React.Component {
       renderEmptyStateHeader: false,
       renderEmptyStateTable: true,
       emptyStateTableDistanceFromBottom: 0,
+      listViewHeight: 0,
+      onlyTypographicCellHeight: 0,
     }
   }
 
@@ -68,12 +72,17 @@ class SRStudyList extends React.Component {
 
     return (
       <View style={styles.container}>
-        {this._renderEmptyStateHeader(false)}
+        {this._renderEmptyStateHeader(renderEmptyStateHeader)}
         <ListView
           contentContainerStyle={styles.tableViewContainer}
           style={styles.tableView}
           dataSource={dataSource}
           enableEmptySections={true}
+          onLayout={(event) => {
+            const {x, y, width, height} = event.nativeEvent.layout
+            console.log(`listViewHeight ${height}`)
+            this.setState({listViewHeight: height})
+          }}
           renderRow={(item, sectionID, rowID, highlightRow) => {
 
             const d = new Date(item.date)
@@ -84,14 +93,22 @@ class SRStudyList extends React.Component {
 
             if(allowRating) {
               return (
-
-                <SRTypographicCell
-                  onPressDetailsButton={() => this.navigateToDetails(item)}
-                  onPressRateButton={() => this.rateItem(item.id)}
-                >
-                  {{title: item.taskName, notes: item.notes, date: formattedDate}}
-                </SRTypographicCell>
-
+                // needs wrapper because onLayout doesn't get called on SRTypographicCell for some reason
+                <View style={{flex:1}}
+                  onLayout={(event) => {
+                    const {x, y, width, height} = event.nativeEvent.layout
+                    if(rowID == 0) {
+                      console.log(`onlyTypographicCellHeight ${height}`)
+                      this.setState({onlyTypographicCellHeight: height})
+                    }
+                  }}>
+                  <SRTypographicCell
+                    onPressDetailsButton={() => this.navigateToDetails(item)}
+                    onPressRateButton={() => this.rateItem(item.id)}
+                  >
+                    {{title: item.taskName, notes: item.notes, date: formattedDate}}
+                  </SRTypographicCell>
+                </View>
               )
             } else {
               return (
@@ -121,32 +138,80 @@ class SRStudyList extends React.Component {
     )
   }
 
+  componentDidMount() {
+    const { studyTasks } = this.props
+    const { listViewHeight, onlyTypographicCellHeight } = this.state
+
+    const tableData = processDataForList(studyTasks)
+
+    const noDataYet = tableData.length == 0
+    var emptyStateTableDistanceFromBottomCalculated = 0
+
+    if(noDataYet) {
+      emptyStateTableDistanceFromBottomCalculated = listViewHeight/2
+    } else {
+      const firstItem = tableData[0]
+      const onlyFutureTasks = (new Date(firstItem.date) > new Date())
+      if(onlyFutureTasks) {
+      } else {
+        if(tableData.length == 1) {
+
+        }
+      }
+    }
+
+    emptyStateTableDistanceFromBottomCalculated = listViewHeight - onlyTypographicCellHeight
+    console.log(`componentDidMount() emptyStateTableDistanceFromBottomCalculated ${emptyStateTableDistanceFromBottomCalculated}`)
+
+    this.setState({
+      emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { listViewHeight, onlyTypographicCellHeight } = this.state
+    var emptyStateTableDistanceFromBottomCalculated = listViewHeight - onlyTypographicCellHeight
+    console.log(`componentDidUpdate() emptyStateTableDistanceFromBottomCalculated ${emptyStateTableDistanceFromBottomCalculated}`)
+
+    if (listViewHeight != 0 && onlyTypographicCellHeight != 0 && prevState.emptyStateTableDistanceFromBottom != emptyStateTableDistanceFromBottomCalculated) {
+      this.setState({
+        emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
+      })
+    }
+
+  }
+
   // UI state
 
   updateUIStates = (props) => {
     const { studyTasks } = props
+    const { listViewHeight, onlyTypographicCellHeight } = this.state
     const tableData = processDataForList(studyTasks)
 
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(tableData)
-    })
-
-    // empty state header
-    var showEmptyStateHeader = false
     const noDataYet = tableData.length == 0
+    var showEmptyStateHeader = false
+    var emptyStateTableDistanceFromBottomCalculated = 0
 
     if(noDataYet) {
       showEmptyStateHeader = true
+      emptyStateTableDistanceFromBottomCalculated = listViewHeight/2
     } else {
       const firstItem = tableData[0]
       const onlyFutureTasks = (new Date(firstItem.date) > new Date())
       if(onlyFutureTasks) {
         showEmptyStateHeader = true
+      } else {
+        if(tableData.length == 1) {
+          emptyStateTableDistanceFromBottomCalculated = listViewHeight - onlyTypographicCellHeight
+          // console.log(`emptyStateTableDistanceFromBottomCalculated ${emptyStateTableDistanceFromBottomCalculated}`)
+        }
       }
     }
 
     this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(tableData),
       renderEmptyStateHeader: showEmptyStateHeader,
+      emptyStateTableDistanceFromBottom: emptyStateTableDistanceFromBottomCalculated,
     })
 
     // empty state table
