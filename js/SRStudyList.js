@@ -46,38 +46,11 @@ class SRStudyList extends React.Component {
   }
 
   componentWillMount() {
-    this.updateStuff(this.props)
+    this.updateUIStates(this.props)
   }
 
   componentWillReceiveProps(newProps: Object) {
-    this.updateStuff(newProps)
-  }
-
-  updateStuff = (props) => {
-    const { studyTasks } = props
-    const tableData = processDataForList(studyTasks)
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(tableData)
-    })
-
-    var showEmptyStateHeader = false
-    const noDataYet = tableData.length == 0
-    console.log(`tableData.length: ${tableData.length}`)
-
-    if(noDataYet) {
-      showEmptyStateHeader = true
-    } else {
-      const firstItem = tableData[0]
-      const onlyFutureTasks = (new Date(firstItem.date) > new Date())
-      if(onlyFutureTasks) {
-        showEmptyStateHeader = true
-      }
-    }
-
-    this.setState({
-      renderEmptyStateHeader: showEmptyStateHeader,
-    })
+    this.updateUIStates(newProps)
   }
 
   render() {
@@ -143,6 +116,32 @@ class SRStudyList extends React.Component {
   }
 
   // UI state
+
+  updateUIStates = (props) => {
+    const { studyTasks } = props
+    const tableData = processDataForList(studyTasks)
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(tableData)
+    })
+
+    var showEmptyStateHeader = false
+    const noDataYet = tableData.length == 0
+
+    if(noDataYet) {
+      showEmptyStateHeader = true
+    } else {
+      const firstItem = tableData[0]
+      const onlyFutureTasks = (new Date(firstItem.date) > new Date())
+      if(onlyFutureTasks) {
+        showEmptyStateHeader = true
+      }
+    }
+
+    this.setState({
+      renderEmptyStateHeader: showEmptyStateHeader,
+    })
+  }
 
   _renderEmptyStateHeader = (flag) => {
     if(flag) {

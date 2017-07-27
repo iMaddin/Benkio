@@ -48,6 +48,14 @@ class SRHome extends Component {
     }
   }
 
+  componentWillMount() {
+    this.updateUIStates(this.props)
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.updateUIStates(newProps)
+  }
+
   render() {
     const {
       addTaskModalisVisible,
@@ -92,6 +100,11 @@ class SRHome extends Component {
 
        </View>
     )
+  }
+
+  updateUIStates = (props) => {
+    const { studyTasks } = props
+    this.setState({keepSpinning: (studyTasks.length == 0)})
   }
 
   // Modals

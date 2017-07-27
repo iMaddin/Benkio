@@ -9,37 +9,18 @@ import {
 
 export default class SRFloatingButton extends React.Component {
 
-  // constructor(props){
-  //   super(props)
-  // }
-
   state = {
     bounceAnimation: new Animated.Value(0),
     spinAnimation: new Animated.Value(0),
     springAnimation: new Animated.Value(0),
   }
 
-  componentWillReceiveProps() {
-    const { keepBouncing, keepSpinning, keepSpringing } = this.props
-    const { bounceAnimation, spinAnimation, springAnimation } = this.state
+  componentWillMount() {
+    this.updateUIStates(this.props)
+  }
 
-    const spinning = Animated.loop(
-      Animated.timing(
-        spinAnimation,
-        {
-          toValue: 1,
-          easing: Easing.linear,
-          duration: 6000,
-          // useNativeDriver: true,
-        }
-      )
-    )
-
-    if(keepSpinning) {
-      spinning.start()
-    } else {
-      spinAnimation.setValue(0)
-    }
+  componentWillReceiveProps(newProps: Object) {
+    this.updateUIStates(newProps)
   }
 
   render() {
@@ -65,5 +46,28 @@ export default class SRFloatingButton extends React.Component {
       </Animated.View>
 
     )
+  }
+
+  updateUIStates = (props: Object) => {
+    const { keepBouncing, keepSpinning, keepSpringing } = props
+    const { bounceAnimation, spinAnimation, springAnimation } = this.state
+
+    const spinning = Animated.loop(
+      Animated.timing(
+        spinAnimation,
+        {
+          toValue: 1,
+          easing: Easing.linear,
+          duration: 6000,
+          // useNativeDriver: true,
+        }
+      )
+    )
+
+    if(keepSpinning) {
+      spinning.start()
+    } else {
+      spinAnimation.setValue(0)
+    }
   }
 }
