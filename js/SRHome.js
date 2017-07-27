@@ -1,13 +1,11 @@
 // @flow
 import React, { Component } from 'react'
 import { Alert, View } from 'react-native'
-import { NavigationActions, StackNavigator } from 'react-navigation'
-import { withMappedNavigationProps, withMappedNavigationAndConfigProps } from 'react-navigation-props-mapper'
+import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import expect from 'expect'
 
 import SRStudyList, { studyListTitle } from './SRStudyList'
-import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRSpacedRepetition from './SRSpacedRepetition'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { mapDispatchToProps, mapStateToProps } from './dataModel/SRDataManipulator'
