@@ -46,33 +46,29 @@ class SRStudyList extends React.Component {
   }
 
   componentWillMount() {
-    const {studyTasks} = this.props
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(processDataForList(studyTasks))
-    })
+    this.updateStuff(this.props)
   }
 
   componentWillReceiveProps(newProps: Object) {
-    const {studyTasks} = newProps
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(processDataForList(studyTasks))
-    })
-    this.updateStuff()
+    this.updateStuff(newProps)
   }
 
-  updateStuff = () => {
-    const { studyTasks } = this.props
-    const { dataSource } = this.state
-    console.log(`FOO LENGTH: ${studyTasks}`)
-    const foo = processDataForList(studyTasks)
+  updateStuff = (props) => {
+    const { studyTasks } = props
+    const tableData = processDataForList(studyTasks)
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(tableData)
+    })
+
     var showEmptyStateHeader = false
-    const noDataYet = foo.length == 0 //dataSource.getRowCount() == 0
-    console.log(`updateStuff(): noDataYet: ${noDataYet}`)
+    const noDataYet = tableData.length == 0
+    console.log(`tableData.length: ${tableData.length}`)
+
     if(noDataYet) {
       showEmptyStateHeader = true
-      // see if this is called after table view changes
     } else {
-      const firstItem = foo[0]//dataSource.getRowData(0, 0)
+      const firstItem = tableData[0]
       const onlyFutureTasks = (new Date(firstItem.date) > new Date())
       if(onlyFutureTasks) {
         showEmptyStateHeader = true
