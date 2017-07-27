@@ -1,10 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  View } from 'react-native'
+import { Alert, View } from 'react-native'
 import { NavigationActions, StackNavigator } from 'react-navigation'
 import { withMappedNavigationProps, withMappedNavigationAndConfigProps } from 'react-navigation-props-mapper'
 import { connect } from 'react-redux'
@@ -12,18 +8,12 @@ import expect from 'expect'
 
 import SRStudyList, { studyListTitle } from './SRStudyList'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
-import SRFloatingButton from './SRFloatingButton'
-import SRDiamond from './components/geometry/SRDiamond'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './dataModel/SRSimpleDataModel'
 import uuid from './utilities/UUID'
 import SRSpacedRepetition from './SRSpacedRepetition'
 
 export const StudyTaskDetailsScreenName = 'StudyTaskDetails'
-
-const AddStudyTaskNavigator = StackNavigator({
-  AddStudyTask: { screen: withMappedNavigationProps(SRStudyTaskEditor) }
-})
 
 class SRHome extends Component {
 
@@ -35,42 +25,7 @@ class SRHome extends Component {
     }
   }
 
-  state: {
-    addTaskModalisVisible: bool,
-    keepSpinning: bool,
-  }
-
-  constructor(props: Object) {
-    super(props)
-    this.state = {
-      addTaskModalisVisible: false,
-      keepSpinning: false,
-    }
-  }
-
-  componentWillMount() {
-    this.updateUIStates(this.props)
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.updateUIStates(newProps)
-  }
-
   render() {
-    const {
-      addTaskModalisVisible,
-      keepSpinning,
-    } = this.state
-
-    const addTaskScreenProps = {
-      readonly: false,
-      saveAction: (item) => {
-        this.addTask(item)
-        this.setAddTaskModalVisible(!addTaskModalisVisible)
-      },
-      cancelAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible),
-    }
-
     return (
       <View style={{flex:1}}>
 
@@ -79,38 +34,8 @@ class SRHome extends Component {
           rateAction = {(item, grade) => this.rateItem(item, grade)}
         />
 
-        <View style={styles.floatingButton}>
-          <SRFloatingButton
-            keepSpinning={keepSpinning}
-            style={styles.addTouchable}
-            onPress={()=>this.setAddTaskModalVisible(!addTaskModalisVisible)}>
-
-            <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
-
-          </SRFloatingButton>
-        </View>
-
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={addTaskModalisVisible}
-          >
-         <AddStudyTaskNavigator screenProps={addTaskScreenProps}/>
-        </Modal>
-
        </View>
     )
-  }
-
-  updateUIStates = (props) => {
-    const { studyTasks } = props
-    this.setState({keepSpinning: (studyTasks.length == 0)})
-  }
-
-  // Modals
-
-  setAddTaskModalVisible(visible: bool) {
-    this.setState({addTaskModalisVisible: visible})
   }
 
   // Model Manipulation
@@ -217,24 +142,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SRHome)
-
-const styles = StyleSheet.create({
-  floatingButton: {
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    position: 'absolute',
-    bottom: 15,
-    right: 15,
-  },
-  addTouchable: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(57, 62, 65, 0.9)',
-  },
-  floatingButtonContent: {
-  },
-})
