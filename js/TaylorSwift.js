@@ -16,6 +16,7 @@ import SRStudyTaskEditor from './SRStudyTaskEditor'
 import SRFloatingButton from './SRFloatingButton'
 import SRDiamond from './components/geometry/SRDiamond'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
+import { mapDispatchToProps, mapStateToProps } from './dataModel/SRDataManipulator'
 
 const SpaceReminder = StackNavigator({
   Home: { screen: withMappedNavigationAndConfigProps(SRHome) },
@@ -67,7 +68,7 @@ class TaylorSwift extends Component {
     const addTaskScreenProps = {
       readonly: false,
       saveAction: (item) => {
-        // this.addTask(item)
+        this.props.addItem(item)
         this.setAddTaskModalVisible(!addTaskModalisVisible)
       },
       cancelAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible),
@@ -100,8 +101,8 @@ class TaylorSwift extends Component {
           <SRFloatingButton
             keepSpinning={keepSpinning}
             style={styles.addTouchable}
-            // onPress={()=>this.setAddTaskModalVisible(!addTaskModalisVisible)}
-            onPress={()=>this.transformAnimate(!isTransformed)}
+            onPress={()=>this.setAddTaskModalVisible(!addTaskModalisVisible)}
+            // onPress={()=>this.transformAnimate(!isTransformed)}
 
             >
 
@@ -151,13 +152,7 @@ class TaylorSwift extends Component {
 
 }
 
-const mapStateToProps = (state) => {
-    return {
-        studyTasks: state.studyTasks
-    }
-}
-
-export default connect(mapStateToProps)(TaylorSwift)
+export default connect(mapStateToProps, mapDispatchToProps)(TaylorSwift)
 
 const styles = StyleSheet.create({
   rootView: {
