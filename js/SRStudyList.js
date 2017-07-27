@@ -138,8 +138,8 @@ class SRStudyList extends React.Component {
   // UI state
 
   updateUIStates = (props) => {
-    const { studyTasks } = props
-    const tableData = processDataForList(studyTasks)
+    console.log(`XXX updateUIStates`)
+    const { tableData, studyTasks } = props
 
     const noDataYet = tableData.length == 0
     var showEmptyStateHeader = false
@@ -171,14 +171,15 @@ class SRStudyList extends React.Component {
   }
 
   _renderEmptyStateTable = () => {
+    console.log(`XXX _renderEmptyStateTable`)
     const { listViewHeight, onlyTypographicCellHeight } = this.state
+    const { tableData } = this.props
 
     var shouldRender = false
     var bottom = 0
 
     if(listViewHeight != 0) {
       const { studyTasks } = this.props
-      const tableData = processDataForList(studyTasks)
       const noDataYet = tableData.length == 0
 
       if(noDataYet) {
@@ -264,7 +265,8 @@ SRStudyList.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        studyTasks: state.studyTasks
+        studyTasks: state.studyTasks,
+        tableData: processDataForList(state.studyTasks)
     }
 }
 
