@@ -10,7 +10,6 @@ import {
   View
 } from 'react-native'
 import expect from 'expect'
-import moment from 'moment'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
@@ -20,6 +19,7 @@ import SRTypographicCell from './SRTypographicCell'
 import { SRSGrade } from './SRSpacedRepetition'
 import { processDataForList } from './dataModel/SRDataPresenter'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
+import { formatCellDate } from './utilities/SRDateFormat'
 
 export const studyListTitle = 'Reviews'
 
@@ -104,7 +104,7 @@ class SRStudyList extends React.Component {
             const itemIsOverDue = new Date() > d
             const itemIsToday = d.toDateString() == new Date().toDateString()
             const allowRating = itemIsToday || itemIsOverDue
-            const formattedDate = this.formatCellDate(d)
+            const formattedDate = formatCellDate(d)
 
             if(allowRating) {
               return (
@@ -196,31 +196,6 @@ class SRStudyList extends React.Component {
   navigateToDetails = (item: any) => {
     const { navigationAction } = this.props
     navigationAction(item)
-  }
-
-  // TODO: refactor
-
-  formatCellDate = (date: string) => {
-    const itemIsOverDue = moment(date).isBefore(new Date(), 'day')
-
-    var formattedDate = ''
-    const momentDate = moment(date)
-
-    formattedDate = momentDate.calendar(null, {
-        sameDay: '[Today]',
-        nextDay: '[Tomorrow]',
-        nextWeek: 'dddd',
-        lastDay: '[Yesterday]',
-        lastWeek: '[Last] dddd',
-        sameElse: 'D MMM'
-    });
-
-    if (itemIsOverDue) {
-      const momentFromNow = moment(date)
-      momentFromNow.format('dd')
-      formattedDate = momentFromNow.fromNow()
-    }
-    return formattedDate
   }
 
 }
