@@ -70,8 +70,12 @@ class TaylorSwift extends Component {
       saveAction: (item) => {
         this.props.addItem(item)
         this.setAddTaskModalVisible(!addTaskModalisVisible)
+        this.transformAnimate(!isTransformed)
       },
-      cancelAction: () => this.setAddTaskModalVisible(!addTaskModalisVisible),
+      cancelAction: () => {
+        this.setAddTaskModalVisible(!addTaskModalisVisible)
+        this.transformAnimate(!isTransformed)
+      },
     }
 
     return (
@@ -101,9 +105,10 @@ class TaylorSwift extends Component {
           <SRFloatingButton
             keepSpinning={keepSpinning}
             style={styles.addTouchable}
-            onPress={()=>this.setAddTaskModalVisible(!addTaskModalisVisible)}
-            // onPress={()=>this.transformAnimate(!isTransformed)}
-
+            onPress={()=>{
+              this.transformAnimate(!isTransformed)
+              this.setAddTaskModalVisible(!addTaskModalisVisible)
+            }}
             >
 
             <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
@@ -111,6 +116,11 @@ class TaylorSwift extends Component {
           </SRFloatingButton>
         </View>
 
+        {/*
+          // NOTE: Modal animation interferes with Animated.View animation a bit so it's not very smooth.
+          // Apparently Modal uses native code behind the scenes so there is not much we can do except
+          // build our own simple modal view and use a parallel animation to go with the transform.
+        */}
         <Modal
           animationType={"slide"}
           transparent={false}
@@ -147,7 +157,9 @@ class TaylorSwift extends Component {
       }
     )
     this.setState({isTransformed: flag})
-    animation.start()
+    animation.start((finished) => {
+      // this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
+    })
   }
 
 }
