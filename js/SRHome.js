@@ -15,12 +15,20 @@ export const StudyTaskDetailsScreenName = 'StudyTaskDetails'
 class SRHome extends Component {
 
   static navigationOptions = (props) => {
-    const { studyTasks } = props
+    const { title } = props
     return {
       headerTintColor: SRDarkColor,
       headerStyle: { backgroundColor: SRBrightColor},
-      title: (studyTasks == null || studyTasks.length == 0) ? ' ' : studyListTitle,
+      title: title,
     }
+  }
+
+  componentWillMount() {
+    this.updateUIStates(this.props)
+  }
+
+  componentWillReceiveProps(newProps: Object) {
+    this.updateUIStates(newProps)
   }
 
   render() {
@@ -34,6 +42,14 @@ class SRHome extends Component {
 
        </View>
     )
+  }
+
+  updateUIStates = (props) => {
+    const { navigation, studyTasks } = props
+    const title = (studyTasks == null || studyTasks.length == 0) ? ' ' : studyListTitle // leave whitespace title, otherwise react navigation bug will cause error
+    if(props.title !== title) {
+      navigation.setParams({ title: title }) // will cause another update cycle
+    }
   }
 
   updateTask = (
