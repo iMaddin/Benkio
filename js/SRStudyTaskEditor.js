@@ -288,12 +288,15 @@ export default class SRStudyTaskEditor extends React.Component {
   // UI changes
 
   updateUIStates = (props: Object) => {
-    const { notes, taskName } = props.item
-    const taskNameTextFieldIsEmpty = taskName == null || taskName == ''
-    this.hideStudyTaskLabel(taskNameTextFieldIsEmpty)
+    const { item } = props
+    if(item != null) {
+      const { notes, taskName } = item
+      const taskNameTextFieldIsEmpty = taskName == null || taskName == ''
+      this.hideStudyTaskLabel(taskNameTextFieldIsEmpty)
 
-    const notesTextFieldIsEmpty = notes == null || notes == ''
-    this.hideNotesLabel(notesTextFieldIsEmpty)
+      const notesTextFieldIsEmpty = notes == null || notes == ''
+      this.hideNotesLabel(notesTextFieldIsEmpty)
+    }
   }
 
   hideStudyTaskLabel = (flag: bool = true) => {
