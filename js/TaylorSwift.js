@@ -14,10 +14,6 @@ const SpaceReminder = StackNavigator({
 
 export default class TaylorSwift extends Component {
 
-  // screenProps={this.props}
-  // Provider can forward props to TaylorSwift but
-  // need to forward props to navigator because react-redux provider doesn't seem to be able to do it
-  // Since we are using withMappedNavigationAndConfigProps, the props will be available in children.
   render() {
     return (
       <SpaceReminder />
@@ -25,5 +21,3 @@ export default class TaylorSwift extends Component {
   }
 
 }
-
-// export default connect()(TaylorSwift)

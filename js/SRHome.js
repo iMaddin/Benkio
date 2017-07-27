@@ -115,8 +115,7 @@ class SRHome extends Component {
       SRStudyTaskIntensity.NORMAL,
       new SRSpacedRepetition(),
     )
-    console.log(`task: ${JSON.stringify(task)}`)
-    console.log(`studyTask ${JSON.stringify(studyTask)}`)
+
     addItem(studyTask)
   }
 
@@ -204,9 +203,7 @@ const mapStateToProps = (state) => {
         studyTasks: state.studyTasks
     }
 }
-// This does not work for some reason.
-// this.props.dispatch is still available, and shouldn't be if mapDispatchToProps was working
-// That's why manually calling dispatch() works.
+
 export default connect(mapStateToProps, mapDispatchToProps)(SRHome)
 
 const styles = StyleSheet.create({

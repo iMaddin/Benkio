@@ -51,9 +51,6 @@ class SRStudyList extends React.Component {
     })
   }
 
-  componentDidMount() {
-  }
-
   componentWillReceiveProps(newProps: Object) {
     const {studyTasks} = newProps
     this.setState({
@@ -175,12 +172,33 @@ class SRStudyList extends React.Component {
     this.setState({ratingModalisVisible: visible});
   }
 
+  rateTask = (index: number) => {
+    var grade = -1
+    switch(index) {
+      case 0:
+        grade = SRSGrade.BAD
+        break;
+      case 1:
+        grade = SRSGrade.OK
+        break
+      case 2:
+        grade = SRSGrade.GOOD
+        break
+      default:
+      throw "No valid rating selected"
+    }
+    const { rateAction } = this.props
+    const { selectedID } = this.state
+    rateAction(selectedID, grade)
+    this.setRatingModalVisible(false)
+  }
+
   navigateToDetails = (item: any) => {
     const { navigationAction } = this.props
     navigationAction(item)
   }
 
-  //
+  // TODO: refactor
 
   formatCellDate = (date: string) => {
     const itemIsOverDue = moment(date).isBefore(new Date(), 'day')
@@ -205,26 +223,6 @@ class SRStudyList extends React.Component {
     return formattedDate
   }
 
-  rateTask = (index: number) => {
-    var grade = -1
-    switch(index) {
-      case 0:
-        grade = SRSGrade.BAD
-        break;
-      case 1:
-        grade = SRSGrade.OK
-        break
-      case 2:
-        grade = SRSGrade.GOOD
-        break
-      default:
-      throw "No valid rating selected"
-    }
-    const { rateAction } = this.props
-    const { selectedID } = this.state
-    rateAction(selectedID, grade)
-    this.setRatingModalVisible(false)
-  }
 }
 
 SRStudyList.propTypes = {
