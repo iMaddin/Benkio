@@ -35,7 +35,6 @@ class TaylorSwift extends Component {
     addTaskModalisVisible: bool,
     keepSpinning: bool,
     scaleAnimation: Animated.Value,
-    isTransformed: bool
   }
 
   constructor(props: Object) {
@@ -43,8 +42,6 @@ class TaylorSwift extends Component {
     this.state = {
       addTaskModalisVisible: false,
       keepSpinning: false,
-      scaleAnimation: new Animated.Value(1),
-      isTransformed: false,
     }
   }
 
@@ -61,8 +58,6 @@ class TaylorSwift extends Component {
     const {
       addTaskModalisVisible,
       keepSpinning,
-      scaleAnimation,
-      isTransformed
     } = this.state
 
     const addTaskScreenProps = {
@@ -70,57 +65,29 @@ class TaylorSwift extends Component {
       saveAction: (item) => {
         this.props.addItem(item)
         this.setAddTaskModalVisible(!addTaskModalisVisible)
-        this.transformAnimate(!isTransformed)
       },
       cancelAction: () => {
         this.setAddTaskModalVisible(!addTaskModalisVisible)
-        this.transformAnimate(!isTransformed)
       },
     }
 
     return (
       <View style={styles.rootView}>
 
-        <Animated.View style={{
-          flex: 1,
-          transform: [
-          {
-            scaleX: scaleAnimation.interpolate({
-              inputRange: [minScale, 1],
-              outputRange: [minScale, 1]
-            }),
-          },
-          {
-            scaleY: scaleAnimation.interpolate({
-              inputRange: [minScale, 1],
-              outputRange: [minScale, 1]
-            }),
-          }
-        ]
-        }}>
+        <View style={{flex: 1}}>
           <SpaceReminder />
-        </Animated.View>
+        </View>
 
         <View style={styles.floatingButton}>
           <SRFloatingButton
             keepSpinning={keepSpinning}
             style={styles.addTouchable}
-            onPress={()=>{
-              this.transformAnimate(!isTransformed)
-              this.setAddTaskModalVisible(!addTaskModalisVisible)
-            }}
+            onPress={()=>this.setAddTaskModalVisible(!addTaskModalisVisible)}
             >
-
             <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
-
           </SRFloatingButton>
         </View>
 
-        {/*
-          // NOTE: Modal animation interferes with Animated.View animation a bit so it's not very smooth.
-          // Apparently Modal uses native code behind the scenes so there is not much we can do except
-          // build our own simple modal view and use a parallel animation to go with the transform.
-        */}
         <Modal
           animationType={"slide"}
           transparent={false}
@@ -143,23 +110,6 @@ class TaylorSwift extends Component {
 
   setAddTaskModalVisible(visible: bool) {
     this.setState({addTaskModalisVisible: visible})
-  }
-
-  transformAnimate = (flag: bool) => {
-    const { scaleAnimation } = this.state
-
-    const animation = Animated.spring(
-      scaleAnimation,
-      {
-        toValue: flag ? minScale : 1.0,
-        bounciness: 8,
-        speed: 14,
-      }
-    )
-    this.setState({isTransformed: flag})
-    animation.start((finished) => {
-      // this.setAddTaskModalVisible(!this.state.addTaskModalisVisible)
-    })
   }
 
 }
