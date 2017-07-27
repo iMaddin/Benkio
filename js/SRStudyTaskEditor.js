@@ -79,25 +79,18 @@ export default class SRStudyTaskEditor extends React.Component {
       selectedIntensityIndex: 0,
     }
   }
+
   constructor(props: Object) {
     super(props)
     this.state = this._initialState(props)
   }
 
   componentWillMount() {
-    const { notes, taskName } = this.props
-
-    const taskNameTextFieldIsEmpty = taskName == null || taskName == ''
-    this.hideStudyTaskLabel(taskNameTextFieldIsEmpty)
-
-    const notesTextFieldIsEmpty = notes == null || notes == ''
-    this.hideNotesLabel(notesTextFieldIsEmpty)
+    this.updateUIStates(this.props)
   }
 
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps() {
+  componentWillReceiveProps(newProps: Object) {
+    this.updateUIStates(newProps)
   }
 
   render() {
@@ -293,6 +286,15 @@ export default class SRStudyTaskEditor extends React.Component {
   }
 
   // UI changes
+
+  updateUIStates = (props: Object) => {
+    const { notes, taskName } = props.item
+    const taskNameTextFieldIsEmpty = taskName == null || taskName == ''
+    this.hideStudyTaskLabel(taskNameTextFieldIsEmpty)
+
+    const notesTextFieldIsEmpty = notes == null || notes == ''
+    this.hideNotesLabel(notesTextFieldIsEmpty)
+  }
 
   hideStudyTaskLabel = (flag: bool = true) => {
     this.setState({
