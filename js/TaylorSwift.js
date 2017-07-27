@@ -26,6 +26,8 @@ const AddStudyTaskNavigator = StackNavigator({
   AddStudyTask: { screen: withMappedNavigationAndConfigProps(SRStudyTaskEditor) }
 })
 
+const minScale = 0.9
+
 class TaylorSwift extends Component {
 
   state: {
@@ -76,26 +78,23 @@ class TaylorSwift extends Component {
 
         <Animated.View style={{
           flex: 1,
-          borderRadius: 10,
           transform: [
           {
             scaleX: scaleAnimation.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 1]  // 0 : 150, 0.5 : 75, 1 : 0
+              inputRange: [minScale, 1],
+              outputRange: [minScale, 1]
             }),
           },
           {
             scaleY: scaleAnimation.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 1]  // 0 : 150, 0.5 : 75, 1 : 0
+              inputRange: [minScale, 1],
+              outputRange: [minScale, 1]
             }),
           }
         ]
         }}>
           <SpaceReminder />
         </Animated.View>
-
-
 
         <View style={styles.floatingButton}>
           <SRFloatingButton
@@ -141,14 +140,13 @@ class TaylorSwift extends Component {
     const animation = Animated.spring(
       scaleAnimation,
       {
-        toValue: flag ? 0.9 : 1.0,
+        toValue: flag ? minScale : 1.0,
         bounciness: 8,
-        speed: 12,
+        speed: 14,
       }
     )
     this.setState({isTransformed: flag})
     animation.start()
-
   }
 
 }
