@@ -176,7 +176,6 @@ class SRHome extends Component {
 
     const { easinessFactor, interval, repetition } = item.srs
     const updatedSRS = new SRSpacedRepetition(easinessFactor, interval, repetition).grade(grade)
-    expect(updatedSRS.easinessFactor).toNotEqual(easinessFactor)
     item.srs = updatedSRS
 
     this.props.replaceItem(item)
