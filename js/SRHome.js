@@ -18,10 +18,11 @@ export const StudyTaskDetailsScreenName = 'StudyTaskDetails'
 class SRHome extends Component {
 
   static navigationOptions = (props) => {
+    const { studyTasks } = props
     return {
       headerTintColor: SRDarkColor,
       headerStyle: { backgroundColor: SRBrightColor},
-      title: studyListTitle,
+      title: (studyTasks == null || studyTasks.length == 0) ? ' ' : studyListTitle,
     }
   }
 
