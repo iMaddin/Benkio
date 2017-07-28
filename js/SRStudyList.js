@@ -56,7 +56,8 @@ class SRStudyList extends React.Component {
 
   componentWillMount() {
     this.updateUIStates(this.props)
-    this.ratingViewAnimationIn = new Animated.Value(0)
+    this.ratingViewSpringAnimation = new Animated.Value(0)
+    this.ratingViewOpacityAnimation = new Animated.Value(0)
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -123,39 +124,41 @@ class SRStudyList extends React.Component {
 
         {this._renderEmptyStateTable()}
 
-        <View style={{
-          zIndex: 1,
-          flex: 1,
-          position: 'absolute',
-          top:0,
-          left:0,
-          right:0,
-
-          // flexDirection: 'column',
-          // justifyContent: 'flex-start',
-          // alignItems: 'flex-start',
-          backgroundColor: 'blue'
-        }}>
+        <Modal
+          animationType={"none"}
+          transparent={true}
+          visible={ratingModalisVisible}
+          >
           <Animated.View style={{
-            transform: [{
-              scaleX: this.ratingViewAnimationIn.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1]
-              })},
-              {
-                scaleY: this.ratingViewAnimationIn.interpolate({
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'stretch',
+            paddingLeft: 15,
+            paddingRight: 15,
+            backgroundColor: 'rgba(4, 4, 4, 0.77)',
+            opacity: this.ratingViewOpacityAnimation,
+          }}>
+            <Animated.View style={{
+              transform: [{
+                scaleX: this.ratingViewSpringAnimation.interpolate({
                   inputRange: [0, 1],
                   outputRange: [0, 1]
-              })
-            }]
-          }}>
-          <SRRatingView
-            dismissAction={() => this.setRatingModalVisible(false)}
-            ratedCallback={(index) => this.rateTask(index)}
-          />
+                })},
+                {
+                scaleY: this.ratingViewSpringAnimation.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1]
+                })
+              }]
+            }}>
+            <SRRatingView
+              dismissAction={() => this.setRatingModalVisible(false)}
+              ratedCallback={(index) => this.rateTask(index)}
+            />
+            </Animated.View>
           </Animated.View>
-        </View>
 
+        </Modal>
 
 
       </View>
@@ -248,26 +251,29 @@ class SRStudyList extends React.Component {
   }
 
   setRatingModalVisible(visible: bool) {
-    console.log(`setRatingModalVisible ${visible}`)
-    // this.setState({ratingModalisVisible: visible});
     if(visible) {
-      const animation = Animated.spring(
-        this.ratingViewAnimationIn,
-        {
-          toValue: 1,
-        }
-      )
-      animation.start()
-    } else {
-      const animation = Animated.spring(
-        this.ratingViewAnimationIn,
-        {
-          toValue: 0,
-        }
-      )
-      animation.start()
+      this.setState({ratingModalisVisible: visible});
     }
 
+    Animated.parallel([
+      Animated.spring(
+        this.ratingViewSpringAnimation,
+        {
+          toValue: visible ? 1 : 0,
+          speed: 12,
+          bounciness: 8,
+        }
+      ),
+      Animated.timing(
+        this.ratingViewOpacityAnimation,
+        {
+          toValue: visible ? 1 : 0,
+        })
+    ]).start(() => {
+      if(!visible) {
+        this.setState({ratingModalisVisible: visible});
+      }
+    })
   }
 
   rateTask = (index: number) => {
