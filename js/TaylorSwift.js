@@ -78,10 +78,10 @@ class TaylorSwift extends Component {
           <SpaceReminder />
         </View>
 
-        <View style={styles.floatingButton}>
+        <View style={styles.floatingButtonContainer}>
           <SRFloatingButton
             keepSpinning={keepSpinning}
-            style={styles.addTouchable}
+            style={styles.floatingButton}
             onPress={()=>this.setAddTaskModalVisible(!addTaskModalisVisible)}
             >
             <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
@@ -121,15 +121,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
   },
-  floatingButton: {
+  floatingButtonContainer: {
     justifyContent: 'center',
     alignItems: 'stretch',
     position: 'absolute',
     bottom: 15,
     right: 15,
   },
-  addTouchable: {
-    flex:1,
+  floatingButton: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: 60,
