@@ -9,13 +9,15 @@ const maxScale = 1.5
 
 var circleTapCount = 0
 var rectangleTapCount = 0
-var triangleTapCount = 5
+var triangleTapCount = 0
 
 export default class SREmptyStateHeader extends Component {
 
   componentWillMount(){
     this.updateUIStates(this.props)
+    this.circleAnimation = new Animated.Value(1)
     this.rectangleAnimation = new Animated.Value(1)
+    this.triangleAnimation = new Animated.Value(1)
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -23,32 +25,18 @@ export default class SREmptyStateHeader extends Component {
   }
 
   render() {
-    const transform = {
-      transform: [{
-        scaleX: this.rectangleAnimation.interpolate({
-          inputRange: [0, maxScale],
-          outputRange: [0, maxScale]
-        })},
-        {
-        scaleY: this.rectangleAnimation.interpolate({
-          inputRange: [0, maxScale],
-          outputRange: [0, maxScale]
-        })
-      }]
-    }
-
     return (
       <View style={styles.emptyStateHeaderBackground}>
 
         <TouchableWithoutFeedback
           onPressIn={() => {
-
+            this.animateInCircle(true)
           }}
           onPressOut={() => {
-
+            this.animateInCircle(false)
           }}
         >
-          <View style={styles.circle} />
+          <Animated.View style={[styles.circle,this.transformForAnimation(this.circleAnimation)]} />
         </TouchableWithoutFeedback>
 
         <TouchableWithoutFeedback
@@ -59,19 +47,19 @@ export default class SREmptyStateHeader extends Component {
             this.animateInRectangle(false)
           }}
         >
-          <Animated.View style={[styles.rectangle, transform]} />
+          <Animated.View style={[styles.rectangle, this.transformForAnimation(this.rectangleAnimation)]} />
         </TouchableWithoutFeedback>
 
         <View style={styles.triangleContainer}>
           <TouchableWithoutFeedback
             onPressIn={() => {
-
+              this.animateInTriangle(true)
             }}
             onPressOut={() => {
-
+              this.animateInTriangle(false)
             }}
           >
-            <View style={styles.triangle} />
+            <Animated.View style={[styles.triangle,this.transformForAnimation(this.triangleAnimation)]} />
           </TouchableWithoutFeedback>
         </View>
       </View>
@@ -83,15 +71,21 @@ export default class SREmptyStateHeader extends Component {
   }
 
   animateInCircle(flag) {
+    var toValue = flag ? maxScale : 1
+
     if(flag) {
-
+      circleTapCount = circleTapCount + 1
     } else {
-
+      if(circleTapCount >= tapsUntilDisappearance) {
+        toValue = 0
+      }
     }
+
+    this.animateIn(this.circleAnimation, toValue, flag)
   }
 
   animateInRectangle(flag: bool) {
-    var toValue = flag ? 1.5 : 1
+    var toValue = flag ? maxScale : 1
 
     if(flag) {
       rectangleTapCount = rectangleTapCount + 1
@@ -101,8 +95,26 @@ export default class SREmptyStateHeader extends Component {
       }
     }
 
+    this.animateIn(this.rectangleAnimation, toValue, flag)
+  }
+
+  animateInTriangle(flag: bool) {
+    var toValue = flag ? maxScale : 1
+
+    if(flag) {
+      triangleTapCount = triangleTapCount + 1
+    } else {
+      if(triangleTapCount >= tapsUntilDisappearance) {
+        toValue = 0
+      }
+    }
+
+    this.animateIn(this.triangleAnimation, toValue, flag)
+  }
+
+  animateIn(animation, toValue: number, flag: bool) {
     Animated.spring(
-      this.rectangleAnimation,
+      animation,
       {
         toValue: toValue,
         speed: 12,
@@ -111,12 +123,21 @@ export default class SREmptyStateHeader extends Component {
     ).start()
   }
 
-  animateInCircle(flag: bool) {
-    if(flag) {
-
-    } else {
-
+  transformForAnimation(animation) {
+    const transform = {
+      transform: [{
+        scaleX: animation.interpolate({
+          inputRange: [0, maxScale],
+          outputRange: [0, maxScale]
+        })},
+        {
+        scaleY: animation.interpolate({
+          inputRange: [0, maxScale],
+          outputRange: [0, maxScale]
+        })
+      }]
     }
+    return transform
   }
 
 }
