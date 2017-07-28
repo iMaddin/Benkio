@@ -16,6 +16,7 @@ import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect from 'expect'
 import moment from 'moment'
 import PropTypes from 'prop-types'
+import KeyboardAwareScrollView from './components/keyboard-aware-scrollview/KeyboardAwareScrollView'
 
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
@@ -140,10 +141,11 @@ export default class SRStudyTaskEditor extends React.Component {
     const NOT_IMPLEMENTED = false
 
     return (
-      <ScrollView
+      <KeyboardAwareScrollView
         style={styles.scrollView}
         keyboardDismissMode={'on-drag'}
         keyboardShouldPersistTaps={'handled'}
+        getTextInputRefs={() => { return [this._taskInputRef, this._noteInputRef]}}
         >
         <View style={styles.edgePadding}>
 
@@ -154,7 +156,7 @@ export default class SRStudyTaskEditor extends React.Component {
               placeholder={studyTaskString}
               placeholderTextColor={SRPlaceholderTextColor}
               onSubmitEditing={(event) => {
-                this.refs.notesTextInput.focus()
+                this._noteInputRef.focus()
               }}
               onChangeText={(taskName) => this.studyTextFieldOnChangeText(taskName)}
               value={taskName}
@@ -163,6 +165,7 @@ export default class SRStudyTaskEditor extends React.Component {
               autoFocus={!readonly}
               returnKeyType={'next'}
               blurOnSubmit={true}
+              ref={(r) => { this._taskInputRef = r }}
             />
             {this._renderSeparator(editingOrAddingNewTask)}
           </View>
@@ -189,7 +192,7 @@ export default class SRStudyTaskEditor extends React.Component {
           </View>
 
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     )
   }
 
@@ -366,7 +369,6 @@ export default class SRStudyTaskEditor extends React.Component {
           <View style={styles.sections}>
             <Text style={styles.sectionLabel}>{notesLabelString}</Text>
             <TextInput
-              ref='notesTextInput'
               style={[styles.dataInputItemPadding, styles.textInput]}
               placeholder={notesString}
               placeholderTextColor={SRPlaceholderTextColor}
@@ -377,6 +379,7 @@ export default class SRStudyTaskEditor extends React.Component {
               multiline={true}
               returnKeyType={'done'}
               blurOnSubmit={true}
+              ref={(r) => { this._noteInputRef = r }}
             />
             {this._renderSeparator(!readonly)}
           </View>
