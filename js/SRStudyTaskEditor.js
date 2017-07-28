@@ -39,53 +39,26 @@ const { UIManager } = NativeModules;
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true)
 
-const springDamping = 1.2
+const springDamping = 0.6
 
-/**
- * TextInput multiline is set to true, it deletes the single line text and creates multi line text.
- * The same is true the other way around when multiline is set to false.
- *
- * That's why create: and delete: property needs to be opacity for TextInput's change of multiline to be smooth.
- * Otherwise it will delete: animate the single line text and create: animate the multi line text.
- *
- */
-const animateEditingTrue = {
-    duration: 500,
-    create: {
-      type: LayoutAnimation.Types.linear,
-      property: LayoutAnimation.Properties.opacity,
-      // springDamping: springDamping,
-    },
-    update: {
-      type: LayoutAnimation.Types.spring,
-      property: LayoutAnimation.Properties.scaleXY,
-      springDamping: springDamping,
-    },
-    delete: {
-      type: LayoutAnimation.Types.linear,
-      property: LayoutAnimation.Properties.opacity,
-      // springDamping: springDamping,
-    },
-  }
-
-  const animateEditingFalse = {
-      duration: 500,
-      // create: {
-      //   type: LayoutAnimation.Types.spring,
-      //   property: LayoutAnimation.Properties.scaleXY,
-      //   springDamping: springDamping,
-      // },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        property: LayoutAnimation.Properties.scaleXY,
-        springDamping: springDamping,
-      },
-      // delete: {
-      //   type: LayoutAnimation.Types.spring,
-      //   property: LayoutAnimation.Properties.opacity,
-      //   springDamping: springDamping,
-      // },
-    }
+const animateEditing = {
+  duration: 400,
+  create: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.opacity,
+    springDamping: springDamping,
+  },
+  update: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: springDamping,
+  },
+  delete: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.opacity,
+    springDamping: springDamping,
+  },
+}
 
 export default class SRStudyTaskEditor extends React.Component {
 
@@ -277,7 +250,7 @@ export default class SRStudyTaskEditor extends React.Component {
     const wantsEdit = readonly && !editMode
 
     if(wantsEdit) {
-      LayoutAnimation.configureNext(animateEditingTrue)
+      LayoutAnimation.configureNext(animateEditing)
       this.setState({editMode: true})
     } else { // Save data input
       const { readonly, saveAction } = this.props
@@ -294,7 +267,7 @@ export default class SRStudyTaskEditor extends React.Component {
 
       saveAction(newItemChanges, item)
       if(readonly) {
-        LayoutAnimation.configureNext(animateEditingFalse)
+        LayoutAnimation.configureNext(animateEditing)
         this.setState({editMode: false})
       }
     }
@@ -319,7 +292,7 @@ export default class SRStudyTaskEditor extends React.Component {
             {text: 'Keep Editing', onPress: () => {}, style: 'cancel'},
             {text: 'Discard Changes', onPress: () => {
               this.resetFields()
-              LayoutAnimation.configureNext(animateEditingFalse)
+              LayoutAnimation.configureNext(animateEditing)
               this.setState({editMode: false})
             }},
           ],
