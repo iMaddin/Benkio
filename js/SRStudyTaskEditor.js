@@ -162,6 +162,7 @@ export default class SRStudyTaskEditor extends React.Component {
               multiline={true}
               autoFocus={!readonly}
               returnKeyType={'next'}
+              blurOnSubmit={true}
             />
             {this._renderSeparator(editingOrAddingNewTask)}
           </View>
@@ -375,6 +376,7 @@ export default class SRStudyTaskEditor extends React.Component {
               editable={editingOrAddingNewTask}
               multiline={true}
               returnKeyType={'done'}
+              blurOnSubmit={true}
             />
             {this._renderSeparator(!readonly)}
           </View>
