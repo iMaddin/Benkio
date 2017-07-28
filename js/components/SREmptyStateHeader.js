@@ -7,6 +7,10 @@ import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../utilit
 const tapsUntilDisappearance = 5
 const maxScale = 1.5
 
+var circleTapCount = 0
+var rectangleTapCount = 0
+var triangleTapCount = 5
+
 export default class SREmptyStateHeader extends Component {
 
   componentWillMount(){
@@ -87,19 +91,24 @@ export default class SREmptyStateHeader extends Component {
   }
 
   animateInRectangle(flag: bool) {
+    var toValue = flag ? 1.5 : 1
+
+    if(flag) {
+      rectangleTapCount = rectangleTapCount + 1
+    } else {
+      if(rectangleTapCount >= tapsUntilDisappearance) {
+        toValue = 0
+      }
+    }
+
     Animated.spring(
       this.rectangleAnimation,
       {
-        toValue: flag ? 1.5 : 1,
+        toValue: toValue,
         speed: 12,
         bounciness: 10,
       }
     ).start()
-    if(flag) {
-
-    } else {
-
-    }
   }
 
   animateInCircle(flag: bool) {
