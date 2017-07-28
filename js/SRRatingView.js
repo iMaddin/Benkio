@@ -7,57 +7,55 @@ export default class SRRatingView extends React.Component {
 
   render() {
     return (
-      <View style={styles.transparentView}>
-       <View style={styles.overlayView}>
-         <View style={styles.contentView}>
-           <Text style={styles.ratingBoxTitle}>How well did you do?</Text>
+     <View style={styles.overlayView}>
+       <View style={styles.contentView}>
+         <Text style={styles.ratingBoxTitle}>How well did you do?</Text>
 
-           <View style={styles.ratingBoxContainer}>
+         <View style={styles.ratingBoxContainer}>
 
-               <TouchableHighlight
-                 style={styles.ratingTouchable}
-                 underlayColor={'rgba(0, 0, 0, 0.06)'}
-                 onPress={() => {
-                   this.rated(0)
-                 }}>
-                    <View style={[styles.ratingBox, styles.ratingLeft]}>
-                      <Text style={[styles.ratingTitle, styles.ratingLeftTitle]}>Bad</Text>
-                    </View>
-               </TouchableHighlight>
+             <TouchableHighlight
+               style={styles.ratingTouchable}
+               underlayColor={'rgba(0, 0, 0, 0.06)'}
+               onPress={() => {
+                 this.rated(0)
+               }}>
+                  <View style={[styles.ratingBox, styles.ratingLeft]}>
+                    <Text style={[styles.ratingTitle, styles.ratingLeftTitle]}>Bad</Text>
+                  </View>
+             </TouchableHighlight>
 
-               <TouchableHighlight
-                 style={styles.ratingTouchable}
-                 underlayColor={'rgba(0, 0, 0, 0.06)'}
-                 onPress={() => {
-                   this.rated(1)
-                 }}>
-                    <View style={[styles.ratingBox, styles.ratingCenter]}>
-                      <Text style={[styles.ratingTitle, styles.ratingCenterTitle]}>Okay</Text>
-                    </View>
-               </TouchableHighlight>
+             <TouchableHighlight
+               style={styles.ratingTouchable}
+               underlayColor={'rgba(0, 0, 0, 0.06)'}
+               onPress={() => {
+                 this.rated(1)
+               }}>
+                  <View style={[styles.ratingBox, styles.ratingCenter]}>
+                    <Text style={[styles.ratingTitle, styles.ratingCenterTitle]}>Okay</Text>
+                  </View>
+             </TouchableHighlight>
 
-               <TouchableHighlight
-                 style={styles.ratingTouchable}
-                 underlayColor={'rgba(0, 0, 0, 0.06)'}
-                 onPress={() => {
-                   this.rated(2)
-                 }}>
-                    <View style={[styles.ratingBox, styles.ratingRight]}>
-                      <Text style={[styles.ratingTitle, styles.ratingRightTitle]}>Good</Text>
-                    </View>
-               </TouchableHighlight>
-           </View>
-
-           <TouchableHighlight
-             underlayColor={'rgba(0, 0, 0, 0.06)'}
-             onPress={() => {
-             {this.cancelAction()}
-           }}>
-             <Text style={styles.cancelButton}>Cancel</Text>
-           </TouchableHighlight>
+             <TouchableHighlight
+               style={styles.ratingTouchable}
+               underlayColor={'rgba(0, 0, 0, 0.06)'}
+               onPress={() => {
+                 this.rated(2)
+               }}>
+                  <View style={[styles.ratingBox, styles.ratingRight]}>
+                    <Text style={[styles.ratingTitle, styles.ratingRightTitle]}>Good</Text>
+                  </View>
+             </TouchableHighlight>
          </View>
+
+         <TouchableHighlight
+           underlayColor={'rgba(0, 0, 0, 0.06)'}
+           onPress={() => {
+           {this.cancelAction()}
+         }}>
+           <Text style={styles.cancelButton}>Cancel</Text>
+         </TouchableHighlight>
        </View>
-      </View>
+     </View>
     )
   }
 
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
   },
   overlayView: {
     padding: 15,
-    flex: 1,
+    // flex: 1,
     height: 240,// TODO: calculate right height
     backgroundColor: SRBrightColor,
     borderRadius: 8,
