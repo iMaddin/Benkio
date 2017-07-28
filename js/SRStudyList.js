@@ -86,6 +86,7 @@ class SRStudyList extends React.Component {
             const itemIsToday = d.toDateString() == new Date().toDateString()
             const allowRating = itemIsToday || itemIsOverDue
             const formattedDate = formatCellDate(d)
+            const isLastCell = rowID == dataSource.getRowCount()-1
 
             if(allowRating) {
               return (
@@ -106,15 +107,26 @@ class SRStudyList extends React.Component {
                 </View>
               )
             } else {
-              return (
 
-                <SRStudyListCell
+              const cell = <SRStudyListCell
                   onPressDetailsButton={() => this.navigateToDetails(item)}
                 >
                 {{title: item.taskName, notes: item.notes, date: formattedDate}}
               </SRStudyListCell>
 
-            )}
+              if(isLastCell) {
+                return(
+                  <View>
+                    {cell}
+                    <View style={styles.emptyStateCell}>
+                      <SREmptyState />
+                    </View>
+                  </View>
+                )
+              } else {
+                return cell
+              }
+            }
           }}
         />
 
@@ -138,7 +150,6 @@ class SRStudyList extends React.Component {
   // UI state
 
   updateUIStates = (props) => {
-    console.log(`XXX updateUIStates`)
     const { tableData, studyTasks } = props
 
     const noDataYet = tableData.length == 0
@@ -171,7 +182,6 @@ class SRStudyList extends React.Component {
   }
 
   _renderEmptyStateTable = () => {
-    console.log(`XXX _renderEmptyStateTable`)
     const { listViewHeight, onlyTypographicCellHeight } = this.state
     const { tableData } = this.props
 
@@ -209,11 +219,7 @@ class SRStudyList extends React.Component {
           left: 0,
           bottom:  bottom,
         }}>
-          <SREmptyState style={{
-            // flex:1,
-            // justifyContent: 'center',
-            // alignItems: 'center',
-          }}/>
+          <SREmptyState />
         </View>
       )
     } else {
@@ -277,9 +283,14 @@ const styles = StyleSheet.create({
    flex: 1,
   },
   tableViewContainer: {
-    paddingBottom: 90,
+    paddingBottom: 0,
   },
   tableView: {
     backgroundColor: SRBrightColor,
+  },
+  emptyStateCell: {
+    alignItems: 'center',
+    paddingTop: (90-38)/2, // (floatingButton bottomSpacing + floatingButtonHeight + bottomSpacing) - empty state height
+    paddingBottom: (90-38)/2,
   },
 })
