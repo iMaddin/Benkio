@@ -42,11 +42,11 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 const springDamping = 1.2
 
 /**
- * TextInput editable is set to true, it deletes the non-editable text and creates editable text.
- * The same is true the other way around when editable is set to false.
+ * TextInput multiline is set to true, it deletes the single line text and creates multi line text.
+ * The same is true the other way around when multiline is set to false.
  *
- * That's why create: and delete: property needs to be opacity for TextInput's change of editable to be smooth.
- * Otherwise it will delete: animate the non-editable text and create: animate the editable text.
+ * That's why create: and delete: property needs to be opacity for TextInput's change of multiline to be smooth.
+ * Otherwise it will delete: animate the single line text and create: animate the multi line text.
  *
  */
 const animateEditingTrue = {
