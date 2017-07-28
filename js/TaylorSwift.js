@@ -136,6 +136,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     backgroundColor: 'rgba(57, 62, 65, 0.9)',
+    borderWidth: 1,
+    borderColor: SRBrightColor,
   },
   floatingButtonContent: {
   },
