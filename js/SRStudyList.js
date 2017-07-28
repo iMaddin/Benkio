@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
    flex: 1,
   },
   tableViewContainer: {
-    paddingBottom: 10,
+    paddingBottom: 90,
   },
   tableView: {
     backgroundColor: SRBrightColor,
