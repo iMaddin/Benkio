@@ -1,12 +1,14 @@
 // @flow
 import React, { Component } from 'react'
-import { Alert, View } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import expect from 'expect'
 
 import SRStudyList, { studyListTitle } from './SRStudyList'
 import SRSpacedRepetition from './SRSpacedRepetition'
+import SRFloatingButton from './SRFloatingButton'
+import SRDiamond from './components/geometry/SRDiamond'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { mapDispatchToProps, mapStateToProps } from './dataModel/SRDataManipulator'
 
@@ -23,6 +25,14 @@ class SRHome extends Component {
     }
   }
 
+  // state: {
+  //   keepSpinning: bool,
+  // }
+
+  state = {
+    keepSpinning: false,
+  }
+
   componentWillMount() {
     this.updateUIStates(this.props)
   }
@@ -32,6 +42,9 @@ class SRHome extends Component {
   }
 
   render() {
+    const { keepSpinning } = this.state
+    const { toggleAddTaskScreen } = this.props
+
     return (
       <View style={{flex:1}}>
 
@@ -39,6 +52,16 @@ class SRHome extends Component {
           navigationAction ={item => this.navigateToItem(item)}
           rateAction = {(item, grade) => this.rateTask(item, grade)}
         />
+
+        <View style={styles.floatingButtonContainer}>
+          <SRFloatingButton
+            keepSpinning={keepSpinning}
+            style={styles.floatingButton}
+            onPress={toggleAddTaskScreen}
+            >
+            <SRDiamond sideLength={14} backgroundColor={SRYellowColor} />
+          </SRFloatingButton>
+        </View>
 
        </View>
     )
@@ -50,6 +73,8 @@ class SRHome extends Component {
     if(props.title !== title) {
       navigation.setParams({ title: title }) // will cause another update cycle
     }
+
+    this.setState({keepSpinning: (studyTasks.length == 0)})
   }
 
   updateTask = (
@@ -119,3 +144,22 @@ class SRHome extends Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SRHome)
+
+const styles = StyleSheet.create({
+  floatingButtonContainer: {
+  justifyContent: 'center',
+  alignItems: 'stretch',
+  position: 'absolute',
+  bottom: 15,
+  right: 15,
+},
+  floatingButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'rgba(57, 62, 65, 0.9)',
+  },
+})

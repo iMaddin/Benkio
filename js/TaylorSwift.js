@@ -13,8 +13,6 @@ import { withMappedNavigationAndConfigProps } from 'react-navigation-props-mappe
 
 import SRHome from './SRHome'
 import SRStudyTaskEditor from './SRStudyTaskEditor'
-import SRFloatingButton from './SRFloatingButton'
-import SRDiamond from './components/geometry/SRDiamond'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { mapDispatchToProps, mapStateToProps } from './dataModel/SRDataManipulator'
 
@@ -33,32 +31,17 @@ class TaylorSwift extends Component {
 
   state: {
     addTaskModalisVisible: bool,
-    keepSpinning: bool,
-    scaleAnimation: Animated.Value,
   }
 
   constructor(props: Object) {
     super(props)
     this.state = {
       addTaskModalisVisible: false,
-      keepSpinning: false,
     }
   }
 
-  componentWillMount() {
-    this.updateUIStates(this.props)
-  }
-
-  componentWillReceiveProps(newProps: Object) {
-    this.updateUIStates(newProps)
-  }
-
   render() {
-
-    const {
-      addTaskModalisVisible,
-      keepSpinning,
-    } = this.state
+    const { addTaskModalisVisible } = this.state
 
     const addTaskScreenProps = {
       readonly: false,
@@ -75,17 +58,7 @@ class TaylorSwift extends Component {
       <View style={styles.rootView}>
 
         <View style={{flex: 1}}>
-          <SpaceReminder />
-        </View>
-
-        <View style={styles.floatingButtonContainer}>
-          <SRFloatingButton
-            keepSpinning={keepSpinning}
-            style={styles.floatingButton}
-            onPress={()=>this.setAddTaskModalVisible(!addTaskModalisVisible)}
-            >
-            <SRDiamond style={styles.floatingButtonContent} sideLength={14} backgroundColor={SRYellowColor} />
-          </SRFloatingButton>
+          <SpaceReminder screenProps={{toggleAddTaskScreen: () => this.setAddTaskModalVisible(!addTaskModalisVisible)}}/>
         </View>
 
         <Modal
@@ -99,11 +72,6 @@ class TaylorSwift extends Component {
       </View>
 
     )
-  }
-
-  updateUIStates = (props: Object) => {
-    const { studyTasks } = props
-    this.setState({keepSpinning: (studyTasks.length == 0)})
   }
 
   // Modals
@@ -120,25 +88,5 @@ const styles = StyleSheet.create({
   rootView: {
     flex: 1,
     backgroundColor: 'black',
-  },
-  floatingButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    position: 'absolute',
-    bottom: 15,
-    right: 15,
-  },
-  floatingButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(57, 62, 65, 0.9)',
-    borderWidth: 1,
-    borderColor: SRBrightColor,
-  },
-  floatingButtonContent: {
   },
 })
