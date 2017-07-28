@@ -261,12 +261,14 @@ class SRStudyList extends React.Component {
         {
           toValue: visible ? 1 : 0,
           speed: 12,
-          bounciness: 8,
+          bounciness: 10,
         }
-      ),
+      )
+      ,
       Animated.timing(
         this.ratingViewOpacityAnimation,
         {
+          duration: 400,
           toValue: visible ? 1 : 0,
         })
     ]).start(() => {
