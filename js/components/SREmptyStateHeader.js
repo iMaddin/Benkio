@@ -88,10 +88,11 @@ export default class SREmptyStateHeader extends Component {
     } else {
       if(circleTapCount >= tapsUntilDisappearance) {
         toValue = 0
+        this.animateAllShapesIfEmpty()
       }
     }
 
-    this.animateIn(this.circleAnimation, toValue, flag)
+    this.animateIn(this.circleAnimation, toValue).start()
   }
 
   animateInRectangle(flag: bool) {
@@ -102,10 +103,11 @@ export default class SREmptyStateHeader extends Component {
     } else {
       if(rectangleTapCount >= tapsUntilDisappearance) {
         toValue = 0
+        this.animateAllShapesIfEmpty()
       }
     }
 
-    this.animateIn(this.rectangleAnimation, toValue, flag)
+    this.animateIn(this.rectangleAnimation, toValue).start()
   }
 
   animateInTriangle(flag: bool) {
@@ -116,21 +118,22 @@ export default class SREmptyStateHeader extends Component {
     } else {
       if(triangleTapCount >= tapsUntilDisappearance) {
         toValue = 0
+        this.animateAllShapesIfEmpty()
       }
     }
 
-    this.animateIn(this.triangleAnimation, toValue, flag)
+    this.animateIn(this.triangleAnimation, toValue).start()
   }
 
-  animateIn(animation, toValue: number, flag: bool) {
-    Animated.spring(
+  animateIn(animation, toValue: number) {
+    return Animated.spring(
       animation,
       {
         toValue: toValue,
         speed: 12,
         bounciness: 10,
       }
-    ).start()
+    )
   }
 
   transformForAnimation(animation) {
@@ -150,10 +153,38 @@ export default class SREmptyStateHeader extends Component {
     return transform
   }
 
+  animateAllShapesIfEmpty() {
+    const { resetShapesWhenEmpty } = this.props
+    if(resetShapesWhenEmpty && circleTapCount >= tapsUntilDisappearance && rectangleTapCount >= tapsUntilDisappearance && triangleTapCount >= tapsUntilDisappearance) {
+      circleTapCount = 0
+      rectangleTapCount = 0
+      triangleTapCount = 0
+      this.animateInAllShapes()
+    }
+  }
+
+  animateInAllShapes() {
+    const toValue = 1
+    Animated.delay(1000)
+    Animated.stagger(300, [
+      this.animateIn(this.circleAnimation, toValue),
+      this.animateIn(this.triangleAnimation, toValue),
+      this.animateIn(this.rectangleAnimation, toValue),
+    ]).start()
+  }
+
 }
 
 SREmptyStateHeader.propTypes = {
   resetShapes: PropTypes.bool,
+  resetShapesWhenEmpty: PropTypes.bool,
+  animateInShapes: PropTypes.bool
+}
+
+SREmptyStateHeader.defaultProps = {
+  resetShapes: false,
+  resetShapesWhenEmpty: true,
+  animateInShapes: false
 }
 
 const styles = StyleSheet.create({
