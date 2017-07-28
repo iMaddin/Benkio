@@ -16,7 +16,8 @@ import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect from 'expect'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import KeyboardAwareScrollView from './components/keyboard-aware-scrollview/KeyboardAwareScrollView'
+// import KeyboardAwareScrollView from './components/keyboard-aware-scrollview/KeyboardAwareScrollView'
+// import KeyboardAwareScrollView from './components/keyboardAwareScrollView/KeyboardAwareScrollView'
 
 import { capitalizeFirstLetter } from './utilities/String+Capitalize'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
@@ -60,6 +61,11 @@ const animateEditing = {
     springDamping: springDamping,
   },
 }
+
+var _keyboardHeight = 0
+var _scrollViewHeight = 0
+var _taskTextInputY = 0
+var _notesTextInputY = 0
 
 export default class SRStudyTaskEditor extends React.Component {
 
@@ -116,6 +122,11 @@ export default class SRStudyTaskEditor extends React.Component {
 
   componentWillMount() {
     this.updateUIStates(this.props)
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -141,11 +152,20 @@ export default class SRStudyTaskEditor extends React.Component {
     const NOT_IMPLEMENTED = false
 
     return (
-      <KeyboardAwareScrollView
+      <ScrollView
+        ref={r => {this._scrollView = r}}
         style={styles.scrollView}
         keyboardDismissMode={'on-drag'}
         keyboardShouldPersistTaps={'handled'}
         getTextInputRefs={() => { return [this._taskInputRef, this._noteInputRef]}}
+        onLayout={(event) => {
+          const {x, y, width, height} = event.nativeEvent.layout
+          _scrollViewHeight = height // only called once when it changes
+        }}
+        onContentSizeChange={ (contentWidth, contentHeight) => {
+          console.log(`AAA() contentHeight ${JSON.stringify(contentHeight)}`)
+          // this._scrollView.scrollTo({x: 0, y: contentHeight-_keyboardHeight*2, animated: true})
+        }}
         >
         <View style={styles.edgePadding}>
 
@@ -166,6 +186,17 @@ export default class SRStudyTaskEditor extends React.Component {
               returnKeyType={'next'}
               blurOnSubmit={true}
               ref={(r) => { this._taskInputRef = r }}
+              scrollEnabled={false}
+              onLayout={(event) => {
+                const {x, y, width, height} = event.nativeEvent.layout
+                // _taskTextInputY = y
+                // console.log(`AAA() _taskTextInputY ${_taskTextInputY}`)
+              }}
+              onContentSizeChange={ event => {
+                const { width, height } = event.nativeEvent.contentSize
+                // console.log(`AAA() _taskTextInput height ${height}`)
+                // this._scrollView.scrollTo({x: 0, y: _taskTextInputY + height, animated: true})
+              }}
             />
             {this._renderSeparator(editingOrAddingNewTask)}
           </View>
@@ -192,8 +223,13 @@ export default class SRStudyTaskEditor extends React.Component {
           </View>
 
         </View>
-      </KeyboardAwareScrollView>
+      </ScrollView>
     )
+  }
+
+  _keyboardDidShow(event) {
+    const { height } = event.endCoordinates
+    _keyboardHeight = height
   }
 
   // Data input
@@ -380,6 +416,22 @@ export default class SRStudyTaskEditor extends React.Component {
               returnKeyType={'done'}
               blurOnSubmit={true}
               ref={(r) => { this._noteInputRef = r }}
+              scrollEnabled={false}
+              onLayout={(event) => {
+                const {x, y, width, height} = event.nativeEvent.layout
+                // _notesTextInputY = y
+                // console.log(`AAA() _notesTextInputY ${_notesTextInputY}`)
+                this._noteInputRef.measure((x, y, width, height, px,py ) => {
+                  _notesTextInputY = y
+                  console.log(`AAA() y:${y} height:${height} py:${py}`)
+                })
+              }}
+              onContentSizeChange={ event => {
+                const { width, height } = event.nativeEvent.contentSize
+                // console.log(`AAA() SCROLLING _notesTextInputY ${_notesTextInputY} height ${height}`)
+
+                // this._scrollView.scrollTo({x: 0, y: _notesTextInputY, animated: true})
+              }}
             />
             {this._renderSeparator(!readonly)}
           </View>
