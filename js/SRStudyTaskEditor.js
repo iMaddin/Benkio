@@ -3,6 +3,8 @@ import React from 'react'
 import {
   Alert,
   Keyboard,
+  LayoutAnimation,
+  NativeModules,
   StyleSheet,
   Text,
   TextInput,
@@ -31,6 +33,59 @@ const cancelButtonTint = SRDarkColor
 const tintColor = SRRedColor
 
 const dateSegmentedControlCornerRadius = 4
+
+// Required to use LayoutAnimation on Android
+const { UIManager } = NativeModules;
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true)
+
+const springDamping = 1.2
+
+/**
+ * TextInput editable is set to true, it deletes the non-editable text and creates editable text.
+ * The same is true the other way around when editable is set to false.
+ *
+ * That's why create: and delete: property needs to be opacity for TextInput's change of editable to be smooth.
+ * Otherwise it will delete: animate the non-editable text and create: animate the editable text.
+ *
+ */
+const animateEditingTrue = {
+    duration: 500,
+    create: {
+      type: LayoutAnimation.Types.linear,
+      property: LayoutAnimation.Properties.opacity,
+      // springDamping: springDamping,
+    },
+    update: {
+      type: LayoutAnimation.Types.spring,
+      property: LayoutAnimation.Properties.scaleXY,
+      springDamping: springDamping,
+    },
+    delete: {
+      type: LayoutAnimation.Types.linear,
+      property: LayoutAnimation.Properties.opacity,
+      // springDamping: springDamping,
+    },
+  }
+
+  const animateEditingFalse = {
+      duration: 500,
+      // create: {
+      //   type: LayoutAnimation.Types.spring,
+      //   property: LayoutAnimation.Properties.scaleXY,
+      //   springDamping: springDamping,
+      // },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        property: LayoutAnimation.Properties.scaleXY,
+        springDamping: springDamping,
+      },
+      // delete: {
+      //   type: LayoutAnimation.Types.spring,
+      //   property: LayoutAnimation.Properties.opacity,
+      //   springDamping: springDamping,
+      // },
+    }
 
 export default class SRStudyTaskEditor extends React.Component {
 
@@ -222,6 +277,7 @@ export default class SRStudyTaskEditor extends React.Component {
     const wantsEdit = readonly && !editMode
 
     if(wantsEdit) {
+      LayoutAnimation.configureNext(animateEditingTrue)
       this.setState({editMode: true})
     } else { // Save data input
       const { readonly, saveAction } = this.props
@@ -238,6 +294,7 @@ export default class SRStudyTaskEditor extends React.Component {
 
       saveAction(newItemChanges, item)
       if(readonly) {
+        LayoutAnimation.configureNext(animateEditingFalse)
         this.setState({editMode: false})
       }
     }
@@ -262,6 +319,7 @@ export default class SRStudyTaskEditor extends React.Component {
             {text: 'Keep Editing', onPress: () => {}, style: 'cancel'},
             {text: 'Discard Changes', onPress: () => {
               this.resetFields()
+              LayoutAnimation.configureNext(animateEditingFalse)
               this.setState({editMode: false})
             }},
           ],
