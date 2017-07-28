@@ -5,13 +5,6 @@ import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities
 
 export default class SRRatingView extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-
-    }
-  }
-
   render() {
     return (
       <View style={styles.transparentView}>
@@ -68,7 +61,7 @@ export default class SRRatingView extends React.Component {
     )
   }
 
-  rated(indexPressed) {
+  rated(indexPressed: number) {
     const {ratedCallback} = this.props
     if (typeof ratedCallback == 'function') {
       ratedCallback(indexPressed)
@@ -145,7 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   ratingLeftTitle: {
-    color: SRDarkColor,
+    color: SRBrightColor,
   },
   ratingCenterTitle: {
     color: SRDarkColor
