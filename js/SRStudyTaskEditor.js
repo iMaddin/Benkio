@@ -378,7 +378,7 @@ export default class SRStudyTaskEditor extends React.Component {
     if(flag) {
       return <View name='separator' style={styles.sectionSeparator}/>
     } else {
-      return null
+      return <View name='separator' style={{height: 1}}/>
     }
   }
 
