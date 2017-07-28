@@ -86,7 +86,6 @@ class SRStudyList extends React.Component {
             const itemIsToday = d.toDateString() == new Date().toDateString()
             const allowRating = itemIsToday || itemIsOverDue
             const formattedDate = formatCellDate(d)
-            const isLastCell = rowID == dataSource.getRowCount()-1
 
             if(allowRating) {
               return (
@@ -107,26 +106,15 @@ class SRStudyList extends React.Component {
                 </View>
               )
             } else {
+              return (
 
-              const cell = <SRStudyListCell
+                <SRStudyListCell
                   onPressDetailsButton={() => this.navigateToDetails(item)}
                 >
                 {{title: item.taskName, notes: item.notes, date: formattedDate}}
               </SRStudyListCell>
 
-              if(isLastCell) {
-                return(
-                  <View>
-                    {cell}
-                    <View style={styles.emptyStateCell}>
-                      <SREmptyState />
-                    </View>
-                  </View>
-                )
-              } else {
-                return cell
-              }
-            }
+            )}
           }}
         />
 
@@ -283,14 +271,9 @@ const styles = StyleSheet.create({
    flex: 1,
   },
   tableViewContainer: {
-    paddingBottom: 0,
+    paddingBottom: 90,
   },
   tableView: {
     backgroundColor: SRBrightColor,
-  },
-  emptyStateCell: {
-    alignItems: 'center',
-    paddingTop: (90-38)/2, // (floatingButton bottomSpacing + floatingButtonHeight + bottomSpacing) - empty state height
-    paddingBottom: (90-38)/2,
   },
 })
