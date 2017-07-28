@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { Animated, StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
+import PropTypes from 'prop-types';
 
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../utilities/SRColors'
 
@@ -14,7 +15,6 @@ var triangleTapCount = 0
 export default class SREmptyStateHeader extends Component {
 
   componentWillMount(){
-    this.updateUIStates(this.props)
     this.circleAnimation = new Animated.Value(1)
     this.rectangleAnimation = new Animated.Value(1)
     this.triangleAnimation = new Animated.Value(1)
@@ -66,8 +66,18 @@ export default class SREmptyStateHeader extends Component {
     )
   }
 
-  updateUIStates(props: Object) {
+  resetAnimationValues() {
+    this.circleAnimation.setValue(1)
+    this.rectangleAnimation.setValue(1)
+    this.triangleAnimation.setValue(1)
+  }
 
+  updateUIStates(props: Object) {
+    const { resetShapes } = props
+    if(resetShapes) {
+      this.resetAnimationValues()
+      console.log(`HUNG resetShapes ${resetShapes}`)
+    }
   }
 
   animateInCircle(flag) {
@@ -140,6 +150,10 @@ export default class SREmptyStateHeader extends Component {
     return transform
   }
 
+}
+
+SREmptyStateHeader.propTypes = {
+  resetShapes: PropTypes.bool,
 }
 
 const styles = StyleSheet.create({

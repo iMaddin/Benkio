@@ -36,6 +36,7 @@ class SRStudyList extends React.Component {
     selectedID: string,
     listViewHeight: number,
     onlyTypographicCellHeight: number,
+    resetShapes: bool,
   }
 
   constructor(props: Object) {
@@ -50,6 +51,7 @@ class SRStudyList extends React.Component {
       emptyStateTableDistanceFromBottom: 0,
       listViewHeight: 0,
       onlyTypographicCellHeight: 0,
+      resetShapes: false
     }
 
   }
@@ -176,6 +178,9 @@ class SRStudyList extends React.Component {
     if(noDataYet) {
       showEmptyStateHeader = true
     } else {
+      this.setState({
+        resetShapes: true
+      })
       const firstItem = tableData[0]
       const onlyFutureTasks = (new Date(firstItem.date) > new Date())
       if(onlyFutureTasks) {
@@ -192,7 +197,7 @@ class SRStudyList extends React.Component {
   _renderEmptyStateHeader = (flag) => {
     if(flag) {
       return (
-        <SREmptyStateHeader />
+        <SREmptyStateHeader resetShapes={this.state.resetShapes} />
       )
     } else {
       return null
