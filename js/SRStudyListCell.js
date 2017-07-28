@@ -59,16 +59,16 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 54,
-    padding: 20,
+    padding: 15,
     alignItems: 'center',
   },
   title: {
     fontSize: 24,
-    // height: 44,
     color: SRDarkColor,
+    flex: 2,
   },
   date: {
+    flex: 1,
     textAlign: 'right',
   },
 })
