@@ -32,40 +32,26 @@ const minScale = 0.5
 const scaleYToValue = 1.2
 const scaleYFromValue = 1
 
-const scaleXToValue = 0.85
+const scaleXToValue = 0.8
 const scaleXFromValue = 1
 
 const popSpeed = 8
 const popBounciness = 20
 
 // translationY
-const yToValue = -10
+const yToValue = -5
 const yFromValue = 0
 
 const timingDuration = 350
 
-const easingBegin = Easing.back(2)
-const translateYEasingIn = easingBegin
-const scaleXEasingIn = easingBegin
-const scaleYEasingIn = easingBegin
+const translateYEasingIn = Easing.back(2)
+const scaleXEasingIn = Easing.back(4)
+const scaleYEasingIn = Easing.back(4)
 
 const easingEnd = Easing.elastic(2)
 const translateYEasingOut = easingEnd
 const scaleXEasingOut = easingEnd
 const scaleYEasingOut = easingEnd
-
-//
-const yEasingIn = Easing.back(4)
-// const yEasingOut = Easing.bounce
-const yEasingOut = Easing.elastic(2)
-
-// decay translationY
-const yVelocity = -0.1
-const yDeceleration = 0.998
-
-// spring translation Y
-const ySpeed = 4
-const yBounciness = 14
 
 export default class SRTypographicCell extends React.Component {
 
@@ -153,7 +139,7 @@ export default class SRTypographicCell extends React.Component {
           scaleYAnimation,
           {
             toValue: scaleYToValue,
-            easing: translateYEasingIn,
+            easing: scaleYEasingIn,
             duration: timingDuration,
           }
         ),
