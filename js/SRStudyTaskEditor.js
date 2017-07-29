@@ -101,8 +101,8 @@ export default class SRStudyTaskEditor extends React.Component {
       notes: item != null && item.notes != null ? item.notes : '',
       date: new Date().toString(),
 
-      studyTaskLabelString: item != null && item.taskName != null ? studyTaskString : ' ',
-      notesLabelString: item != null && item.notes != null ? notesString : ' ',
+      studyTaskLabelString: item != null && item.taskName != null ? studyTaskString.toUpperCase() : ' ',
+      notesLabelString: item != null && item.notes != null ? notesString.toUpperCase() : ' ',
       pickedDate: 'Other', // TODO: implement
       selectedDateIndex: 0,
       selectedIntensityIndex: 0,
