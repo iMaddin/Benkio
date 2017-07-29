@@ -27,7 +27,7 @@ export default class SREmptyStateHeader extends Component {
   constructor(props) {
     super(props)
     const { animateInShapes } = this.props
-    console.log(`SREMPTYSTATEHEADER constructor()`)
+
     if(animateInShapes) {
       this.setAnimationValues(0)
     }
@@ -47,6 +47,13 @@ export default class SREmptyStateHeader extends Component {
   }
 
   componentWillReceiveProps(newProps: Object) {
+    const { animateInShapes } = newProps
+
+    if(animateInShapes) {
+      this.setAnimationValues(0)
+      this.animateInAllShapes()
+    }
+    
     this.updateUIStates(newProps)
   }
 
@@ -103,9 +110,9 @@ export default class SREmptyStateHeader extends Component {
   }
 
   updateUIStates(props: Object) {
-    const { resetShapes } = props
-    if(resetShapes) {
-      // this.setAnimationValues(1)
+    const { animateInShapes, resetShapes } = props
+    if(resetShapes && !animateInShapes) {
+      this.setAnimationValues(1)
       console.log(`SREMPTYSTATEHEADER resetShapes ${resetShapes}`)
     }
   }
