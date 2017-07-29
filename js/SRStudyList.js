@@ -37,6 +37,7 @@ class SRStudyList extends React.Component {
     listViewHeight: number,
     onlyTypographicCellHeight: number,
     resetShapes: bool,
+    animateInHeaderShapes: bool,
   }
 
   constructor(props: Object) {
@@ -51,7 +52,8 @@ class SRStudyList extends React.Component {
       emptyStateTableDistanceFromBottom: 0,
       listViewHeight: 0,
       onlyTypographicCellHeight: 0,
-      resetShapes: false
+      resetShapes: false,
+      animateInHeaderShapes: false,
     }
 
   }
@@ -60,6 +62,7 @@ class SRStudyList extends React.Component {
     this.updateUIStates(this.props)
     this.ratingViewSpringAnimation = new Animated.Value(0)
     this.ratingViewOpacityAnimation = new Animated.Value(0)
+    this.setState({animateInHeaderShapes: true})
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -71,6 +74,7 @@ class SRStudyList extends React.Component {
       dataSource,
       renderEmptyStateHeader,
       ratingModalisVisible,
+      animateInHeaderShapes,
     } = this.state
 
     return (
@@ -196,8 +200,9 @@ class SRStudyList extends React.Component {
 
   _renderEmptyStateHeader = (flag) => {
     if(flag) {
+      const { resetShapes, animateInHeaderShapes } = this.state
       return (
-        <SREmptyStateHeader resetShapes={this.state.resetShapes} />
+        <SREmptyStateHeader resetShapes={resetShapes} animateInShapes={animateInHeaderShapes}/>
       )
     } else {
       return null

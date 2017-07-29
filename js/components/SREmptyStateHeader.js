@@ -24,6 +24,28 @@ export default class SREmptyStateHeader extends Component {
     disableTriangleButton: false,
   }
 
+  constructor(props) {
+    super(props)
+    const { animateInShapes } = this.props
+    console.log(`SREMPTYSTATEHEADER constructor()`)
+    if(animateInShapes) {
+      this.setAnimationValues(0)
+    }
+  }
+
+  componentWillMount() {
+    const { animateInShapes } = this.props
+
+  }
+
+  componentDidMount() {
+    const { animateInShapes } = this.props
+    console.log(`SREMPTYSTATEHEADER componentDidMount animateInShapes ${animateInShapes}`)
+    if(animateInShapes) {
+      this.animateInAllShapes()
+    }
+  }
+
   componentWillReceiveProps(newProps: Object) {
     this.updateUIStates(newProps)
   }
@@ -42,7 +64,7 @@ export default class SREmptyStateHeader extends Component {
             this.animateInCircle(false)
           }}
         >
-          <Animated.View style={[styles.circle,this.transformForAnimation(circleAnimation)]} />
+          <Animated.View style={[styles.circle, this.transformForAnimation(circleAnimation)]} />
         </TouchableWithoutFeedback>
 
         <TouchableWithoutFeedback
@@ -67,23 +89,23 @@ export default class SREmptyStateHeader extends Component {
               this.animateInTriangle(false)
             }}
           >
-            <Animated.View style={[styles.triangle,this.transformForAnimation(triangleAnimation)]} />
+            <Animated.View style={[styles.triangle, this.transformForAnimation(triangleAnimation)]} />
           </TouchableWithoutFeedback>
         </View>
       </View>
     )
   }
 
-  resetAnimationValues() {
-    circleAnimation.setValue(1)
-    rectangleAnimation.setValue(1)
-    triangleAnimation.setValue(1)
+  setAnimationValues(value) {
+    circleAnimation.setValue(value)
+    rectangleAnimation.setValue(value)
+    triangleAnimation.setValue(value)
   }
 
   updateUIStates(props: Object) {
     const { resetShapes } = props
     if(resetShapes) {
-      this.resetAnimationValues()
+      // this.setAnimationValues(1)
       console.log(`SREMPTYSTATEHEADER resetShapes ${resetShapes}`)
     }
   }
