@@ -26,6 +26,8 @@ import SREmptyState from './components/SREmptyState'
 
 export const studyListTitle = 'Reviews'
 
+var emptyStateHeaderAnimateInHeaderShapes = false
+
 class SRStudyList extends React.Component {
 
   state: {
@@ -36,8 +38,7 @@ class SRStudyList extends React.Component {
     selectedID: string,
     listViewHeight: number,
     onlyTypographicCellHeight: number,
-    resetShapes: bool,
-    animateInHeaderShapes: bool,
+    emptyStateHeaderResetShapesWhenEmpty: bool,
   }
 
   constructor(props: Object) {
@@ -52,8 +53,7 @@ class SRStudyList extends React.Component {
       emptyStateTableDistanceFromBottom: 0,
       listViewHeight: 0,
       onlyTypographicCellHeight: 0,
-      resetShapes: false,
-      animateInHeaderShapes: false,
+      emptyStateHeaderResetShapesWhenEmpty: true,
     }
 
   }
@@ -62,7 +62,11 @@ class SRStudyList extends React.Component {
     this.updateUIStates(this.props)
     this.ratingViewSpringAnimation = new Animated.Value(0)
     this.ratingViewOpacityAnimation = new Animated.Value(0)
-    this.setState({animateInHeaderShapes: true})
+    emptyStateHeaderAnimateInHeaderShapes = true
+  }
+
+  componentDidMount() {
+
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -74,7 +78,6 @@ class SRStudyList extends React.Component {
       dataSource,
       renderEmptyStateHeader,
       ratingModalisVisible,
-      animateInHeaderShapes,
     } = this.state
 
     return (
@@ -182,9 +185,6 @@ class SRStudyList extends React.Component {
     if(noDataYet) {
       showEmptyStateHeader = true
     } else {
-      this.setState({
-        resetShapes: true
-      })
       const firstItem = tableData[0]
       const onlyFutureTasks = (new Date(firstItem.date) > new Date())
       if(onlyFutureTasks) {
@@ -195,14 +195,22 @@ class SRStudyList extends React.Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(tableData),
       renderEmptyStateHeader: showEmptyStateHeader,
+      emptyStateHeaderResetShapesWhenEmpty: noDataYet ? false : true
     })
   }
 
   _renderEmptyStateHeader = (flag) => {
     if(flag) {
-      const { resetShapes, animateInHeaderShapes } = this.state
+      const { emptyStateHeaderResetShapesWhenEmpty } = this.state
+
+      var animateInHeaderShapes = false
+      if(emptyStateHeaderAnimateInHeaderShapes) {
+        animateInHeaderShapes = true
+        emptyStateHeaderAnimateInHeaderShapes = false
+      }
+
       return (
-        <SREmptyStateHeader resetShapes={resetShapes} animateInShapes={animateInHeaderShapes}/>
+        <SREmptyStateHeader resetShapesWhenEmpty={emptyStateHeaderResetShapesWhenEmpty} animateInShapes={animateInHeaderShapes}/>
       )
     } else {
       return null

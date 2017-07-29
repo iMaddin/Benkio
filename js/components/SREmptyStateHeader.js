@@ -53,7 +53,7 @@ export default class SREmptyStateHeader extends Component {
       this.setAnimationValues(0)
       this.animateInAllShapes()
     }
-    
+
     this.updateUIStates(newProps)
   }
 
@@ -256,13 +256,11 @@ export default class SREmptyStateHeader extends Component {
 }
 
 SREmptyStateHeader.propTypes = {
-  resetShapes: PropTypes.bool,
   resetShapesWhenEmpty: PropTypes.bool,
   animateInShapes: PropTypes.bool
 }
 
 SREmptyStateHeader.defaultProps = {
-  resetShapes: false,
   resetShapesWhenEmpty: true,
   animateInShapes: false
 }
