@@ -112,9 +112,9 @@ export default class SRTypographicCell extends React.Component {
     }
     buttonLastAnimated = nextButtonToAnimate
 
-    const nextAnimatioStyles = animationStyles[nextButtonToAnimate]
+    const nextAnimationStyles = animationStyles[nextButtonToAnimate]
 
-    this.animateValues(nextAnimatioStyles[0], nextAnimatioStyles[1], nextAnimatioStyles[2]).start(()=>{
+    this.animateValues(nextAnimationStyles[0], nextAnimationStyles[1], nextAnimationStyles[2]).start(()=>{
       this.startAnimatingRatingButtons()
     })
   }
