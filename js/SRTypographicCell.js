@@ -1,39 +1,61 @@
 // @flow
 import React from 'react'
-import { Animated, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
+import { Animated, Easing, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
-var leftPopAnimation = new Animated.Value(1)
-var centerPopAnimation = new Animated.Value(1)
-var rightPopAnimation = new Animated.Value(1)
+var leftXScaleAnimation = new Animated.Value(1)
+var centerXScaleAnimation = new Animated.Value(1)
+var rightXScaleAnimation = new Animated.Value(1)
+
+var leftYScaleAnimation = new Animated.Value(1)
+var centerYScaleAnimation = new Animated.Value(1)
+var rightYScaleAnimation = new Animated.Value(1)
 
 var leftYpositionAnimation = new Animated.Value(0)
 var centerYpositionAnimation = new Animated.Value(0)
 var rightYpositionAnimation = new Animated.Value(0)
 
-const leftButtonAnimatedStyles = [leftPopAnimation, leftYpositionAnimation]
-const centerButtonAnimatedStyles = [centerPopAnimation, centerYpositionAnimation]
-const rightButtonAnimatedStyles = [rightPopAnimation, rightYpositionAnimation]
+const leftButtonAnimatedStyles = [leftXScaleAnimation, leftYScaleAnimation, leftYpositionAnimation]
+const centerButtonAnimatedStyles = [centerXScaleAnimation, centerYScaleAnimation, centerYpositionAnimation]
+const rightButtonAnimatedStyles = [rightXScaleAnimation, rightYScaleAnimation, rightYpositionAnimation]
 const animationStyles = [leftButtonAnimatedStyles, centerButtonAnimatedStyles, rightButtonAnimatedStyles]
 
 const intervalBetweenAnimations = 2000
 var buttonLastAnimated = Math.floor((Math.random() * 3) + 0)
 var nextButtonToAnimate = buttonLastAnimated
 
-const maxScale = 1.5
-const popToValue = 1.2
-const popFromValue = 1
-const popSpeed = 16
-const popBounciness = 18
+// spring scaleXY
 
-const yToValue = -4
+const maxScale = 1.5
+const minScale = 0.5
+
+const scaleYToValue = 1.2
+const scaleYFromValue = 1
+
+const scaleXToValue = 0.85
+const scaleXFromValue = 1
+
+const popSpeed = 8
+const popBounciness = 20
+
+// translationY
+const yToValue = -6
 const yFromValue = 0
 
-const yVelocity = -0.1
-const yDeceleration = 0.997
+const yDuration = 250
+const yEasingIn = Easing.back(4)
+// const yEasingOut = Easing.bounce
+const yEasingOut = Easing.elastic(2)
 
-const ySpeed = 16
-const yBounciness = 18
+
+
+// decay translationY
+const yVelocity = -0.1
+const yDeceleration = 0.998
+
+// spring translation Y
+const ySpeed = 4
+const yBounciness = 14
 
 export default class SRTypographicCell extends React.Component {
 
@@ -101,56 +123,64 @@ export default class SRTypographicCell extends React.Component {
 
     const nextAnimatioStyles = animationStyles[nextButtonToAnimate]
 
-    this.popAnimationSequence(nextAnimatioStyles[0],nextAnimatioStyles[1]).start(()=>{
+    this.popAnimationSequence(nextAnimatioStyles[0], nextAnimatioStyles[1], nextAnimatioStyles[2]).start(()=>{
       this.startAnimatingRatingButtons()
     })
   }
 
-  popAnimationSequence(springAnimation, yTranslateAnimation) {
+  popAnimationSequence(scaleXAnimation, scaleYAnimation, yTranslateAnimation) {
     return Animated.sequence([
       Animated.parallel([
         Animated.spring(
-          springAnimation,
+          scaleXAnimation,
           {
-            toValue: popToValue,
+            toValue: scaleXToValue,
             speed: popSpeed,
             bounciness: popBounciness,
           }
         ),
-        Animated.decay(
+        Animated.spring(
+          scaleYAnimation,
+          {
+            toValue: scaleYToValue,
+            speed: popSpeed,
+            bounciness: popBounciness,
+          }
+        ),
+        Animated.timing(
           yTranslateAnimation,
           {
-            // toValue: yToValue,
-            velocity: yVelocity,
-            deceleration: yDeceleration,
+            toValue: yToValue,
+            easing: yEasingIn,
+            duration: yDuration,
           }
         )
       ]),
       Animated.parallel([
         Animated.spring(
-          springAnimation,
+          scaleXAnimation,
           {
-            toValue: popFromValue,
+            toValue: scaleXFromValue,
             speed: popSpeed,
             bounciness: popBounciness,
           }
         ),
-        Animated.decay(
+        Animated.spring(
+          scaleYAnimation,
+          {
+            toValue: scaleYFromValue,
+            speed: popSpeed,
+            bounciness: popBounciness,
+          }
+        ),
+        Animated.timing(
           yTranslateAnimation,
           {
-            // toValue: yToValue,
-            velocity: -yVelocity,
-            deceleration: yDeceleration,
+            toValue: yFromValue,
+            easing: yEasingOut,
+            duration: yDuration,
           }
         )
-        // Animated.spring(
-        //   yTranslateAnimation,
-        //   {
-        //     toValue: yFromValue,
-        //     speed: ySpeed,
-        //     bounciness: yBounciness,
-        //   }
-        // )
       ]),
     ])
   }
@@ -158,24 +188,29 @@ export default class SRTypographicCell extends React.Component {
   animationsForButton(index: number) {
     const style = animationStyles[index]
     return { transform: [
-      ...this.scaleXYForAnimation(style[0]),
-      this.yPositionForAnimation(style[1])
+      this.scaleXForAnimation(style[0]),
+      this.scaleYForAnimation(style[1]),
+      this.yPositionForAnimation(style[2])
     ]}
   }
 
-  scaleXYForAnimation(animation) {
-    const transform = [
+  scaleXForAnimation(animation) {
+    const transform =
       {
       scaleX: animation.interpolate({
         inputRange: [0, maxScale],
         outputRange: [0, maxScale]
-      })},
+      })}
+    return transform
+  }
+
+  scaleYForAnimation(animation) {
+    const transform =
       {
       scaleY: animation.interpolate({
         inputRange: [0, maxScale],
         outputRange: [0, maxScale]
       })}
-    ]
     return transform
   }
 
