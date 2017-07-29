@@ -404,7 +404,7 @@ export default class SRStudyTaskEditor extends React.Component {
             tabTextStyle={styles.tabTextStyle}
             activeTabStyle={styles.activeTabStyle}
             activeTabTextStyle={styles.activeTabTextStyle}
-            values={['Today', 'Yesterday', formattedPickedDate]}
+            values={['Today', 'Yesterday']}
             selectedIndex={this.state.selectedDateIndex}
             onTabPress={this.handleDateSelection}
           />
