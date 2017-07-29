@@ -84,53 +84,16 @@ test('Test nextDate()', () => {
 
 })
 
-const minEF = 1.3
-const maxEF = 2.5
-
-test('EF of Ok rating', () => {
-  expect(
-    new SRSpacedRepetition(1.3, 0, 0).ok().easinessFactor
-  ).toBeCloseTo(minEF) // lower EF (but not below 1.3)
-
-  expect(
-    new SRSpacedRepetition(1.4, 0, 0).ok().easinessFactor
-  ).toBeGreaterThanOrEqual(minEF)
-
-  expect(
-    new SRSpacedRepetition(1.4, 0, 0).ok().easinessFactor
-  ).toBeLessThan(1.4)
-
-})
-
-test('EF of Good rating', () => {
-  expect(
-    new SRSpacedRepetition(1.3, 0, 0).good().easinessFactor
-  ).toBeCloseTo(1.3)
-
-  expect(
-    new SRSpacedRepetition(1.9).good().easinessFactor
-  ).toBeCloseTo(1.9)
-
-  expect(
-    new SRSpacedRepetition().good().easinessFactor
-  ).toBeCloseTo(2.5)
-})
-
-test('EF of Perfect rating', () => {
-  expect(
-    new SRSpacedRepetition().perfect().easinessFactor
-  ).toBeCloseTo(maxEF)
-
-  expect(
-    new SRSpacedRepetition(2.4, 0, 0).perfect().easinessFactor
-  ).toBeLessThanOrEqual(maxEF)
-
-  expect(
-    new SRSpacedRepetition(2.4, 0, 0).perfect().easinessFactor
-  ).toBeGreaterThan(2.4)
-})
-
 test('Interval when repetition is <= 2', () => {
+
+  expect(
+    new SRSpacedRepetition().bad().interval
+  ).toBe(1)
+
+  expect(
+    new SRSpacedRepetition().bad().bad().interval
+  ).toBe(1)
+
   expect(
     new SRSpacedRepetition().ok().interval
   ).toBe(1)
@@ -147,11 +110,4 @@ test('Interval when repetition is <= 2', () => {
     new SRSpacedRepetition().good().good().interval
   ).toBe(6)
 
-  expect(
-    new SRSpacedRepetition().perfect().interval
-  ).toBe(1)
-
-  expect(
-    new SRSpacedRepetition().perfect().perfect().interval
-  ).toBe(6)
 })

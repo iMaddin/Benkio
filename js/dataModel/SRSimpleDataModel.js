@@ -63,16 +63,13 @@ export const reducer = (state: Object = initialState, action: { type: string, pa
     case types.REMOVE: {
       const studyTasksCopy = [...studyTasks]
       const newStudyTasks = studyTasks.filter((item) => item.id !== payload.id)
-      expect(newStudyTasks).toNotEqual(studyTasksCopy, `payload.id: ${payload.id}`)
       return {
         studyTasks: newStudyTasks
       }
     }
     case types.REPLACE: {
       const studyTasksCopy = [...studyTasks]
-      expect(studyTasksCopy.length).toNotEqual(0,'Replacing when there is nothing')
       const index = studyTasksCopy.findIndex((item) => item.id == payload.id)
-      expect(index).toBeGreaterThanOrEqualTo(0, 'Nothing found to replace.')
       if (index >= 0) {
         studyTasksCopy.splice(index, 1, payload)
       }
