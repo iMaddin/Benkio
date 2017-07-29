@@ -114,14 +114,16 @@ export default class SRTypographicCell extends React.Component {
 
     const nextAnimationStyles = animationStyles[nextButtonToAnimate]
 
-    this.animateValues(nextAnimationStyles[0], nextAnimationStyles[1], nextAnimationStyles[2]).start(()=>{
+    Animated.sequence([
+      this.animateValues(nextAnimationStyles[0], nextAnimationStyles[1], nextAnimationStyles[2]),
+      Animated.delay(this.props.intervalBetweenAnimations)
+    ]).start(()=>{
       this.startAnimatingRatingButtons()
     })
   }
 
   animateValues(scaleXAnimation, scaleYAnimation, yTranslateAnimation) {
     return Animated.sequence([
-      Animated.delay(this.props.intervalBetweenAnimations),
       Animated.parallel([
         Animated.timing(
           scaleXAnimation,
