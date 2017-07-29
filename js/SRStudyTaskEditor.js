@@ -304,6 +304,7 @@ export default class SRStudyTaskEditor extends React.Component {
         )
       } else {
         this.resetFields()
+        LayoutAnimation.configureNext(animateEditing)
         this.setState({editMode: false})
       }
     } else if (dismissAddingNewTask) {
