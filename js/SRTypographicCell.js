@@ -28,6 +28,10 @@ const popBounciness = 18
 
 const yToValue = -4
 const yFromValue = 0
+
+const yVelocity = -0.1
+const yDeceleration = 0.997
+
 const ySpeed = 16
 const yBounciness = 18
 
@@ -113,12 +117,12 @@ export default class SRTypographicCell extends React.Component {
             bounciness: popBounciness,
           }
         ),
-        Animated.spring(
+        Animated.decay(
           yTranslateAnimation,
           {
-            toValue: yToValue,
-            speed: ySpeed,
-            bounciness: yBounciness,
+            // toValue: yToValue,
+            velocity: yVelocity,
+            deceleration: yDeceleration,
           }
         )
       ]),
@@ -131,14 +135,22 @@ export default class SRTypographicCell extends React.Component {
             bounciness: popBounciness,
           }
         ),
-        Animated.spring(
+        Animated.decay(
           yTranslateAnimation,
           {
-            toValue: yFromValue,
-            speed: ySpeed,
-            bounciness: yBounciness,
+            // toValue: yToValue,
+            velocity: -yVelocity,
+            deceleration: yDeceleration,
           }
         )
+        // Animated.spring(
+        //   yTranslateAnimation,
+        //   {
+        //     toValue: yFromValue,
+        //     speed: ySpeed,
+        //     bounciness: yBounciness,
+        //   }
+        // )
       ]),
     ])
   }
