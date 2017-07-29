@@ -29,9 +29,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    if(!this.state.rehydrated){
-      return <Text>🙈🙉🙊🐵</Text> // TODO: maybe not needed since react redux updates props anyway
-    }
     return (
       <Provider store={store}>
         <TaylorSwift />
