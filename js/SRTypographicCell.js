@@ -7,6 +7,10 @@ var leftButtonAnimation = new Animated.Value(1)
 var centerButtonAnimation = new Animated.Value(1)
 var rightButtonAnimation = new Animated.Value(1)
 
+const intervalBetweenAnimations = 2000
+var buttonLastAnimated = Math.floor((Math.random() * 3) + 0)
+var nextButtonToAnimate = buttonLastAnimated
+
 export default class SRTypographicCell extends React.Component {
 
   componentDidMount() {
@@ -38,9 +42,9 @@ export default class SRTypographicCell extends React.Component {
                 onPress={onPressRateButton}>
 
                 <View style={styles.buttonContainer}>
-                  <Animated.View style={[styles.buttonComponent, this.transformForAnimation(leftButtonAnimation)]} />
-                  <Animated.View style={[styles.buttonComponent, this.transformForAnimation(centerButtonAnimation)]} />
-                  <Animated.View style={[styles.buttonComponent, this.transformForAnimation(rightButtonAnimation)]} />
+                  <Animated.View style={[styles.buttonComponent, ...this.transformForAnimation(leftButtonAnimation)]} />
+                  <Animated.View style={[styles.buttonComponent, ...this.transformForAnimation(centerButtonAnimation)]} />
+                  <Animated.View style={[styles.buttonComponent, ...this.transformForAnimation(rightButtonAnimation)]} />
                 </View>
 
               </TouchableHighlight>
@@ -63,32 +67,34 @@ export default class SRTypographicCell extends React.Component {
   }
 
   startAnimatingRatingButtons() {
-    const intervalBetweenAnimations = 2000
+    // Restart selection
+    while(nextButtonToAnimate == buttonLastAnimated) {
+      nextButtonToAnimate = Math.floor((Math.random() * 3) + 0)
+    }
+    buttonLastAnimated = nextButtonToAnimate
 
-    var buttonLastAnimated = 0
+    const nextAnimation = [leftButtonAnimation, centerButtonAnimation, rightButtonAnimation][nextButtonToAnimate]
 
-    const buttonToAnimateNext = 0
-    buttonLastAnimated = buttonToAnimateNext
-    const animations = [leftButtonAnimation, centerButtonAnimation, rightButtonAnimation]
-    const buttonToAnimate = animations[buttonToAnimateNext]
-    // buttonToAnimate.start()
+    this.popAnimationSequence(nextAnimation).start(()=>{
+      this.startAnimatingRatingButtons()
+    })
+  }
 
-    Animated.loop(
-      Animated.sequence([
-        Animated.spring(
-          buttonToAnimate,
-          {
-            toValue: 1.5
-          }
-        ),
-        Animated.spring(
-          buttonToAnimate,
-          {
-            toValue: 1
-          }
-        )
-      ])
-    ).start()
+  popAnimationSequence(animation) {
+    return Animated.sequence([
+      Animated.spring(
+        animation,
+        {
+          toValue: 1.5
+        }
+      ),
+      Animated.spring(
+        animation,
+        {
+          toValue: 1
+        }
+      )
+    ])
   }
 
   transformForAnimation(animation) {
@@ -106,7 +112,7 @@ export default class SRTypographicCell extends React.Component {
         })
       }]
     }
-    return transform
+    return [transform]
   }
 
 }
