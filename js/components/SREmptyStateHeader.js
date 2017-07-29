@@ -16,6 +16,8 @@ var circleAnimation = new Animated.Value(1)
 var rectangleAnimation = new Animated.Value(1)
 var triangleAnimation = new Animated.Value(1)
 
+var headerIsEmpty = false
+
 export default class SREmptyStateHeader extends Component {
 
   state = {
@@ -47,14 +49,17 @@ export default class SREmptyStateHeader extends Component {
   }
 
   componentWillReceiveProps(newProps: Object) {
-    const { animateInShapes } = newProps
+    const { animateInShapes, resetShapesWhenEmpty } = newProps
 
     if(animateInShapes) {
       this.setAnimationValues(0)
       this.animateInAllShapes()
     }
 
-    this.updateUIStates(newProps)
+    if(headerIsEmpty && resetShapesWhenEmpty) {
+      this.animateInAllShapes()
+    }
+
   }
 
   render() {
@@ -107,14 +112,6 @@ export default class SREmptyStateHeader extends Component {
     circleAnimation.setValue(value)
     rectangleAnimation.setValue(value)
     triangleAnimation.setValue(value)
-  }
-
-  updateUIStates(props: Object) {
-    const { animateInShapes, resetShapes } = props
-    if(resetShapes && !animateInShapes) {
-      this.setAnimationValues(1)
-      console.log(`SREMPTYSTATEHEADER resetShapes ${resetShapes}`)
-    }
   }
 
   animateInCircle(flag) {
@@ -227,15 +224,33 @@ export default class SREmptyStateHeader extends Component {
   animateAllShapesIfEmpty() {
     console.log(`SREMPTYSTATEHEADER animateAllShapesIfEmpty`)
     const { resetShapesWhenEmpty } = this.props
-    if(resetShapesWhenEmpty && circleTapCount >= tapsUntilDisappearance && rectangleTapCount >= tapsUntilDisappearance && triangleTapCount >= tapsUntilDisappearance) {
+
+    if(circleTapCount >= tapsUntilDisappearance && rectangleTapCount >= tapsUntilDisappearance && triangleTapCount >= tapsUntilDisappearance) {
       circleTapCount = 0
       rectangleTapCount = 0
       triangleTapCount = 0
-      this.animateInAllShapes()
+
+      if (resetShapesWhenEmpty) {
+        headerIsEmpty = false
+        this.animateInAllShapes(() => {
+          this.setState({
+            disableCircleButton: false,
+            disableRectangleButton: false,
+            disableTriangleButton: false,
+          })
+        })
+      } else {
+        headerIsEmpty = true
+        this.setState({
+          disableCircleButton: false,
+          disableRectangleButton: false,
+          disableTriangleButton: false,
+        })
+      }
     }
   }
 
-  animateInAllShapes() {
+  animateInAllShapes(completion?: () => void) {
     console.log(`SREMPTYSTATEHEADER animateInAllShapes`)
     const toValue = 1
     Animated.stagger(300, [
@@ -244,12 +259,9 @@ export default class SREmptyStateHeader extends Component {
       this.animateIn(triangleAnimation, toValue),
       this.animateIn(rectangleAnimation, toValue),
     ]).start(() => {
-      console.log(`SREMPTYSTATEHEADER disableButton set to false`)
-      this.setState({
-        disableCircleButton: false,
-        disableRectangleButton: false,
-        disableTriangleButton: false,
-      })
+      if(completion != null) {
+          completion()
+      }
     })
   }
 
