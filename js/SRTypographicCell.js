@@ -39,15 +39,25 @@ const popSpeed = 8
 const popBounciness = 20
 
 // translationY
-const yToValue = -6
+const yToValue = -10
 const yFromValue = 0
 
-const yDuration = 250
+const timingDuration = 350
+
+const easingBegin = Easing.back(2)
+const translateYEasingIn = easingBegin
+const scaleXEasingIn = easingBegin
+const scaleYEasingIn = easingBegin
+
+const easingEnd = Easing.elastic(2)
+const translateYEasingOut = easingEnd
+const scaleXEasingOut = easingEnd
+const scaleYEasingOut = easingEnd
+
+//
 const yEasingIn = Easing.back(4)
 // const yEasingOut = Easing.bounce
 const yEasingOut = Easing.elastic(2)
-
-
 
 // decay translationY
 const yVelocity = -0.1
@@ -131,54 +141,54 @@ export default class SRTypographicCell extends React.Component {
   popAnimationSequence(scaleXAnimation, scaleYAnimation, yTranslateAnimation) {
     return Animated.sequence([
       Animated.parallel([
-        Animated.spring(
+        Animated.timing(
           scaleXAnimation,
           {
             toValue: scaleXToValue,
-            speed: popSpeed,
-            bounciness: popBounciness,
+            easing: scaleXEasingIn,
+            duration: timingDuration,
           }
         ),
-        Animated.spring(
+        Animated.timing(
           scaleYAnimation,
           {
             toValue: scaleYToValue,
-            speed: popSpeed,
-            bounciness: popBounciness,
+            easing: translateYEasingIn,
+            duration: timingDuration,
           }
         ),
         Animated.timing(
           yTranslateAnimation,
           {
             toValue: yToValue,
-            easing: yEasingIn,
-            duration: yDuration,
+            easing: translateYEasingIn,
+            duration: timingDuration,
           }
         )
       ]),
       Animated.parallel([
-        Animated.spring(
+        Animated.timing(
           scaleXAnimation,
           {
             toValue: scaleXFromValue,
-            speed: popSpeed,
-            bounciness: popBounciness,
+            easing: scaleXEasingOut,
+            duration: timingDuration,
           }
         ),
-        Animated.spring(
+        Animated.timing(
           scaleYAnimation,
           {
             toValue: scaleYFromValue,
-            speed: popSpeed,
-            bounciness: popBounciness,
+            easing: scaleYEasingOut,
+            duration: timingDuration,
           }
         ),
         Animated.timing(
           yTranslateAnimation,
           {
             toValue: yFromValue,
-            easing: yEasingOut,
-            duration: yDuration,
+            easing: translateYEasingOut,
+            duration: timingDuration,
           }
         )
       ]),
