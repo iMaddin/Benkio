@@ -3,9 +3,13 @@ import React from 'react'
 import { Animated, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
 
-var leftButtonAnimation = new Animated.Value(1)
-var centerButtonAnimation = new Animated.Value(1)
-var rightButtonAnimation = new Animated.Value(1)
+var leftPopAnimation = new Animated.Value(1)
+var centerPopAnimation = new Animated.Value(1)
+var rightPopAnimation = new Animated.Value(1)
+
+var leftYpositionAnimation = new Animated.Value(0)
+var centerYpositionAnimation = new Animated.Value(0)
+var rightYpositionAnimation = new Animated.Value(0)
 
 const intervalBetweenAnimations = 2000
 var buttonLastAnimated = Math.floor((Math.random() * 3) + 0)
@@ -23,6 +27,7 @@ export default class SRTypographicCell extends React.Component {
   render() {
     const { children, onPressDetailsButton, onPressRateButton } = this.props
     const date = children.date.toUpperCase()
+    console.log(`SRTypographicCell ...this.animationsForButton(0) ${JSON.stringify(this.animationsForButton(0))}`)
     return (
       <View style={styles.cell}>
         <TouchableHighlight
@@ -42,9 +47,9 @@ export default class SRTypographicCell extends React.Component {
                 onPress={onPressRateButton}>
 
                 <View style={styles.buttonContainer}>
-                  <Animated.View style={[styles.buttonComponent, ...this.transformForAnimation(leftButtonAnimation)]} />
-                  <Animated.View style={[styles.buttonComponent, ...this.transformForAnimation(centerButtonAnimation)]} />
-                  <Animated.View style={[styles.buttonComponent, ...this.transformForAnimation(rightButtonAnimation)]} />
+                  <Animated.View style={[styles.buttonComponent, this.animationsForButton(0)]} />
+                  <Animated.View style={[styles.buttonComponent, this.animationsForButton(1)]} />
+                  <Animated.View style={[styles.buttonComponent, this.animationsForButton(2)]} />
                 </View>
 
               </TouchableHighlight>
@@ -67,13 +72,14 @@ export default class SRTypographicCell extends React.Component {
   }
 
   startAnimatingRatingButtons() {
+    console.log(`SRTypographicCell startAnimatingRatingButtons()`)
     // Restart selection
     while(nextButtonToAnimate == buttonLastAnimated) {
       nextButtonToAnimate = Math.floor((Math.random() * 3) + 0)
     }
     buttonLastAnimated = nextButtonToAnimate
 
-    const nextAnimation = [leftButtonAnimation, centerButtonAnimation, rightButtonAnimation][nextButtonToAnimate]
+    const nextAnimation = [leftPopAnimation, centerPopAnimation, rightPopAnimation][nextButtonToAnimate]
 
     this.popAnimationSequence(nextAnimation).start(()=>{
       this.startAnimatingRatingButtons()
@@ -97,22 +103,40 @@ export default class SRTypographicCell extends React.Component {
     ])
   }
 
-  transformForAnimation(animation) {
-    const maxScale = 1.5
-    const transform = {
-      transform: [{
-        scaleX: animation.interpolate({
-          inputRange: [0, maxScale],
-          outputRange: [0, maxScale]
-        })},
-        {
-        scaleY: animation.interpolate({
-          inputRange: [0, maxScale],
-          outputRange: [0, maxScale]
-        })
-      }]
-    }
-    return [transform]
+  animationsForButton(index: number) {
+    const leftButtonAnimatedStyles = [leftPopAnimation, leftYpositionAnimation]
+    const centerButtonAnimatedStyles = [centerPopAnimation, centerYpositionAnimation]
+    const rightButtonAnimatedStyles = [rightPopAnimation, rightYpositionAnimation]
+    const style = [leftButtonAnimatedStyles, centerButtonAnimatedStyles, rightButtonAnimatedStyles][index]
+    return { transform: [
+      ...this.scaleXYForAnimation(style[0]),
+      this.yPositionForAnimation(style[1])
+    ]}
+  }
+
+  scaleXYForAnimation(animation) {
+    const maxScale = 1.3
+    const transform = [
+      {
+      scaleX: animation.interpolate({
+        inputRange: [0, maxScale],
+        outputRange: [0, maxScale]
+      })},
+      {
+      scaleY: animation.interpolate({
+        inputRange: [0, maxScale],
+        outputRange: [0, maxScale]
+      })}
+    ]
+    return transform
+  }
+
+  yPositionForAnimation(animation) {
+    return {
+      translateY: animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1]
+    })}
   }
 
 }
