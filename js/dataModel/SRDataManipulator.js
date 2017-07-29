@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { actionCreators, SRStudyTask, SRStudyTaskIntensity } from './SRSimpleDataModel'
 import uuid from '../utilities/UUID'
-import SRSpacedRepetition from '../SRSpacedRepetition'
+import SRSpacedRepetition from '../utilities/SRSpacedRepetition'
 
 const addTask = (task: {taskName: string, notes: string, date: string}) => {
   const { taskName, notes, date } = task

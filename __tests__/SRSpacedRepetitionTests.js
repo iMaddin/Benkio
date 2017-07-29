@@ -1,5 +1,5 @@
 // @flow
-import SRSpacedRepetition from '../js/SRSpacedRepetition'
+import SRSpacedRepetition from '../js/utilities/SRSpacedRepetition'
 
 test('First Okay Rating', () => {
   const ef = 1.9

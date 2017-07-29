@@ -1,5 +1,5 @@
 // @flow
-import SRStudyTaskEditor from '../js/SRStudyTaskEditor'
+import SRStudyTaskEditor from '../js/components/screens/SRStudyTaskEditor'
 
 test('input title label visibility', () => {
   // hidden at launch when not readonly

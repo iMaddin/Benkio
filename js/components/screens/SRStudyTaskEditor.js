@@ -16,10 +16,10 @@ import SegmentedControlTab from 'react-native-segmented-control-tab'
 import expect from 'expect'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import KeyboardAwareScrollView from './components/keyboard-aware-scrollview/KeyboardAwareScrollView'
+import KeyboardAwareScrollView from '../keyboard-aware-scrollview/KeyboardAwareScrollView'
 
-import { capitalizeFirstLetter } from './utilities/String+Capitalize'
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
+import { capitalizeFirstLetter } from '../../utilities/String+Capitalize'
+import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../utilities/SRColors'
 
 const studyTaskString = 'Study Task'
 const notesString = 'Notes'

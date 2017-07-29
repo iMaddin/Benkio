@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Animated, StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
 import PropTypes from 'prop-types';
 
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../utilities/SRColors'
+import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../utilities/SRColors'
 
 const tapsUntilDisappearance = 5
 const maxScale = 1.5

@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
+
+import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from '../../utilities/SRColors'
 
 export default class SRRatingView extends React.Component {
 

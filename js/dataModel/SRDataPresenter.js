@@ -1,5 +1,5 @@
 // @flow
-import SRSpacedRepetition from '../SRSpacedRepetition'
+import SRSpacedRepetition from '../utilities/SRSpacedRepetition'
 
 import moment from 'moment'
 import expect, { createSpy, spyOn, isSpy } from 'expect'

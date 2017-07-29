@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Animated, Easing, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
-import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from './utilities/SRColors'
+import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from '../../utilities/SRColors'
 
 var leftXScaleAnimation = new Animated.Value(1)
 var centerXScaleAnimation = new Animated.Value(1)

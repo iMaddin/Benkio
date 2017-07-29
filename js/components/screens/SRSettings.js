@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Modal, Text, TouchableHighlight, View } from 'react-native';
-import SRRatingView from './SRRatingView'
+import SRRatingView from '../views/SRRatingView'
 
 export const tintColor = '#48BEE0'
 

@@ -6,11 +6,11 @@ import { connect } from 'react-redux'
 import expect from 'expect'
 
 import SRStudyList, { studyListTitle } from './SRStudyList'
-import SRSpacedRepetition from './SRSpacedRepetition'
-import SRFloatingButton from './SRFloatingButton'
-import SRDiamond from './components/geometry/SRDiamond'
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
-import { mapDispatchToProps, mapStateToProps } from './dataModel/SRDataManipulator'
+import SRSpacedRepetition from '../../utilities/SRSpacedRepetition'
+import SRFloatingButton from '../views/SRFloatingButton'
+import SRDiamond from '../geometry/SRDiamond'
+import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../utilities/SRColors'
+import { mapDispatchToProps, mapStateToProps } from '../../dataModel/SRDataManipulator'
 
 export const StudyTaskDetailsScreenName = 'StudyTaskDetails'
 

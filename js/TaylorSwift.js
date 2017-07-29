@@ -11,8 +11,8 @@ import { connect } from 'react-redux'
 import { StackNavigator } from 'react-navigation'
 import { withMappedNavigationAndConfigProps } from 'react-navigation-props-mapper'
 
-import SRHome from './SRHome'
-import SRStudyTaskEditor from './SRStudyTaskEditor'
+import SRHome from './components/screens/SRHome'
+import SRStudyTaskEditor from './components/screens/SRStudyTaskEditor'
 import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
 import { mapDispatchToProps, mapStateToProps } from './dataModel/SRDataManipulator'
 
