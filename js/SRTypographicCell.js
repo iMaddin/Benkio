@@ -11,9 +11,25 @@ var leftYpositionAnimation = new Animated.Value(0)
 var centerYpositionAnimation = new Animated.Value(0)
 var rightYpositionAnimation = new Animated.Value(0)
 
+const leftButtonAnimatedStyles = [leftPopAnimation, leftYpositionAnimation]
+const centerButtonAnimatedStyles = [centerPopAnimation, centerYpositionAnimation]
+const rightButtonAnimatedStyles = [rightPopAnimation, rightYpositionAnimation]
+const animationStyles = [leftButtonAnimatedStyles, centerButtonAnimatedStyles, rightButtonAnimatedStyles]
+
 const intervalBetweenAnimations = 2000
 var buttonLastAnimated = Math.floor((Math.random() * 3) + 0)
 var nextButtonToAnimate = buttonLastAnimated
+
+const maxScale = 1.5
+const popToValue = 1.2
+const popFromValue = 1
+const popSpeed = 16
+const popBounciness = 18
+
+const yToValue = -4
+const yFromValue = 0
+const ySpeed = 16
+const yBounciness = 18
 
 export default class SRTypographicCell extends React.Component {
 
@@ -79,35 +95,56 @@ export default class SRTypographicCell extends React.Component {
     }
     buttonLastAnimated = nextButtonToAnimate
 
-    const nextAnimation = [leftPopAnimation, centerPopAnimation, rightPopAnimation][nextButtonToAnimate]
+    const nextAnimatioStyles = animationStyles[nextButtonToAnimate]
 
-    this.popAnimationSequence(nextAnimation).start(()=>{
+    this.popAnimationSequence(nextAnimatioStyles[0],nextAnimatioStyles[1]).start(()=>{
       this.startAnimatingRatingButtons()
     })
   }
 
-  popAnimationSequence(animation) {
+  popAnimationSequence(springAnimation, yTranslateAnimation) {
     return Animated.sequence([
-      Animated.spring(
-        animation,
-        {
-          toValue: 1.5
-        }
-      ),
-      Animated.spring(
-        animation,
-        {
-          toValue: 1
-        }
-      )
+      Animated.parallel([
+        Animated.spring(
+          springAnimation,
+          {
+            toValue: popToValue,
+            speed: popSpeed,
+            bounciness: popBounciness,
+          }
+        ),
+        Animated.spring(
+          yTranslateAnimation,
+          {
+            toValue: yToValue,
+            speed: ySpeed,
+            bounciness: yBounciness,
+          }
+        )
+      ]),
+      Animated.parallel([
+        Animated.spring(
+          springAnimation,
+          {
+            toValue: popFromValue,
+            speed: popSpeed,
+            bounciness: popBounciness,
+          }
+        ),
+        Animated.spring(
+          yTranslateAnimation,
+          {
+            toValue: yFromValue,
+            speed: ySpeed,
+            bounciness: yBounciness,
+          }
+        )
+      ]),
     ])
   }
 
   animationsForButton(index: number) {
-    const leftButtonAnimatedStyles = [leftPopAnimation, leftYpositionAnimation]
-    const centerButtonAnimatedStyles = [centerPopAnimation, centerYpositionAnimation]
-    const rightButtonAnimatedStyles = [rightPopAnimation, rightYpositionAnimation]
-    const style = [leftButtonAnimatedStyles, centerButtonAnimatedStyles, rightButtonAnimatedStyles][index]
+    const style = animationStyles[index]
     return { transform: [
       ...this.scaleXYForAnimation(style[0]),
       this.yPositionForAnimation(style[1])
@@ -115,7 +152,6 @@ export default class SRTypographicCell extends React.Component {
   }
 
   scaleXYForAnimation(animation) {
-    const maxScale = 1.3
     const transform = [
       {
       scaleX: animation.interpolate({
