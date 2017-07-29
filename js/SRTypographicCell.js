@@ -20,11 +20,10 @@ const centerButtonAnimatedStyles = [centerXScaleAnimation, centerYScaleAnimation
 const rightButtonAnimatedStyles = [rightXScaleAnimation, rightYScaleAnimation, rightYpositionAnimation]
 const animationStyles = [leftButtonAnimatedStyles, centerButtonAnimatedStyles, rightButtonAnimatedStyles]
 
-const intervalBetweenAnimations = 2000
 var buttonLastAnimated = Math.floor((Math.random() * 3) + 0)
 var nextButtonToAnimate = buttonLastAnimated
 
-// spring scaleXY
+// Animation values
 
 const maxScale = 1.5
 const minScale = 0.5
@@ -35,10 +34,6 @@ const scaleYFromValue = 1
 const scaleXToValue = 0.8
 const scaleXFromValue = 1
 
-const popSpeed = 8
-const popBounciness = 20
-
-// translationY
 const yToValue = -5
 const yFromValue = 0
 
@@ -119,13 +114,14 @@ export default class SRTypographicCell extends React.Component {
 
     const nextAnimatioStyles = animationStyles[nextButtonToAnimate]
 
-    this.popAnimationSequence(nextAnimatioStyles[0], nextAnimatioStyles[1], nextAnimatioStyles[2]).start(()=>{
+    this.animateValues(nextAnimatioStyles[0], nextAnimatioStyles[1], nextAnimatioStyles[2]).start(()=>{
       this.startAnimatingRatingButtons()
     })
   }
 
-  popAnimationSequence(scaleXAnimation, scaleYAnimation, yTranslateAnimation) {
+  animateValues(scaleXAnimation, scaleYAnimation, yTranslateAnimation) {
     return Animated.sequence([
+      Animated.delay(this.props.intervalBetweenAnimations),
       Animated.parallel([
         Animated.timing(
           scaleXAnimation,
@@ -222,6 +218,7 @@ export default class SRTypographicCell extends React.Component {
 
 SRTypographicCell.defaultProps = {
   animateRatingButton: true,
+  intervalBetweenAnimations: 1500,
 }
 
 const styles = StyleSheet.create({
