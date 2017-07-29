@@ -60,7 +60,7 @@ export default class SRTypographicCell extends React.Component {
   render() {
     const { children, onPressDetailsButton, onPressRateButton } = this.props
     const date = children.date.toUpperCase()
-    console.log(`SRTypographicCell ...this.animationsForButton(0) ${JSON.stringify(this.animationsForButton(0))}`)
+
     return (
       <View style={styles.cell}>
         <TouchableHighlight
@@ -105,7 +105,6 @@ export default class SRTypographicCell extends React.Component {
   }
 
   startAnimatingRatingButtons() {
-    console.log(`SRTypographicCell startAnimatingRatingButtons()`)
     // Restart selection
     while(nextButtonToAnimate == buttonLastAnimated) {
       nextButtonToAnimate = Math.floor((Math.random() * 3) + 0)
