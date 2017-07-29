@@ -70,5 +70,6 @@ const styles = StyleSheet.create({
   date: {
     flex: 1,
     textAlign: 'right',
+    color: 'rgba(57,62,65,0.7)',
   },
 })
