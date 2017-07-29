@@ -25,10 +25,6 @@ class SRHome extends Component {
     }
   }
 
-  // state: {
-  //   keepSpinning: bool,
-  // }
-
   state = {
     keepSpinning: false,
   }
