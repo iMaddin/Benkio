@@ -26,9 +26,11 @@ import SREmptyState from '../empty-states/SREmptyState'
 
 export const studyListTitle = 'Reviews'
 
-var emptyStateHeaderAnimateInHeaderShapes = false
-
 class SRStudyList extends React.Component {
+
+  emptyStateHeaderAnimateInHeaderShapes = false
+  ratingViewSpringAnimation = new Animated.Value(0)
+  ratingViewOpacityAnimation = new Animated.Value(0)
 
   state: {
     dataSource: ListView.DataSource,
@@ -60,13 +62,7 @@ class SRStudyList extends React.Component {
 
   componentWillMount() {
     this.updateUIStates(this.props)
-    this.ratingViewSpringAnimation = new Animated.Value(0)
-    this.ratingViewOpacityAnimation = new Animated.Value(0)
-    emptyStateHeaderAnimateInHeaderShapes = true
-  }
-
-  componentDidMount() {
-
+    this.emptyStateHeaderAnimateInHeaderShapes = true
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -204,9 +200,9 @@ class SRStudyList extends React.Component {
       const { emptyStateHeaderResetShapesWhenEmpty } = this.state
 
       var animateInHeaderShapes = false
-      if(emptyStateHeaderAnimateInHeaderShapes) {
+      if(this.emptyStateHeaderAnimateInHeaderShapes) {
         animateInHeaderShapes = true
-        emptyStateHeaderAnimateInHeaderShapes = false
+        this.emptyStateHeaderAnimateInHeaderShapes = false
       }
 
       return (

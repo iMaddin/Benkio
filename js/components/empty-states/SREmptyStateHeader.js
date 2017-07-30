@@ -8,17 +8,16 @@ import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../uti
 const tapsUntilDisappearance = 5
 const maxScale = 1.5
 
-var circleTapCount = 0
-var rectangleTapCount = 0
-var triangleTapCount = 0
-
-var circleAnimation = new Animated.Value(1)
-var rectangleAnimation = new Animated.Value(1)
-var triangleAnimation = new Animated.Value(1)
-
-var headerIsEmpty = false
-
 export default class SREmptyStateHeader extends Component {
+
+  circleAnimation = new Animated.Value(1)
+  rectangleAnimation = new Animated.Value(1)
+  triangleAnimation = new Animated.Value(1)
+
+  circleTapCount = 0
+  rectangleTapCount = 0
+  triangleTapCount = 0
+  headerIsEmpty = false
 
   state = {
     disableCircleButton: false,
@@ -26,25 +25,22 @@ export default class SREmptyStateHeader extends Component {
     disableTriangleButton: false,
   }
 
-  constructor(props) {
-    super(props)
+  componentWillMount() {
     const { animateInShapes } = this.props
 
     if(animateInShapes) {
       this.setAnimationValues(0)
     }
-  }
-
-  componentWillMount() {
-    const { animateInShapes } = this.props
 
   }
 
   componentDidMount() {
     const { animateInShapes } = this.props
+
     if(animateInShapes) {
       this.animateInAllShapes()
     }
+
   }
 
   componentWillReceiveProps(newProps: Object) {
@@ -55,7 +51,7 @@ export default class SREmptyStateHeader extends Component {
       this.animateInAllShapes()
     }
 
-    if(headerIsEmpty && resetShapesWhenEmpty) {
+    if(this.headerIsEmpty && resetShapesWhenEmpty) {
       this.animateInAllShapes()
     }
 
@@ -74,7 +70,7 @@ export default class SREmptyStateHeader extends Component {
             this.animateInCircle(false)
           }}
         >
-          <Animated.View style={[styles.circle, this.transformForAnimation(circleAnimation)]} />
+          <Animated.View style={[styles.circle, this.transformForAnimation(this.circleAnimation)]} />
         </TouchableWithoutFeedback>
 
         <TouchableWithoutFeedback
@@ -86,7 +82,7 @@ export default class SREmptyStateHeader extends Component {
             this.animateInRectangle(false)
           }}
         >
-          <Animated.View style={[styles.rectangle, this.transformForAnimation(rectangleAnimation)]} />
+          <Animated.View style={[styles.rectangle, this.transformForAnimation(this.rectangleAnimation)]} />
         </TouchableWithoutFeedback>
 
         <View style={styles.triangleContainer}>
@@ -99,37 +95,37 @@ export default class SREmptyStateHeader extends Component {
               this.animateInTriangle(false)
             }}
           >
-            <Animated.View style={[styles.triangle, this.transformForAnimation(triangleAnimation)]} />
+            <Animated.View style={[styles.triangle, this.transformForAnimation(this.triangleAnimation)]} />
           </TouchableWithoutFeedback>
         </View>
       </View>
     )
   }
 
-  setAnimationValues(value) {
-    circleAnimation.setValue(value)
-    rectangleAnimation.setValue(value)
-    triangleAnimation.setValue(value)
+  setAnimationValues(value: number) {
+    this.circleAnimation.setValue(value)
+    this.rectangleAnimation.setValue(value)
+    this.triangleAnimation.setValue(value)
   }
 
-  animateInCircle(flag) {
+  animateInCircle(flag: bool) {
     var toValue = flag ? maxScale : 1
 
     if(flag) {
-      circleTapCount = circleTapCount + 1
-      if(circleTapCount >= tapsUntilDisappearance) {
+      this.circleTapCount = this.circleTapCount + 1
+      if(this.circleTapCount >= tapsUntilDisappearance) {
         if(!this.state.disableCircleButton) {
           this.setState({disableCircleButton: true})
         }
         return
       }
     } else {
-      if(circleTapCount >= tapsUntilDisappearance) {
+      if(this.circleTapCount >= tapsUntilDisappearance) {
         toValue = 0
       }
     }
 
-    this.animateIn(circleAnimation, toValue).start(() => {
+    this.animateIn(this.circleAnimation, toValue).start(() => {
       if(this.state.disableCircleButton && !flag) {
         this.animateAllShapesIfEmpty()
       }
@@ -140,20 +136,20 @@ export default class SREmptyStateHeader extends Component {
     var toValue = flag ? maxScale : 1
 
     if(flag) {
-      rectangleTapCount = rectangleTapCount + 1
-      if(rectangleTapCount >= tapsUntilDisappearance) {
+      this.rectangleTapCount = this.rectangleTapCount + 1
+      if(this.rectangleTapCount >= tapsUntilDisappearance) {
         if(!this.state.disableRectangleButton) {
           this.setState({disableRectangleButton: true})
         }
         return
       }
     } else {
-      if(rectangleTapCount >= tapsUntilDisappearance) {
+      if(this.rectangleTapCount >= tapsUntilDisappearance) {
         toValue = 0
       }
     }
 
-    this.animateIn(rectangleAnimation, toValue).start(() => {
+    this.animateIn(this.rectangleAnimation, toValue).start(() => {
       if(this.state.disableRectangleButton && !flag) {
         this.animateAllShapesIfEmpty()
       }
@@ -164,20 +160,20 @@ export default class SREmptyStateHeader extends Component {
     var toValue = flag ? maxScale : 1
 
     if(flag) {
-      triangleTapCount = triangleTapCount + 1
-      if(triangleTapCount >= tapsUntilDisappearance) {
+      this.triangleTapCount = this.triangleTapCount + 1
+      if(this.triangleTapCount >= tapsUntilDisappearance) {
         if(!this.state.disableTriangleButton) {
           this.setState({disableTriangleButton: true})
         }
         return
       }
     } else {
-      if(triangleTapCount >= tapsUntilDisappearance) {
+      if(this.triangleTapCount >= tapsUntilDisappearance) {
         toValue = 0
       }
     }
 
-    this.animateIn(triangleAnimation, toValue).start(() => {
+    this.animateIn(this.triangleAnimation, toValue).start(() => {
       if(this.state.disableTriangleButton && !flag) {
         this.animateAllShapesIfEmpty()
       }
@@ -215,13 +211,13 @@ export default class SREmptyStateHeader extends Component {
   animateAllShapesIfEmpty() {
     const { resetShapesWhenEmpty } = this.props
 
-    if(circleTapCount >= tapsUntilDisappearance && rectangleTapCount >= tapsUntilDisappearance && triangleTapCount >= tapsUntilDisappearance) {
-      circleTapCount = 0
-      rectangleTapCount = 0
-      triangleTapCount = 0
+    if(this.circleTapCount >= tapsUntilDisappearance && this.rectangleTapCount >= tapsUntilDisappearance && this.triangleTapCount >= tapsUntilDisappearance) {
+      this.circleTapCount = 0
+      this.rectangleTapCount = 0
+      this.triangleTapCount = 0
 
       if (resetShapesWhenEmpty) {
-        headerIsEmpty = false
+        this.headerIsEmpty = false
         this.animateInAllShapes(() => {
           this.setState({
             disableCircleButton: false,
@@ -230,7 +226,7 @@ export default class SREmptyStateHeader extends Component {
           })
         })
       } else {
-        headerIsEmpty = true
+        this.headerIsEmpty = true
         this.setState({
           disableCircleButton: false,
           disableRectangleButton: false,
@@ -244,9 +240,9 @@ export default class SREmptyStateHeader extends Component {
     const toValue = 1
     Animated.stagger(300, [
       Animated.delay(1500),
-      this.animateIn(circleAnimation, toValue), // if circle is last shape to animate out, this will fail
-      this.animateIn(triangleAnimation, toValue),
-      this.animateIn(rectangleAnimation, toValue),
+      this.animateIn(this.circleAnimation, toValue), // if circle is last shape to animate out, this will fail
+      this.animateIn(this.triangleAnimation, toValue),
+      this.animateIn(this.rectangleAnimation, toValue),
     ]).start(() => {
       if(completion != null) {
           completion()

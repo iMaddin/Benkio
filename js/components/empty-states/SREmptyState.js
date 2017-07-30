@@ -16,6 +16,7 @@ export default class SREmptyState extends React.Component {
       </View>
     )
   }
+  
 }
 
 const styles = StyleSheet.create({
