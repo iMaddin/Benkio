@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { SRColor } from '../../utilities/SRColor'
 
@@ -14,47 +14,43 @@ export default class SRRatingView extends React.Component {
 
          <View style={styles.ratingBoxContainer}>
 
-             <TouchableHighlight
+             <TouchableOpacity
                style={styles.ratingTouchable}
-               underlayColor={SRColor.UnderlayColor}
                onPress={() => {
                  this.rated(0)
                }}>
                   <View style={[styles.ratingBox, styles.ratingLeft]}>
                     <Text style={[styles.ratingTitle, styles.ratingLeftTitle]}>Bad</Text>
                   </View>
-             </TouchableHighlight>
+             </TouchableOpacity>
 
-             <TouchableHighlight
+             <TouchableOpacity
                style={styles.ratingTouchable}
-               underlayColor={SRColor.UnderlayColor}
                onPress={() => {
                  this.rated(1)
                }}>
                   <View style={[styles.ratingBox, styles.ratingCenter]}>
                     <Text style={[styles.ratingTitle, styles.ratingCenterTitle]}>Okay</Text>
                   </View>
-             </TouchableHighlight>
+             </TouchableOpacity>
 
-             <TouchableHighlight
+             <TouchableOpacity
                style={styles.ratingTouchable}
-               underlayColor={SRColor.UnderlayColor}
                onPress={() => {
                  this.rated(2)
                }}>
                   <View style={[styles.ratingBox, styles.ratingRight]}>
                     <Text style={[styles.ratingTitle, styles.ratingRightTitle]}>Good</Text>
                   </View>
-             </TouchableHighlight>
+             </TouchableOpacity>
          </View>
 
-         <TouchableHighlight
-           underlayColor={SRColor.UnderlayColor}
+         <TouchableOpacity
            onPress={() => {
            {this.cancelAction()}
          }}>
            <Text style={styles.cancelButton}>Cancel</Text>
-         </TouchableHighlight>
+         </TouchableOpacity>
        </View>
      </View>
     )

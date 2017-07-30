@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Animated, Easing, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
+import { Animated, Easing, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import { SRColor } from '../../utilities/SRColor'
 
@@ -68,9 +68,8 @@ export default class SRTypographicCell extends React.Component {
 
     return (
       <View style={styles.cell}>
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.cellButton}
-          underlayColor={'rgba(246, 247, 235, 0.1)'}
           onPress={onPressDetailsButton}>
 
           <View style={styles.cellData}>
@@ -79,9 +78,8 @@ export default class SRTypographicCell extends React.Component {
             {this._renderNotes(children.notes != null && children.notes != '')}
 
             <View style={styles.touchableContainer}>
-              <TouchableHighlight
+              <TouchableOpacity
                 style={styles.ratingButton}
-                underlayColor={SRColor.UnderlayColor}
                 onPress={onPressRateButton}>
 
                 <View style={styles.buttonContainer}>
@@ -90,11 +88,11 @@ export default class SRTypographicCell extends React.Component {
                   <Animated.View style={[styles.buttonComponent, this.animationsForButton(2)]} />
                 </View>
 
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
 
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     )
   }
