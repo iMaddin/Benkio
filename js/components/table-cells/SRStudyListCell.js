@@ -16,7 +16,7 @@ export default class SRStudyListCell extends React.Component {
 
         <TouchableHighlight
           style={styles.cellButton}
-          underlayColor={'rgb(140, 140, 140)'}
+          underlayColor={SRColor.UnderlayColor}
           onPress={onPressDetailsButton}
         >
           <View style={styles.cellData}>

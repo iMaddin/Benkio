@@ -16,7 +16,7 @@ export default class SRRatingView extends React.Component {
 
              <TouchableHighlight
                style={styles.ratingTouchable}
-               underlayColor={'rgba(0, 0, 0, 0.06)'}
+               underlayColor={SRColor.UnderlayColor}
                onPress={() => {
                  this.rated(0)
                }}>
@@ -27,7 +27,7 @@ export default class SRRatingView extends React.Component {
 
              <TouchableHighlight
                style={styles.ratingTouchable}
-               underlayColor={'rgba(0, 0, 0, 0.06)'}
+               underlayColor={SRColor.UnderlayColor}
                onPress={() => {
                  this.rated(1)
                }}>
@@ -38,7 +38,7 @@ export default class SRRatingView extends React.Component {
 
              <TouchableHighlight
                style={styles.ratingTouchable}
-               underlayColor={'rgba(0, 0, 0, 0.06)'}
+               underlayColor={SRColor.UnderlayColor}
                onPress={() => {
                  this.rated(2)
                }}>
@@ -49,7 +49,7 @@ export default class SRRatingView extends React.Component {
          </View>
 
          <TouchableHighlight
-           underlayColor={'rgba(0, 0, 0, 0.06)'}
+           underlayColor={SRColor.UnderlayColor}
            onPress={() => {
            {this.cancelAction()}
          }}>
