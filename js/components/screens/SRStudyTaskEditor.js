@@ -63,6 +63,9 @@ const animateEditing = {
 
 export default class SRStudyTaskEditor extends React.Component {
 
+  _taskInputRef: TextInput = null
+  _noteInputRef: TextInput = null
+
   static navigationOptions = (props) => {
     const { readonly } = props
 
@@ -145,7 +148,16 @@ export default class SRStudyTaskEditor extends React.Component {
         style={styles.scrollView}
         keyboardDismissMode={'on-drag'}
         keyboardShouldPersistTaps={'handled'}
-        getTextInputRefs={() => { return [this._taskInputRef, this._noteInputRef]}}
+        getTextInputRefs={() => {
+          var refs = []
+          if(this._taskInputRef != null) {
+            refs.push(this._taskInputRef)
+          }
+          if(this._noteInputRef != null) {
+            refs.push(this._noteInputRef)
+          }
+          return refs
+        }}
         >
         <View style={styles.edgePadding}>
 
