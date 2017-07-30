@@ -2,8 +2,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
 
-
-const taskTextColor = 'rgb(42, 42, 42)'
 import { SRColor } from '../../utilities/SRColor'
 
 export default class SRStudyListCell extends React.Component {

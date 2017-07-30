@@ -27,12 +27,8 @@ const dateString = 'Starting Date'
 
 const SRPlaceholderTextColor = 'rgba(251, 251, 253, 0.5)'
 
-const inactiveColor = SRBrightColor
 const buttonHeight = 46
 const buttonCornerRadius = buttonHeight/2
-const cancelButtonTint = SRDarkColor
-const tintColor = SRRedColor
-
 const dateSegmentedControlCornerRadius = 4
 
 // Required to use LayoutAnimation on Android
