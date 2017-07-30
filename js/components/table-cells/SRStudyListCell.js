@@ -2,9 +2,9 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
 
-import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from '../../utilities/SRColors'
 
 const taskTextColor = 'rgb(42, 42, 42)'
+import { SRColor } from '../../utilities/SRColor'
 
 export default class SRStudyListCell extends React.Component {
 
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: 'rgba(57,62,65,0.1)',
     borderWidth: 1,
-    backgroundColor: SRBrightColor,
+    backgroundColor: SRColor.BrightColor,
     marginRight: 15,
     marginLeft: 15,
     marginTop: 6,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: SRDarkColor,
+    color: SRColor.DarkColor,
     flex: 2,
   },
   date: {

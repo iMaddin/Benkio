@@ -19,7 +19,7 @@ import PropTypes from 'prop-types'
 import KeyboardAwareScrollView from '../keyboard-aware-scrollview/KeyboardAwareScrollView'
 
 import { capitalizeFirstLetter } from '../../utilities/String+Capitalize'
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../utilities/SRColors'
+import { SRColor } from '../../utilities/SRColor'
 
 const studyTaskString = 'Study Task'
 const notesString = 'Notes'
@@ -70,9 +70,9 @@ export default class SRStudyTaskEditor extends React.Component {
     const { readonly } = props
 
     return {
-      headerTintColor: SRDarkColor,
+      headerTintColor: SRColor.DarkColor,
       headerStyle: {
-        backgroundColor: SRBrightColor
+        backgroundColor: SRColor.BrightColor
       },
       title: readonly ? 'Details' : 'Add a task',
     }
@@ -469,7 +469,7 @@ SRStudyTaskEditor.propTypes = {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: SRDarkColor,
+    backgroundColor: SRColor.DarkColor,
   },
   edgePadding: {
     padding: 15,
@@ -480,15 +480,15 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 48,
-    color: SRBrightColor,
+    color: SRColor.BrightColor,
   },
   sectionLabel: {
     fontSize: 20,
-    color: SRRedColor,
+    color: SRColor.RedColor,
     fontWeight: 'bold'
   },
   sectionSeparator: {
-    backgroundColor: SRBrightColor,
+    backgroundColor: SRColor.BrightColor,
     height: 1,
   },
   lastSectionSeparator: {
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   actionButton: {
-    backgroundColor: SRYellowColor,
+    backgroundColor: SRColor.YellowColor,
     borderRadius: buttonCornerRadius,
     flex: 1,
   },
@@ -515,14 +515,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 252, 49, 0.5)'
   },
   cancelButton: {
-    borderColor: SRYellowColor,
+    borderColor: SRColor.YellowColor,
     borderWidth: 1,
     borderRadius: buttonCornerRadius,
     flex: 1,
     marginTop: 10,
   },
   bottomButtonsText: {
-    color: SRDarkColor,
+    color: SRColor.DarkColor,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
     paddingTop: 1,
   },
   destructiveButtonText: {
-    color: SRYellowColor,
+    color: SRColor.YellowColor,
   },
   tabsContainerStyle: {
     paddingTop: 15,
@@ -538,21 +538,21 @@ const styles = StyleSheet.create({
     height: buttonHeight+14,
   },
   tabStyle: {
-    backgroundColor: SRBrightColor,
-    borderColor: SRBrightColor,
+    backgroundColor: SRColor.BrightColor,
+    borderColor: SRColor.BrightColor,
     borderRadius: dateSegmentedControlCornerRadius,
     marginLeft: 2,
     marginRight: 2,
   },
   tabTextStyle: {
     fontWeight: 'bold',
-    color: SRDarkColor,
+    color: SRColor.DarkColor,
   },
   activeTabStyle: {
-    backgroundColor: SRYellowColor,
-    borderColor: SRYellowColor,
+    backgroundColor: SRColor.YellowColor,
+    borderColor: SRColor.YellowColor,
   },
   activeTabTextStyle: {
-    color: SRDarkColor
+    color: SRColor.DarkColor
   },
 })

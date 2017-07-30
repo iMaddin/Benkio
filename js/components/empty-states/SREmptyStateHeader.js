@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Animated, StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
 import PropTypes from 'prop-types';
 
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../utilities/SRColors'
+import { SRColor } from '../../utilities/SRColor'
 
 const tapsUntilDisappearance = 5
 const maxScale = 1.5
@@ -264,17 +264,17 @@ SREmptyStateHeader.defaultProps = {
 
 const styles = StyleSheet.create({
   emptyStateHeaderBackground: {
-    backgroundColor: SRDarkColor,
+    backgroundColor: SRColor.DarkColor,
     padding: 18,
   },
   circle: {
-    backgroundColor: SRRedColor,
+    backgroundColor: SRColor.RedColor,
     borderRadius: 38/2,
     height: 38,
     width: 38
   },
   rectangle: {
-    backgroundColor: SRBrightColor,
+    backgroundColor: SRColor.BrightColor,
     height: 85,
     width: 135,
     marginTop:28,
@@ -294,6 +294,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 38,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderBottomColor: SRYellowColor
+    borderBottomColor: SRColor.YellowColor
  }
 })

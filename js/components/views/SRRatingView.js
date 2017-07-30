@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from '../../utilities/SRColors'
+import { SRColor } from '../../utilities/SRColor'
 
 export default class SRRatingView extends React.Component {
 
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     padding: 15,
     // flex: 1,
     height: 240,// TODO: calculate right height
-    backgroundColor: SRBrightColor,
+    backgroundColor: SRColor.BrightColor,
     borderRadius: 8,
   },
   contentView: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ratingBoxTitle: {
-    color: SRDarkColor,
+    color: SRColor.DarkColor,
     fontSize: 20,
     textAlign: 'center',
     padding: 10,
@@ -119,13 +119,13 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   ratingLeft: {
-    backgroundColor: SRRedColor,
+    backgroundColor: SRColor.RedColor,
   },
   ratingCenter: {
-    backgroundColor: SRYellowColor,
+    backgroundColor: SRColor.YellowColor,
   },
   ratingRight: {
-    backgroundColor: SRDarkColor,
+    backgroundColor: SRColor.DarkColor,
   },
   ratingTouchable: {
     flex: 1,
@@ -137,12 +137,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   ratingLeftTitle: {
-    color: SRBrightColor,
+    color: SRColor.BrightColor,
   },
   ratingCenterTitle: {
-    color: SRDarkColor
+    color: SRColor.DarkColor
   },
   ratingRightTitle: {
-    color: SRBrightColor,
+    color: SRColor.BrightColor,
   },
 })

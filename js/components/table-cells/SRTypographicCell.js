@@ -2,7 +2,7 @@
 import React from 'react'
 import { Animated, Easing, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
 
-import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from '../../utilities/SRColors'
+import { SRColor } from '../../utilities/SRColor'
 
 // Animation Settings
 
@@ -70,7 +70,7 @@ export default class SRTypographicCell extends React.Component {
       <View style={styles.cell}>
         <TouchableHighlight
           style={styles.cellButton}
-          underlayColor={'rgba(0, 0, 0, 0.04)'}
+          underlayColor={'rgba(246, 247, 235, 0.1)'}
           onPress={onPressDetailsButton}>
 
           <View style={styles.cellData}>
@@ -81,7 +81,7 @@ export default class SRTypographicCell extends React.Component {
             <View style={styles.touchableContainer}>
               <TouchableHighlight
                 style={styles.ratingButton}
-                underlayColor={'rgba(0, 0, 0, 0.06)'}
+                underlayColor={SRColor.UnderlayColor}
                 onPress={onPressRateButton}>
 
                 <View style={styles.buttonContainer}>
@@ -229,7 +229,7 @@ SRTypographicCell.defaultProps = {
 
 const styles = StyleSheet.create({
   cell: {
-    backgroundColor: SRDarkColor,
+    backgroundColor: SRColor.DarkColor,
     marginBottom:10,
   },
   cellButton: {
@@ -242,19 +242,19 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   date: {
-    color: SRRedColor,
+    color: SRColor.RedColor,
     fontSize: 36,
     fontWeight: '500',
     // textDecorationLine: 'underline'
   },
   title: {
-    color: SRBrightColor,
+    color: SRColor.BrightColor,
     fontSize: 48,
     fontWeight: '500',
     paddingTop: 20,
   },
   notes: {
-    color: SRBrightColor,
+    color: SRColor.BrightColor,
     fontSize: 36,
     fontWeight: '300',
     paddingTop: 20,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonComponent: {
-    backgroundColor: SRYellowColor,
+    backgroundColor: SRColor.YellowColor,
     borderRadius: 2,
     width: 10,
     height: 16,

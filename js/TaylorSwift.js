@@ -13,7 +13,7 @@ import { withMappedNavigationAndConfigProps } from 'react-navigation-props-mappe
 
 import SRHome from './components/screens/SRHome'
 import SRStudyTaskEditor from './components/screens/SRStudyTaskEditor'
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from './utilities/SRColors'
+import { SRColor } from './utilities/SRColor'
 import { mapDispatchToProps, mapStateToProps } from './dataModel/SRDataManipulator'
 
 const SpaceReminder = StackNavigator({

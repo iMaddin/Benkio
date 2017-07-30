@@ -9,7 +9,7 @@ import SRStudyList, { studyListTitle } from './SRStudyList'
 import SRSpacedRepetition from '../../utilities/SRSpacedRepetition'
 import SRFloatingButton from '../views/SRFloatingButton'
 import SRDiamond from '../geometry/SRDiamond'
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../utilities/SRColors'
+import { SRColor } from '../../utilities/SRColor'
 import { mapDispatchToProps, mapStateToProps } from '../../dataModel/SRDataManipulator'
 
 export const StudyTaskDetailsScreenName = 'StudyTaskDetails'
@@ -19,8 +19,8 @@ class SRHome extends Component {
   static navigationOptions = (props) => {
     const { title } = props
     return {
-      headerTintColor: SRDarkColor,
-      headerStyle: { backgroundColor: SRBrightColor},
+      headerTintColor: SRColor.DarkColor,
+      headerStyle: { backgroundColor: SRColor.BrightColor},
       title: title,
     }
   }
@@ -55,7 +55,7 @@ class SRHome extends Component {
             style={styles.floatingButton}
             onPress={toggleAddTaskScreen}
             >
-            <SRDiamond sideLength={14} backgroundColor={SRYellowColor} />
+            <SRDiamond sideLength={14} backgroundColor={SRColor.YellowColor} />
           </SRFloatingButton>
         </View>
 

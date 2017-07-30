@@ -19,7 +19,7 @@ import SRStudyListCell from '../table-cells/SRStudyListCell'
 import SRTypographicCell from '../table-cells/SRTypographicCell'
 import { SRSGrade } from '../../utilities/SRSpacedRepetition'
 import { processDataForList } from '../../dataModel/SRDataPresenter'
-import { SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor } from '../../utilities/SRColors'
+import { SRColor } from '../../utilities/SRColor'
 import { formatCellDate } from '../../utilities/SRDateFormat'
 import SREmptyStateHeader from '../empty-states/SREmptyStateHeader'
 import SREmptyState from '../empty-states/SREmptyState'
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
    flex: 1,
   },
   tableView: {
-    backgroundColor: SRBrightColor,
+    backgroundColor: SRColor.BrightColor,
   },
   tableViewContainer: {
     paddingBottom: 90,
