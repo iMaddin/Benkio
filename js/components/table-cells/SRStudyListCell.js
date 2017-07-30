@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   },
   cellButton: {
     flex:1,
+    borderRadius: 8,
   },
   cellData: {
     flex:1,
