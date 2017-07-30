@@ -8,8 +8,8 @@ Todos with due dates powered by SRS – Spaced Repetition System. Add tasks and 
 Some of us already use SRS to help us memorize vocabulary. You can use Benkio to remind you to review other things such as a grammar topic you covered in a book.
 
 <!-- <h3 align="center"> -->
-  <img src="/assets/studylist.png" alt="Study List" style="width: 250px;"/>
-  <img src="/assets/rating.png" alt="Rating" style="width: 250px;"/>
+  <img src="/assets/studylist.png" alt="Study List" width="250"/>
+  <img src="/assets/rating.png" alt="Rating" width="250"/>
 <!-- </h3> -->
 
 ## Planned Features
