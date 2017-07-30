@@ -1,29 +1,10 @@
 // @flow
 import React from 'react'
 import { Animated, Easing, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native'
+
 import {SRDarkColor, SRYellowColor, SRBrightColor, SRRedColor} from '../../utilities/SRColors'
 
-var leftXScaleAnimation = new Animated.Value(1)
-var centerXScaleAnimation = new Animated.Value(1)
-var rightXScaleAnimation = new Animated.Value(1)
-
-var leftYScaleAnimation = new Animated.Value(1)
-var centerYScaleAnimation = new Animated.Value(1)
-var rightYScaleAnimation = new Animated.Value(1)
-
-var leftYpositionAnimation = new Animated.Value(0)
-var centerYpositionAnimation = new Animated.Value(0)
-var rightYpositionAnimation = new Animated.Value(0)
-
-const leftButtonAnimatedStyles = [leftXScaleAnimation, leftYScaleAnimation, leftYpositionAnimation]
-const centerButtonAnimatedStyles = [centerXScaleAnimation, centerYScaleAnimation, centerYpositionAnimation]
-const rightButtonAnimatedStyles = [rightXScaleAnimation, rightYScaleAnimation, rightYpositionAnimation]
-const animationStyles = [leftButtonAnimatedStyles, centerButtonAnimatedStyles, rightButtonAnimatedStyles]
-
-var buttonLastAnimated = Math.floor((Math.random() * 3) + 0)
-var nextButtonToAnimate = buttonLastAnimated
-
-// Animation values
+// Animation Settings
 
 const maxScale = 1.5
 const minScale = 0.5
@@ -49,6 +30,30 @@ const scaleXEasingOut = easingEnd
 const scaleYEasingOut = easingEnd
 
 export default class SRTypographicCell extends React.Component {
+
+  // X Scale
+  leftXScaleAnimation = new Animated.Value(1)
+  centerXScaleAnimation = new Animated.Value(1)
+  rightXScaleAnimation = new Animated.Value(1)
+
+  // Y Scale
+  leftYScaleAnimation = new Animated.Value(1)
+  centerYScaleAnimation = new Animated.Value(1)
+  rightYScaleAnimation = new Animated.Value(1)
+
+  // Y Translation
+  leftYpositionAnimation = new Animated.Value(0)
+  centerYpositionAnimation = new Animated.Value(0)
+  rightYpositionAnimation = new Animated.Value(0)
+
+  // Animated values grouped for views
+  leftButtonAnimatedStyles = [this.leftXScaleAnimation, this.leftYScaleAnimation, this.leftYpositionAnimation]
+  centerButtonAnimatedStyles = [this.centerXScaleAnimation, this.centerYScaleAnimation, this.centerYpositionAnimation]
+  rightButtonAnimatedStyles = [this.rightXScaleAnimation, this.rightYScaleAnimation, this.rightYpositionAnimation]
+  animationStyles = [this.leftButtonAnimatedStyles, this.centerButtonAnimatedStyles, this.rightButtonAnimatedStyles]
+
+  buttonLastAnimated = Math.floor((Math.random() * 3) + 0)
+  nextButtonToAnimate = this.buttonLastAnimated
 
   componentDidMount() {
     const { animateRatingButton } = this.props
@@ -106,12 +111,12 @@ export default class SRTypographicCell extends React.Component {
 
   startAnimatingRatingButtons() {
     // Restart selection
-    while(nextButtonToAnimate == buttonLastAnimated) {
-      nextButtonToAnimate = Math.floor((Math.random() * 3) + 0)
+    while(this.nextButtonToAnimate == this.buttonLastAnimated) {
+      this.nextButtonToAnimate = Math.floor((Math.random() * 3) + 0)
     }
-    buttonLastAnimated = nextButtonToAnimate
+    this.buttonLastAnimated = this.nextButtonToAnimate
 
-    const nextAnimationStyles = animationStyles[nextButtonToAnimate]
+    const nextAnimationStyles = this.animationStyles[this.nextButtonToAnimate]
 
     Animated.sequence([
       this.animateValues(nextAnimationStyles[0], nextAnimationStyles[1], nextAnimationStyles[2]),
@@ -179,7 +184,7 @@ export default class SRTypographicCell extends React.Component {
   }
 
   animationsForButton(index: number) {
-    const style = animationStyles[index]
+    const style = this.animationStyles[index]
     return { transform: [
       this.scaleXForAnimation(style[0]),
       this.scaleYForAnimation(style[1]),
