@@ -19,6 +19,16 @@ Some of us already use SRS to help us memorize vocabulary. You can use Benkio to
 ## Issues
 - not tested on Android yet 🤷‍
 
+## How to run
+- Check your environment. Here's mine:
+- - `react-native -v`:
+- - - react-native-cli: 2.0.1
+- - - react-native: 0.46.4
+- - `node -v`: v8.2.1
+- - `npm -v`: 5.3.0
+2. `npm install`
+3. `react-native run-ios`
+
 ## Things used:
 - [expect](https://github.com/mjackson/expect)
 - [jest](https://github.com/facebook/jest)

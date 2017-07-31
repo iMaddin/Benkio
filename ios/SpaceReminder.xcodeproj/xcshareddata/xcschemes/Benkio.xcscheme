@@ -124,6 +124,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Benkio"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
