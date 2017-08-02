@@ -13,6 +13,7 @@ import {
 import expect from 'expect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
+import moment from 'moment'
 
 import SRRatingView from '../views/SRRatingView'
 import SRStudyListCell from '../table-cells/SRStudyListCell'
@@ -182,7 +183,7 @@ class SRStudyList extends React.Component {
       showEmptyStateHeader = true
     } else {
       const firstItem = tableData[0]
-      const onlyFutureTasks = (new Date(firstItem.date) > new Date())
+      const onlyFutureTasks = moment().isBefore(new Date(firstItem.date).toISOString(), 'day')
       if(onlyFutureTasks) {
         showEmptyStateHeader = true
       }
