@@ -37,4 +37,4 @@ export default class App extends React.Component {
   }
 }
 
-AppRegistry.registerComponent('SpaceReminder', () => App)
+AppRegistry.registerComponent('Benkio', () => App)

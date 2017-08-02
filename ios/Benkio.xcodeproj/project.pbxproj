@@ -102,28 +102,28 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
-		1BAD6AA41F2D0B5F00102E1D /* PBXContainerItemProxy */ = {
+		1B9181A21F32732D0033DA31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 139D7ECE1E25DB7D00323FB7;
 			remoteInfo = "third-party";
 		};
-		1BAD6AA61F2D0B5F00102E1D /* PBXContainerItemProxy */ = {
+		1B9181A41F32732D0033DA31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 3D383D3C1EBD27B6005632C8;
 			remoteInfo = "third-party-tvOS";
 		};
-		1BAD6AA81F2D0B5F00102E1D /* PBXContainerItemProxy */ = {
+		1B9181A61F32732D0033DA31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 139D7E881E25C6D100323FB7;
 			remoteInfo = "double-conversion";
 		};
-		1BAD6AAA1F2D0B5F00102E1D /* PBXContainerItemProxy */ = {
+		1B9181A81F32732D0033DA31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
@@ -439,10 +439,10 @@
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
-				1BAD6AA51F2D0B5F00102E1D /* libthird-party.a */,
-				1BAD6AA71F2D0B5F00102E1D /* libthird-party.a */,
-				1BAD6AA91F2D0B5F00102E1D /* libdouble-conversion.a */,
-				1BAD6AAB1F2D0B5F00102E1D /* libdouble-conversion.a */,
+				1B9181A31F32732D0033DA31 /* libthird-party.a */,
+				1B9181A51F32732D0033DA31 /* libthird-party.a */,
+				1B9181A71F32732D0033DA31 /* libdouble-conversion.a */,
+				1B9181A91F32732D0033DA31 /* libdouble-conversion.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -738,32 +738,32 @@
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1BAD6AA51F2D0B5F00102E1D /* libthird-party.a */ = {
+		1B9181A31F32732D0033DA31 /* libthird-party.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libthird-party.a";
-			remoteRef = 1BAD6AA41F2D0B5F00102E1D /* PBXContainerItemProxy */;
+			remoteRef = 1B9181A21F32732D0033DA31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1BAD6AA71F2D0B5F00102E1D /* libthird-party.a */ = {
+		1B9181A51F32732D0033DA31 /* libthird-party.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libthird-party.a";
-			remoteRef = 1BAD6AA61F2D0B5F00102E1D /* PBXContainerItemProxy */;
+			remoteRef = 1B9181A41F32732D0033DA31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1BAD6AA91F2D0B5F00102E1D /* libdouble-conversion.a */ = {
+		1B9181A71F32732D0033DA31 /* libdouble-conversion.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libdouble-conversion.a";
-			remoteRef = 1BAD6AA81F2D0B5F00102E1D /* PBXContainerItemProxy */;
+			remoteRef = 1B9181A61F32732D0033DA31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1BAD6AAB1F2D0B5F00102E1D /* libdouble-conversion.a */ = {
+		1B9181A91F32732D0033DA31 /* libdouble-conversion.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libdouble-conversion.a";
-			remoteRef = 1BAD6AAA1F2D0B5F00102E1D /* PBXContainerItemProxy */;
+			remoteRef = 1B9181A81F32732D0033DA31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {
@@ -1019,7 +1019,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1041,7 +1040,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BenkioTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1060,7 +1058,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Benkio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1068,7 +1065,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.maddin.benkio;
+				PRODUCT_BUNDLE_IDENTIFIER = io.maddin.Benkio;
 				PRODUCT_NAME = Benkio;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1079,7 +1076,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Benkio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1087,7 +1083,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.maddin.benkio;
+				PRODUCT_BUNDLE_IDENTIFIER = io.maddin.Benkio;
 				PRODUCT_NAME = Benkio;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1103,7 +1099,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Benkio-tvOS/Info.plist";
@@ -1131,7 +1126,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Benkio-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1156,7 +1150,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Benkio-tvOSTests/Info.plist";
@@ -1179,7 +1172,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Benkio-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
