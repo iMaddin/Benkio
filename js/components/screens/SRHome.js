@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { Alert, StyleSheet, View } from 'react-native'
+import { Alert, AppState, StyleSheet, View } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import expect from 'expect'
@@ -26,7 +26,16 @@ class SRHome extends Component {
   }
 
   state = {
+    appState: AppState.currentState,
     keepSpinning: false,
+  }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   componentWillMount() {
@@ -135,6 +144,13 @@ class SRHome extends Component {
       ],
       { cancelable: true }
     )
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.forceUpdate()
+    }
+    this.setState({appState: nextAppState});
   }
 
 }
