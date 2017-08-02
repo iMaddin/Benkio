@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "SpaceReminder.app"
-               BlueprintName = "SpaceReminder"
-               ReferencedContainer = "container:SpaceReminder.xcodeproj">
+               BuildableName = "Benkio.app"
+               BlueprintName = "Benkio"
+               ReferencedContainer = "container:Benkio.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "SpaceReminderTests.xctest"
-               BlueprintName = "SpaceReminderTests"
-               ReferencedContainer = "container:SpaceReminder.xcodeproj">
+               BuildableName = "BenkioTests.xctest"
+               BlueprintName = "BenkioTests"
+               ReferencedContainer = "container:Benkio.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "SpaceReminderTests.xctest"
-               BlueprintName = "SpaceReminderTests"
-               ReferencedContainer = "container:SpaceReminder.xcodeproj">
+               BuildableName = "BenkioTests.xctest"
+               BlueprintName = "BenkioTests"
+               ReferencedContainer = "container:Benkio.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SpaceReminder.app"
-            BlueprintName = "SpaceReminder"
-            ReferencedContainer = "container:SpaceReminder.xcodeproj">
+            BuildableName = "Benkio.app"
+            BlueprintName = "Benkio"
+            ReferencedContainer = "container:Benkio.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SpaceReminder.app"
-            BlueprintName = "SpaceReminder"
-            ReferencedContainer = "container:SpaceReminder.xcodeproj">
+            BuildableName = "Benkio.app"
+            BlueprintName = "Benkio"
+            ReferencedContainer = "container:Benkio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SpaceReminder.app"
-            BlueprintName = "SpaceReminder"
-            ReferencedContainer = "container:SpaceReminder.xcodeproj">
+            BuildableName = "Benkio.app"
+            BlueprintName = "Benkio"
+            ReferencedContainer = "container:Benkio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

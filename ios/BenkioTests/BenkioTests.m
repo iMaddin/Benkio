@@ -16,11 +16,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React Native!"
 
-@interface SpaceReminderTests : XCTestCase
+@interface BenkioTests : XCTestCase
 
 @end
 
-@implementation SpaceReminderTests
+@implementation BenkioTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {

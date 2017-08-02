@@ -1,4 +1,4 @@
-package com.spacereminder;
+package com.benkio;
 
 import android.app.Application;
 
