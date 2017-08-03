@@ -90,11 +90,9 @@ class SRStudyList extends React.Component {
             this.setState({listViewHeight: height}) // only called once when it changes
           }}
           renderRow={(item, sectionID, rowID, highlightRow) => {
-
             const d = new Date(item.date)
-            const itemIsOverDue = new Date() > d
-            const itemIsToday = d.toDateString() == new Date().toDateString()
-            const allowRating = itemIsToday || itemIsOverDue
+            const itemIsTodayOrOverDue = moment().isSameOrAfter(d.toISOString(), 'day')
+            const allowRating = itemIsTodayOrOverDue
             const formattedDate = formatCellDate(d)
 
             if(allowRating) {
