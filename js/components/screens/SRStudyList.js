@@ -174,7 +174,8 @@ class SRStudyList extends React.Component {
   // UI state
 
   updateUIStates = (props) => {
-    const { tableData, studyTasks } = props
+    const { tableData, studyTasks, reload } = props
+
 
     const noDataYet = tableData.length == 0
     var showEmptyStateHeader = false
@@ -194,6 +195,16 @@ class SRStudyList extends React.Component {
       renderEmptyStateHeader: showEmptyStateHeader,
       emptyStateHeaderResetShapesWhenEmpty: noDataYet ? false : true
     })
+
+    // change data in the table view to force reload of all cells then reset to previous data
+    if(reload) {
+      const { dataSource } = this.state
+      this.setState({dataSource: dataSource.cloneWithRows([])}, () => {
+        this.setState({
+          dataSource: dataSource.cloneWithRows(tableData)})
+      })
+    }
+
   }
 
   _renderEmptyStateHeader = (flag) => {
@@ -324,6 +335,7 @@ class SRStudyList extends React.Component {
 SRStudyList.propTypes = {
   rateAction: PropTypes.func,
   navigationAction: PropTypes.func,
+  reload: PropTypes.bool,
 }
 
 const mapStateToProps = (state) => {

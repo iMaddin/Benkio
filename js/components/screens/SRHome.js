@@ -28,6 +28,7 @@ class SRHome extends Component {
   state = {
     appState: AppState.currentState,
     keepSpinning: false,
+    reloadTableView: false,
   }
 
   componentDidMount() {
@@ -47,15 +48,16 @@ class SRHome extends Component {
   }
 
   render() {
-    const { keepSpinning } = this.state
+    const { keepSpinning, reloadTableView } = this.state
     const { toggleAddTaskScreen } = this.props
 
     return (
       <View style={{flex:1}}>
 
         <SRStudyList
-          navigationAction ={item => this.navigateToItem(item)}
-          rateAction = {(item, grade) => this.rateTask(item, grade)}
+          navigationAction={item => this.navigateToItem(item)}
+          rateAction={(item, grade) => this.rateTask(item, grade)}
+          reload={reloadTableView}
         />
 
         <View style={styles.floatingButtonContainer}>
@@ -148,7 +150,9 @@ class SRHome extends Component {
 
   _handleAppStateChange = (nextAppState) => {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      this.forceUpdate()
+        this.setState({reloadTableView: true}, () => {
+          this.setState({reloadTableView: false})
+        })
     }
     this.setState({appState: nextAppState});
   }
